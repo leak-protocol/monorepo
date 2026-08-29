@@ -1,0 +1,26 @@
+{
+  "name": "@leak/subgraph",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "build": "node scripts/sync-abis.mjs && node scripts/render-manifest.mjs --allow-unset && graph build",
+    "build:deploy": "node scripts/sync-abis.mjs && node scripts/render-manifest.mjs && graph build",
+    "codegen": "node scripts/sync-abis.mjs && node scripts/render-manifest.mjs --allow-unset && graph codegen",
+    "create-local": "graph create --node http://localhost:8020/ leak/subgraph",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 leak/subgraph",
+    "lint": "prettier --check 'src/**/*.ts' 'tests/**/*.ts'",
+    "render-manifest": "node scripts/render-manifest.mjs",
+    "sync-abis": "node scripts/sync-abis.mjs",
+    "test": "node scripts/sync-abis.mjs && node scripts/render-manifest.mjs --allow-unset && graph codegen && graph test",
+    "test:js": "node scripts/sync-abis.mjs && node scripts/render-manifest.mjs --allow-unset && graph codegen && graph test"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.98.1",
+    "@graphprotocol/graph-ts": "0.37.0"
+  },
+  "devDependencies": {
+    "assemblyscript": "0.19.23",
+    "matchstick-as": "0.6.0"
+  }
+}

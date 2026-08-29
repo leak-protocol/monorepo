@@ -1,0 +1,584 @@
+{
+  "id": "cee3d6de-80cd-4f63-b7fb-14ff66a6cf25",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.api_keys": {
+      "name": "api_keys",
+      "schema": "",
+      "columns": {
+        "key": {
+          "name": "key",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "owner_address": {
+          "name": "owner_address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "is_active": {
+          "name": "is_active",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.coin_metadata": {
+      "name": "coin_metadata",
+      "schema": "",
+      "columns": {
+        "address": {
+          "name": "address",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "token_uri": {
+          "name": "token_uri",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "icon": {
+          "name": "icon",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "media_mime_type": {
+          "name": "media_mime_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "media_original_uri": {
+          "name": "media_original_uri",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "preview_small": {
+          "name": "preview_small",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "preview_medium": {
+          "name": "preview_medium",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "preview_blurhash": {
+          "name": "preview_blurhash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "video_preview_url": {
+          "name": "video_preview_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "video_hls_url": {
+          "name": "video_hls_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "platform_blocked": {
+          "name": "platform_blocked",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "featured": {
+          "name": "featured",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.coin_stats": {
+      "name": "coin_stats",
+      "schema": "",
+      "columns": {
+        "address": {
+          "name": "address",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "symbol": {
+          "name": "symbol",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "creator_address": {
+          "name": "creator_address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "payout_recipient_address": {
+          "name": "payout_recipient_address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "platform_referrer_address": {
+          "name": "platform_referrer_address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "currency_address": {
+          "name": "currency_address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "currency_name": {
+          "name": "currency_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "currency_decimals": {
+          "name": "currency_decimals",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "total_supply_wei": {
+          "name": "total_supply_wei",
+          "type": "numeric(78, 0)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "total_volume": {
+          "name": "total_volume",
+          "type": "numeric(78, 18)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "volume_24h": {
+          "name": "volume_24h",
+          "type": "numeric(78, 18)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "price_in_pool_token": {
+          "name": "price_in_pool_token",
+          "type": "numeric(78, 18)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "price_in_pool_token_24h_ago": {
+          "name": "price_in_pool_token_24h_ago",
+          "type": "numeric(78, 18)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "unique_holders": {
+          "name": "unique_holders",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "unique_traders_24h": {
+          "name": "unique_traders_24h",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pool_token0": {
+          "name": "pool_token0",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pool_token1": {
+          "name": "pool_token1",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pool_fee": {
+          "name": "pool_fee",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pool_tick_spacing": {
+          "name": "pool_tick_spacing",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pool_hook": {
+          "name": "pool_hook",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "token_uri": {
+          "name": "token_uri",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "last_traded_at": {
+          "name": "last_traded_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "refreshed_at": {
+          "name": "refreshed_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "coin_stats_volume_24h_idx": {
+          "name": "coin_stats_volume_24h_idx",
+          "columns": [
+            {
+              "expression": "volume_24h",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "coin_stats_created_at_idx": {
+          "name": "coin_stats_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "coin_stats_last_traded_at_idx": {
+          "name": "coin_stats_last_traded_at_idx",
+          "columns": [
+            {
+              "expression": "last_traded_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.linked_wallets": {
+      "name": "linked_wallets",
+      "schema": "",
+      "columns": {
+        "profile_id": {
+          "name": "profile_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "wallet_address": {
+          "name": "wallet_address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "wallet_type": {
+          "name": "wallet_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "linked_wallets_profile_id_wallet_address_pk": {
+          "name": "linked_wallets_profile_id_wallet_address_pk",
+          "columns": [
+            "profile_id",
+            "wallet_address"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.profiles": {
+      "name": "profiles",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "handle": {
+          "name": "handle",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "wallet_address": {
+          "name": "wallet_address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "wallet_type": {
+          "name": "wallet_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "username": {
+          "name": "username",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "display_name": {
+          "name": "display_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "bio": {
+          "name": "bio",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "website": {
+          "name": "website",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "avatar_small": {
+          "name": "avatar_small",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "avatar_medium": {
+          "name": "avatar_medium",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "avatar_blurhash": {
+          "name": "avatar_blurhash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "platform_blocked": {
+          "name": "platform_blocked",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "profiles_handle_key": {
+          "name": "profiles_handle_key",
+          "columns": [
+            {
+              "expression": "handle",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "profiles_wallet_address_key": {
+          "name": "profiles_wallet_address_key",
+          "columns": [
+            {
+              "expression": "wallet_address",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.social_accounts": {
+      "name": "social_accounts",
+      "schema": "",
+      "columns": {
+        "profile_id": {
+          "name": "profile_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "network": {
+          "name": "network",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "username": {
+          "name": "username",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "display_name": {
+          "name": "display_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "follower_count": {
+          "name": "follower_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "external_id": {
+          "name": "external_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "social_accounts_profile_id_network_pk": {
+          "name": "social_accounts_profile_id_network_pk",
+          "columns": [
+            "profile_id",
+            "network"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

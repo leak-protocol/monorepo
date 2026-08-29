@@ -1,0 +1,17 @@
+{
+  "extends": "@zoralabs/tsconfig/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "lib": ["es2022"],
+    "target": "es2022",
+    "noEmit": true,
+    "types": ["node"]
+  },
+  "include": [
+    "src/**/*.ts",
+    "test/**/*.ts",
+    "vitest.config.ts",
+    "drizzle.config.ts"
+  ],
+  "exclude": ["node_modules/**", "dist/**"]
+}

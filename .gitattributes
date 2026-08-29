@@ -1,0 +1,30 @@
+* text=auto eol=lf
+
+*.sol   linguist-language=Solidity
+*.mjs   linguist-language=JavaScript
+
+# Code vendored verbatim from Zora. Marked so GitHub keeps it out of the language
+# statistics and collapses it in diffs — otherwise several hundred vendored Solidity
+# files drown out the part actually written for Leak.
+packages/coins/**              linguist-vendored
+packages/limit-orders/**       linguist-vendored
+packages/shared-contracts/**   linguist-vendored
+packages/shared-scripts/**     linguist-vendored
+packages/protocol-deployments/** linguist-vendored
+packages/coins-deployments/**  linguist-vendored
+
+# These three are the Solidity files Leak actually changed — do NOT collapse them.
+packages/coins/src/libs/CoinConstants.sol                -linguist-vendored
+packages/coins/src/libs/CoinConfigurationVersions.sol    -linguist-vendored
+packages/coins/src/deployment/LeakAirlock.sol            -linguist-vendored
+
+# Documentation and generated output: excluded from language statistics.
+docs/**                        linguist-documentation
+apps/subgraph/generated/**     linguist-generated
+**/wagmiGenerated.ts           linguist-generated
+pnpm-lock.yaml                 linguist-generated
+
+# Binary: do not attempt to merge.
+*.png binary
+*.jpg binary
+*.pdf binary

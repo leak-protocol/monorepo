@@ -1,0 +1,740 @@
+<title>Leak Protocol Litepaper</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap">
+
+<style>
+:root{
+  --ground:#ECEEEC; --surface:#F6F7F5; --surface-2:#E2E5E2;
+  --ink:#12171A; --ink-2:#525B5E; --ink-3:#77817E;
+  --rule:#C6CCC8; --rule-strong:#9EA7A3;
+  --accent:#1B6355; --accent-soft:#DCE7E3;
+  --signal:#8F3A18; --signal-soft:#F0E1D9;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0E1214; --surface:#161B1D; --surface-2:#1E2528;
+    --ink:#E6EAE7; --ink-2:#9DA7A5; --ink-3:#7B8582;
+    --rule:#2A3234; --rule-strong:#3D4749;
+    --accent:#66BFA8; --accent-soft:#16302B;
+    --signal:#D2795A; --signal-soft:#33201A;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0E1214; --surface:#161B1D; --surface-2:#1E2528;
+  --ink:#E6EAE7; --ink-2:#9DA7A5; --ink-3:#7B8582;
+  --rule:#2A3234; --rule-strong:#3D4749;
+  --accent:#66BFA8; --accent-soft:#16302B;
+  --signal:#D2795A; --signal-soft:#33201A;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--ground); color:var(--ink);
+  font-family:"Newsreader",Georgia,"Times New Roman",serif;
+  font-size:21px; line-height:1.6;
+  -webkit-font-smoothing:antialiased; margin:0;
+}
+.page{max-width:1140px;margin-inline:auto;padding:0 2rem 6rem}
+
+.masthead{border-bottom:2px solid var(--ink);padding:5rem 0 2rem;margin-bottom:3.5rem}
+h1{
+  font-family:"Archivo",system-ui,sans-serif;font-weight:700;
+  font-size:clamp(3rem,8vw,5.4rem);line-height:.95;letter-spacing:-.038em;
+  margin:0;text-wrap:balance;
+}
+.tagline{font-size:clamp(1.25rem,2.6vw,1.7rem);font-style:italic;color:var(--ink-2);margin:1rem 0 2rem;max-width:34ch}
+.meta{
+  display:flex;flex-wrap:wrap;gap:.6rem 1.6rem;
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);
+}
+
+section{display:grid;grid-template-columns:4.5rem minmax(0,1fr);gap:0 2.5rem;padding-top:4rem}
+section + section{border-top:1px solid var(--rule);margin-top:4rem}
+.num{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:.85rem;font-weight:600;letter-spacing:.08em;color:var(--accent);padding-top:.7rem;
+}
+.body{min-width:0}
+.body > p,.body > h3,.body > h4,.body > ul{max-width:64ch}
+
+h2{
+  font-family:"Archivo",system-ui,sans-serif;font-weight:700;
+  font-size:clamp(2rem,3.8vw,2.9rem);line-height:1.04;letter-spacing:-.03em;
+  margin:0 0 1.5rem;text-wrap:balance;
+}
+h3{
+  font-family:"Archivo",system-ui,sans-serif;font-weight:600;
+  font-size:1.32rem;letter-spacing:-.014em;line-height:1.26;
+  margin:3rem 0 1rem;text-wrap:balance;
+}
+p{margin:0 0 1.2rem}
+strong{font-weight:600;color:var(--ink)}
+em{font-style:italic}
+a{color:var(--accent);text-decoration:underline;text-underline-offset:.16em;text-decoration-thickness:1px}
+a:hover{text-decoration-thickness:2px}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+code{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.84em;background:var(--surface-2);padding:.1em .36em}
+.lead{font-size:1.32rem;line-height:1.48;color:var(--ink)}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1px;background:var(--rule);border-block:1px solid var(--rule);margin:2.4rem 0 2.6rem}
+.stat{background:var(--ground);padding:1.6rem 1.4rem}
+.stat .figure{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:2.4rem;font-weight:500;letter-spacing:-.045em;line-height:1;display:block;
+  font-variant-numeric:tabular-nums;color:var(--accent);
+}
+.stat.is-signal .figure{color:var(--signal)}
+.stat .caption{
+  display:block;margin-top:.7rem;
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);line-height:1.5;
+}
+
+/* tables */
+.tablewrap{overflow-x:auto;margin:1.8rem 0 2.2rem;border-block:1px solid var(--rule-strong)}
+table{border-collapse:collapse;width:100%;font-size:.95rem;font-variant-numeric:tabular-nums}
+thead th{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-weight:600;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);
+  text-align:left;padding:.85rem 1rem;border-bottom:1px solid var(--rule-strong);white-space:nowrap;
+}
+tbody td{padding:.85rem 1rem;border-bottom:1px solid var(--rule);vertical-align:top;line-height:1.45}
+tbody tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.88rem;white-space:nowrap}
+td.k,.plat{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.86rem;white-space:nowrap}
+tr.is-us td{background:var(--accent-soft)}
+tr.is-reject td{color:var(--signal)}
+td .no,.no{color:var(--ink-3)}
+caption{caption-side:bottom;text-align:left;padding-top:.9rem;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.74rem;color:var(--ink-3);line-height:1.6}
+
+/* callout */
+.callout{border:1px solid var(--rule-strong);background:var(--surface);padding:1.5rem 1.6rem;margin:2rem 0}
+.callout p{margin:0;max-width:62ch}
+.callout .label{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:.72rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);
+  display:block;margin-bottom:.7rem;
+}
+.callout.is-signal{background:var(--signal-soft);border-color:var(--signal)}
+.callout.is-signal .label{color:var(--signal)}
+
+/* roadmap phases */
+.phase{margin:2.2rem 0 0}
+.phase + .phase{margin-top:3rem}
+.phase-head{display:flex;align-items:baseline;gap:1.1rem;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:.7rem}
+.phase-tag{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.8rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--accent)}
+.phase-line{font-family:"Archivo",system-ui,sans-serif;font-weight:600;font-size:1.24rem;letter-spacing:-.014em}
+.phase .tablewrap{border-top:0;margin-top:0}
+td.lay{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);white-space:nowrap;font-weight:600}
+
+/* system diagram */
+.diagram{margin:2.4rem 0 2.6rem;display:flex;flex-direction:column}
+.band{border:1px solid var(--rule-strong);background:var(--surface);padding:1.3rem 1.4rem}
+.band.l2{border-color:var(--accent)}
+.band.base{background:var(--ground);border-style:dashed}
+.band-head{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap;margin-bottom:1.1rem}
+.band-tag{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.band.base .band-tag{color:var(--ink-3)}
+.band-role{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.7rem;letter-spacing:.06em;color:var(--ink-3)}
+.mods{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:.6rem}
+.mod{border:1px solid var(--rule);background:var(--ground);padding:.75rem .8rem}
+.band.base .mod{background:var(--surface)}
+.mod b{display:block;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.78rem;font-weight:600;letter-spacing:.02em;color:var(--ink);margin-bottom:.25rem}
+.mod span{display:block;font-size:.84rem;line-height:1.35;color:var(--ink-2)}
+.flow{display:flex;flex-direction:column;align-items:center;gap:.4rem;padding:.75rem 0}
+.flow .stem{width:1px;height:1.1rem;background:var(--rule-strong)}
+.flow .act{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.72rem;letter-spacing:.03em;
+  color:var(--accent);border:1px solid var(--rule-strong);background:var(--ground);padding:.35rem .7rem;text-align:center;
+}
+.flow .arrowhead{width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:7px solid var(--rule-strong)}
+
+/* curve modes */
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:var(--rule);border-block:1px solid var(--rule-strong);margin:2rem 0 1rem}
+.mode{background:var(--ground);padding:1.5rem 1.5rem 1.4rem;display:grid;grid-template-rows:auto auto auto 1fr auto;row-gap:1rem}
+.plot{width:100%;height:120px;display:block;border-bottom:1px solid var(--rule);padding-bottom:.2rem}
+.plot .axis{stroke:var(--rule-strong);stroke-width:1;vector-effect:non-scaling-stroke}
+.plot .line{fill:none;stroke:var(--accent);stroke-width:2;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.plot .area{fill:var(--accent-soft);stroke:none}
+.plot .dash{stroke:var(--ink-3);stroke-width:1;stroke-dasharray:4 4;vector-effect:non-scaling-stroke}
+.plot .dot{fill:var(--signal)}
+.plot .lock{stroke:var(--signal);stroke-width:3;vector-effect:non-scaling-stroke}
+.mode-name{font-family:"Archivo",system-ui,sans-serif;font-weight:600;font-size:1.18rem;letter-spacing:-.014em;line-height:1.2}
+.mode-status{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.mode-status.live{color:var(--accent)}
+.mode p{font-size:.98rem;line-height:1.45;color:var(--ink-2);margin:0;max-width:none}
+.mode .fits{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.72rem;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);border-top:1px solid var(--rule);padding-top:.85rem;line-height:1.55}
+.axnote{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.74rem;letter-spacing:.05em;color:var(--ink-3);margin:0 0 2.4rem;max-width:none}
+
+/* hop diagram */
+.hops{margin:1.8rem 0 2.2rem;display:flex;flex-direction:column;gap:1px;background:var(--rule);border-block:1px solid var(--rule-strong)}
+.hop-row{background:var(--ground);padding:1.3rem 1.4rem;display:flex;align-items:center;gap:1.4rem;flex-wrap:wrap}
+.hop-tag{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;width:10rem;flex:none}
+.is-good .hop-tag{color:var(--accent)}
+.is-bad .hop-tag{color:var(--signal)}
+.hop-chain{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;min-width:0}
+.node{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.82rem;border:1px solid var(--rule-strong);padding:.4rem .7rem;white-space:nowrap;color:var(--ink-2)}
+.node.base{border-color:var(--ink-3);color:var(--ink);font-weight:500}
+.arrow{width:1.6rem;height:1px;flex:none}
+.is-good .arrow{background:var(--accent)}
+.is-bad .arrow{background:var(--signal)}
+.is-bad .node{border-color:var(--signal);color:var(--signal)}
+.is-bad .node.base{border-color:var(--ink-3);color:var(--ink-2)}
+
+/* fee split — pure HTML, no SVG text */
+.split{margin:2rem 0 2.2rem}
+.splitbar{display:flex;height:3.2rem;border:1px solid var(--rule-strong);overflow:hidden}
+.seg{display:flex;align-items:center;justify-content:center;min-width:0;position:relative}
+.seg span{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;
+  white-space:nowrap;overflow:hidden;padding:0 .4rem;
+}
+.seg + .seg{border-left:1px solid var(--ground)}
+.seg.a1{background:var(--accent);opacity:.5}
+.seg.a2{background:var(--accent)}
+.seg.a3{background:var(--accent);opacity:.72}
+.seg.a4{background:var(--accent);opacity:.36}
+.seg.a5{background:var(--accent);opacity:.24}
+.seg.a6{background:var(--signal)}
+.seg.a2 span{color:var(--ground)}
+.seg.a1 span,.seg.a3 span{color:var(--ink)}
+.legend{display:flex;flex-wrap:wrap;gap:.5rem 1.4rem;margin-top:.9rem}
+.legend div{display:flex;align-items:center;gap:.45rem;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.74rem;letter-spacing:.05em;color:var(--ink-3);text-transform:uppercase}
+.chip{width:.8rem;height:.8rem;flex:none;background:var(--accent)}
+.chip.c1{opacity:.5}.chip.c2{opacity:1}.chip.c3{opacity:.72}
+.chip.c4{opacity:.36}.chip.c5{opacity:.24}.chip.c6{background:var(--signal);opacity:1}
+
+@media (max-width:760px){
+  body{font-size:18px}
+  .page{padding:0 1.2rem 4rem}
+  section{grid-template-columns:1fr;gap:0}
+  .num{padding-top:0;margin-bottom:.6rem}
+  section + section{margin-top:2.8rem}
+  .hop-tag{width:auto}
+  .seg span{font-size:.62rem}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="page">
+
+<header class="masthead">
+  <h1>Leak Protocol</h1>
+  <p class="tagline">A permissionless platform to tokenize everything.</p>
+  <div class="meta"><span>Digital RWA</span><span>Avalanche C-Chain</span><span>Uniswap v4</span></div>
+</header>
+
+<main>
+
+<section id="overview">
+  <div class="num">01</div>
+  <div class="body">
+    <h2>Overview</h2>
+    <p class="lead">Any digital asset with a provable owner becomes a token with a live market, in one transaction, for about a cent.</p>
+    <p><strong>Digital RWA</strong> is the asset class: real assets, real owners, real demand signals, no legal wrapper. Media and social interaction came first, GitHub made code an addressable unit, and <strong>AI assets</strong> — agents, skills, models, datasets — changed the shape of the category. Each is independently owned, independently forked, independently measured. None has a price.</p>
+    <p>Leak is two layers. A <strong>token launch platform</strong> that mints supply straight into a single Uniswap v4 pool — tradable in the next block, no bonding-curve phase, no graduation threshold, no migration. And an <strong>asset tokenization layer</strong> above it that classifies an asset, proves ownership, and mints against that proof.</p>
+    <p>Layer 1 is permissionless: any platform can tokenize through it without an agreement and without depending on a server Leak operates. Curve shape and pair currency are both parameters, so each asset class gets a market built for it, and every trade splits across five roles on-chain.</p>
+    <div class="stats">
+      <div class="stat"><span class="figure">$0.01</span><span class="caption">Cost to open a market</span></div>
+      <div class="stat"><span class="figure">0s</span><span class="caption">Wait before the first trade</span></div>
+      <div class="stat"><span class="figure">5</span><span class="caption">Roles paid from one 1% fee</span></div>
+      <div class="stat is-signal"><span class="figure">0.198%</span><span class="caption">Of graduation-model launches ever reach a market</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="whynow">
+  <div class="num">02</div>
+  <div class="body">
+    <h2>Why now</h2>
+    <h3>AI assets are produced faster than they can be funded</h3>
+    <p>Agents, skills, models and datasets became individually addressable products in under two years, and each has a venue: agents on <a href="https://www.seekclaw.com" target="_blank" rel="noopener noreferrer">SeekClaw</a>, skills on <a href="https://www.skills.sh/" target="_blank" rel="noopener noreferrer">Skills</a>, models and datasets on <a href="https://huggingface.co" target="_blank" rel="noopener noreferrer">HuggingFace</a> — forked, fine-tuned, benchmarked and re-published in the open by people who are not employed to do it and are not paid when it works.</p>
+    <p><a href="https://www.virtuals.io/" target="_blank" rel="noopener noreferrer">Virtuals Protocol</a> settled the demand side: people will buy a token representing an AI agent. The gap is on the supply side — the builders producing these assets have no instrument that converts adoption into capital at their size.</p>
+
+    <h3>Graduation is failing, measurably</h3>
+    <p>Every mainstream launchpad holds a token on a private curve until reserves cross a fixed threshold, then migrates it to a real AMM.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Sample</th><th class="n">Launches</th><th class="n">Graduated</th><th class="n">Rate</th></tr></thead>
+        <tbody>
+          <tr><td>Sept–Oct 2025</td><td class="n">655,770</td><td class="n">~4,130</td><td class="n">0.63%</td></tr>
+          <tr><td><strong>8 May – 10 Jun 2026</strong></td><td class="n">832,941</td><td class="n">~1,650</td><td class="n"><strong>0.198%</strong></td></tr>
+        </tbody>
+        <caption><a href="https://pump.fun/" target="_blank" rel="noopener noreferrer">PumpDotFun</a> launches · 2026 figure Wilson 95% CI 0.189–0.208% · a 3.18× decline in eight months</caption>
+      </table>
+    </div>
+    <div class="callout is-signal">
+      <span class="label">What the number means</span>
+      <p><strong>~831,300</strong> assets paid the launch cost and died inside a curve: priced by a formula, with liquidity that could not leave. The threshold is not a quality filter. It is a minimum viable size, and it sits far above where most assets live.</p>
+    </div>
+    <p>It persists because it is load-bearing. Graduation funds the migration: the curve accumulates reserves, the reserves seed the pool, and the threshold is where reserves finally cover the flat cost of moving them. Lower it and that cost is paid on tokens whose lifetime fees never repay it. Remove it and the curve phase has no purpose — which deletes the pricing engine, the reserve custody and the graduation event the model is built around.</p>
+    <p>The design's grip is visible in its successors. <a href="https://bags.fm/" target="_blank" rel="noopener noreferrer">Bags</a> rebuilt the creator economics on top of it — mandatory, perpetual fee sharing configured at launch — and kept the curve and the migration intact, because removing them removes the product.</p>
+    <p>Leak has no threshold because it has no migration. Supply is minted directly into the pool as single-sided liquidity, so no counter-currency is needed to open a market and the entire cost is one transaction.</p>
+
+    <h3>RWA arrived, but only at one end</h3>
+    <p>Tokenized real-world assets crossed $3B on Avalanche — securities, credit and funds, behind institutional compliance. The long tail of digital assets received none of it, because every step of that pipeline assumes a legal wrapper.</p>
+  </div>
+</section>
+
+<section id="digitalrwa">
+  <div class="num">03</div>
+  <div class="body">
+    <h2>Digital RWA</h2>
+    <p>The segment has an observable boundary: <strong>the asset has a verifiable owner and no legal wrapper.</strong></p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Class</th><th>Platform</th><th>Ownership proven by</th><th>Public signal</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Agent</strong></td><td class="plat"><a href="https://www.seekclaw.com" target="_blank" rel="noopener noreferrer">SeekClaw</a></td><td>platform auth</td><td class="k">usage, installs</td></tr>
+          <tr><td><strong>Skill</strong></td><td class="plat"><a href="https://www.skills.sh/" target="_blank" rel="noopener noreferrer">Skills</a></td><td>platform auth</td><td class="k">installs</td></tr>
+          <tr><td><strong>Model, dataset</strong></td><td class="plat"><a href="https://huggingface.co" target="_blank" rel="noopener noreferrer">HuggingFace</a></td><td>platform auth</td><td class="k">downloads, forks</td></tr>
+          <tr><td>Repository</td><td class="plat"><a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a></td><td>platform auth</td><td class="k">stars, forks</td></tr>
+          <tr><td>Social post</td><td class="plat"><a href="https://x.com/" target="_blank" rel="noopener noreferrer">X</a></td><td>platform auth</td><td class="k">reach</td></tr>
+          <tr><td>Short media</td><td class="plat">Leak Platform IPFS</td><td>uploader attestation</td><td class="k">views</td></tr>
+          <tr><td>NFT</td><td class="plat">any chain</td><td><strong>the chain itself</strong></td><td class="k">floor, holders</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>These are real assets with real off-chain existence. What no token minted against them does is convey a legal claim — the token is a market on the asset's attention, not a share in it.</p>
+    <div class="callout">
+      <span class="label">Why the boundary is the design</span>
+      <p>Because no Digital RWA carries a legal wrapper, none crosses the perimeter that makes institutional tokenization slow, expensive and permissioned. The constraint and the capability are the same fact: that is what allows this layer to be permissionless.</p>
+    </div>
+
+    <h3>What tokenizing gives the owner</h3>
+    <p>A maintainer with 400 stars, an agent developer with 2,000 users, a model author whose fine-tune gets forked weekly: none can convert adoption into capital at that size. Grants need an application, sponsorship needs an audience, equity needs a company.</p>
+    <p>Tokenizing does it in one transaction — <strong>1% of supply at mint, then 0.50% of every dollar ever traded, permanently.</strong> The stream scales with exactly the thing these builders already produce.</p>
+
+    <h3>What the buyer is buying</h3>
+    <p>The negative first, because it makes the rest credible: not equity, not a revenue share, not a licence, no governance. It is a position on the asset's attention.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Property</th><th>Why it holds</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Something to form a view about</strong></td><td>stars, downloads, installs and reach are published by the custodian and produced by parties with no stake in the token — an observable series, not a narrative</td></tr>
+          <tr><td><strong>Owner incentive points the same way</strong></td><td>0.50% of volume for the life of the market and 1% of supply from mint, with no vesting cliff to sell into</td></tr>
+          <tr><td><strong>The exit does not decay</strong></td><td>20% of every fee is re-minted as liquidity nobody can withdraw, so day-one depth is a floor rather than a peak</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="architecture">
+  <div class="num">04</div>
+  <div class="body">
+    <h2>Architecture</h2>
+    <p>Two layers over the Uniswap v4 singleton. Layer 1 is a public primitive that knows nothing about what a token represents. Layer 2 is where the protocol acquires meaning, users and liquidity.</p>
+
+    <figure class="diagram">
+      <div class="band l2">
+        <div class="band-head">
+          <span class="band-tag">Layer 2 — Asset tokenization</span>
+          <span class="band-role">verify · onboard · connect liquidity</span>
+        </div>
+        <div class="mods">
+          <div class="mod"><b>Custody connectors</b><span>OAuth to HuggingFace, SeekClaw, Skills, GitHub, X; IPFS for direct uploads</span></div>
+          <div class="mod"><b>Ownership verifier</b><span>resolves the identifier to a tier: on-chain, verified, attested, reject</span></div>
+          <div class="mod"><b>Metadata resolver</b><span>pulls name, media and adoption metrics from the custodian API</span></div>
+          <div class="mod"><b>Market selector</b><span>picks curve mode and settlement currency for the asset class</span></div>
+        </div>
+      </div>
+
+      <div class="flow">
+        <span class="stem"></span>
+        <span class="act">deploy(owner, proof, uri, curveMode, currency, salt)</span>
+        <span class="stem"></span>
+        <span class="arrowhead"></span>
+      </div>
+
+      <div class="band">
+        <div class="band-head">
+          <span class="band-tag">Layer 1 — Token launch platform · permissionless</span>
+          <span class="band-role">one pool per asset</span>
+        </div>
+        <div class="mods">
+          <div class="mod"><b>Factory</b><span>CREATE2 deploy, predicts the coin address before signing</span></div>
+          <div class="mod"><b>Coin — ERC-20</b><span>mints 1B: 1% to the owner, 99% to the hook</span></div>
+          <div class="mod"><b>Curve registry</b><span>poolConfig bytes per mode; pays the mode&#39;s author 0.01%</span></div>
+          <div class="mod"><b>Currency registry</b><span>admitted settlement assets; enforces one hop from the base asset</span></div>
+          <div class="mod"><b>Hook</b><span>afterInitialize mints the ladder · beforeSwap sets the dynamic fee · afterSwap splits it</span></div>
+          <div class="mod"><b>Router</b><span>native-AVAX entry, passes the trade referrer through to the hook</span></div>
+        </div>
+      </div>
+
+      <div class="flow">
+        <span class="stem"></span>
+        <span class="act">initialize(poolKey, sqrtPrice) · mint 31 single-sided positions</span>
+        <span class="stem"></span>
+        <span class="arrowhead"></span>
+      </div>
+
+      <div class="band base">
+        <div class="band-head">
+          <span class="band-tag">Uniswap v4 PoolManager</span>
+          <span class="band-role">singleton · settlement</span>
+        </div>
+        <div class="mods">
+          <div class="mod"><b>Pool</b><span>one per asset, dynamic-fee flag, tick spacing 200</span></div>
+          <div class="mod"><b>Ladder + tail</b><span>nested positions to the discovery top, one tail to MAX_TICK</span></div>
+          <div class="mod"><b>Fee accrual</b><span>collected on every swap, routed back to the hook</span></div>
+          <div class="mod"><b>Quoter</b><span>the only price source; simulated per quote</span></div>
+        </div>
+      </div>
+    </figure>
+
+    <p><strong>Layer 1 is a public primitive.</strong> Every call is built client-side by the SDK: no API key, no rate limit, no server that can change terms. Any platform can call <code>deploy</code> directly.</p>
+    <p><strong>Layer 2 is the reference implementation of the caller.</strong> It holds no privilege inside layer 1 — it earns the same integrator fee leg as any third party that builds the same thing.</p>
+    <div class="callout">
+      <span class="label">The separation is the point</span>
+      <p>A launch platform only its own front end can use is an app. One that pays outsiders to build on it, automatically, is a layer.</p>
+    </div>
+  </div>
+</section>
+
+<section id="layer1">
+  <div class="num">05</div>
+  <div class="body">
+    <h2>Layer 1 — Token launch platform</h2>
+
+    <h3>There is no bonding curve</h3>
+    <p>99% of supply is minted straight into one Uniswap v4 pool as single-sided liquidity, held by a hook. Price moves because the AMM crosses ticks — no pricing formula, no reserve contract. The pool opens at the bottom of its range, so every position is denominated purely in the coin.</p>
+    <p>Positions are <em>nested</em> rather than adjacent: each carries an equal share of coin over a strictly shorter range ending at a common far tick. Depth is therefore non-decreasing in price, and the currency needed to move price by a fixed proportion strictly increases as the market grows.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Actor</th><th class="n">Entry</th><th class="n">Exit</th><th class="n">Currency in</th><th class="n">Coins out</th><th class="n">Cost per +10%</th></tr></thead>
+        <tbody>
+          <tr><td>Alice</td><td class="n">1.311e-4</td><td class="n">2.119e-4</td><td class="n">964.67</td><td class="n">5,430,624</td><td class="n">192</td></tr>
+          <tr><td>Bob</td><td class="n">2.119e-4</td><td class="n">3.493e-4</td><td class="n">4,431.88</td><td class="n">15,656,279</td><td class="n">845</td></tr>
+          <tr><td>Carol</td><td class="n">9.122e-4</td><td class="n">1.070e-3</td><td class="n">207,358.40</td><td class="n">207,386,758</td><td class="n">123,866</td></tr>
+        </tbody>
+        <caption>Reference multicurve configuration, reproduced with tools/curve/ · currency units generic</caption>
+      </table>
+    </div>
+    <p>Moving price 10% costs Carol <strong>647× what it cost Alice</strong>. Early entry is rewarded with price, late entry with depth: the book becomes hard to move exactly as it becomes worth moving.</p>
+    <p>Above the last discovery tick a single tail position runs to the maximum tick. That tail replaces graduation — the pool cannot run out of coin at any price, and no position is withdrawable, so liquidity cannot be pulled.</p>
+
+    <h3>Both sides of the book</h3>
+    <p>Selling walks the same ladder in reverse. Liquidity at a given tick is identical in both directions, so a seller near the top meets the deepest part of the book and impact per coin grows as price falls back toward the opening tick. There is no redemption path and no reserve to drain: every exit is a swap against the same pool every entry went through.</p>
+    <div class="callout">
+      <span class="label">Solvency invariant</span>
+      <p>Currency payable out can never exceed currency paid in, less fees already distributed. The pool holds no leverage, borrows nothing, and promises nothing it is not already holding. There is no state in which a holder is owed something the pool does not have — which is the whole reason the protocol can be permissionless about what gets listed.</p>
+    </div>
+
+    <h3>Curve modes are data, and their authors are paid</h3>
+    <p>The curve is a <code>poolConfig</code> byte string — version, currency, and per-curve arrays of tick bounds, position counts and supply shares. A new mode is a new configuration: no contract, no upgrade, no governance vote. That makes curve design a role rather than an internal decision, and the protocol pays it: <strong>whoever authors the mode a coin launches with earns 0.01% of that coin's notional volume for the life of the market.</strong></p>
+    <div class="modes">
+      <div class="mode">
+        <svg class="plot" viewBox="0 0 260 120" preserveAspectRatio="none" role="img" aria-label="Gradual near the opening price, steepening into the tail">
+          <path class="area" d="M10 106 C 76 102, 116 92, 154 70 C 188 50, 220 26, 250 10 L250 108 L10 108 Z"/>
+          <line class="axis" x1="10" y1="108" x2="250" y2="108"/>
+          <path class="line" d="M10 106 C 76 102, 116 92, 154 70 C 188 50, 220 26, 250 10"/>
+        </svg>
+        <div class="mode-name">Multicurve</div>
+        <div class="mode-status live">Default · live</div>
+        <p>Several curve segments blended into one book. Deep near spot, steep in the tail.</p>
+        <div class="fits">Known reference price — media, posts, repositories</div>
+      </div>
+
+      <div class="mode">
+        <svg class="plot" viewBox="0 0 260 120" preserveAspectRatio="none" role="img" aria-label="Price steps down each epoch until demand is met, then ratchets upward">
+          <line class="axis" x1="10" y1="108" x2="250" y2="108"/>
+          <path class="line" d="M10 20 H50 V40 H90 V60 H130 V80 H154 V62 H194 V42 H226 V22 H250"/>
+          <circle class="dot" cx="154" cy="80" r="5"/>
+        </svg>
+        <div class="mode-name">Dynamic Dutch</div>
+        <div class="mode-status">Planned</div>
+        <p>Price decays each epoch until demand meets it, then ratchets up.</p>
+        <div class="fits">No obvious opening price — new models, first-run agents</div>
+      </div>
+
+      <div class="mode">
+        <svg class="plot" viewBox="0 0 260 120" preserveAspectRatio="none" role="img" aria-label="Multicurve shape above a permanently locked liquidity band">
+          <path class="area" d="M10 106 C 76 102, 116 92, 154 70 C 188 50, 220 26, 250 10 L250 108 L10 108 Z"/>
+          <line class="axis" x1="10" y1="108" x2="250" y2="108"/>
+          <path class="line" d="M10 106 C 76 102, 116 92, 154 70 C 188 50, 220 26, 250 10"/>
+          <line class="lock" x1="10" y1="92" x2="120" y2="92"/>
+        </svg>
+        <div class="mode-name">Lockable multicurve</div>
+        <div class="mode-status live">Live</div>
+        <p>Multicurve plus a permanently locked LP position. Signals that liquidity cannot be pulled.</p>
+        <div class="fits">Sold on trust — datasets, skills, long support horizons</div>
+      </div>
+
+      <div class="mode">
+        <svg class="plot" viewBox="0 0 260 120" preserveAspectRatio="none" role="img" aria-label="A flat price until the depth target fills, then a flat book">
+          <rect class="area" x="10" y="58" width="140" height="50"/>
+          <line class="axis" x1="10" y1="108" x2="250" y2="108"/>
+          <path class="line" d="M10 58 H250"/>
+          <line class="dash" x1="150" y1="42" x2="150" y2="110"/>
+        </svg>
+        <div class="mode-name">Fixed price</div>
+        <div class="mode-status">Planned</div>
+        <p>One price until the depth target fills, then a flat book. Reads like a presale, no discovery.</p>
+        <div class="fits">Externally set value — NFTs, licensed models</div>
+      </div>
+    </div>
+    <p class="axnote">Vertical axis: price. Horizontal: cumulative supply sold. Shapes are schematic.</p>
+
+    <h3>The pair currency is the second parameter</h3>
+    <p>A pool opens single-sided: 100% coin, zero currency. Every unit of the currency side has to be bought in. So the asset a coin settles against decides who can trade it without an extra hop, what unit its price is quoted in, and what the creator is actually paid in. Which makes the pair a ceiling: <strong>a coin can never be deeper than the asset it settles against.</strong></p>
+    <figure class="hops">
+      <div class="hop-row is-good">
+        <span class="hop-tag">One hop</span>
+        <div class="hop-chain"><span class="node">asset coin</span><span class="arrow"></span><span class="node base">AVAX</span></div>
+      </div>
+      <div class="hop-row is-bad">
+        <span class="hop-tag">Chained pairs</span>
+        <div class="hop-chain"><span class="node">asset coin</span><span class="arrow"></span><span class="node">another coin</span><span class="arrow"></span><span class="node">protocol token</span><span class="arrow"></span><span class="node base">base asset</span></div>
+      </div>
+    </figure>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Rule</th><th>Because</th></tr></thead>
+        <tbody>
+          <tr><td><strong>One hop from the base asset</strong></td><td>a coin paired against another launched coin inherits that coin's depth as its ceiling; the weakest link caps everything downstream and routers cannot reliably find the path</td></tr>
+          <tr><td><strong>Never the protocol's own token as default</strong></td><td>it forces two exposures at once — the asset's move and the token's beta — so a coin can rise against the token and still fall in dollars</td></tr>
+          <tr><td><strong>Denomination is a product decision</strong></td><td>against a stable unit the coin is an absolute bet; against a sector asset it is a relative one</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <span class="label">The case worth building for</span>
+      <p>A Digital RWA quoted against the asset class it competes with. An open model priced against a chip-sector asset asks whether the open model outperforms the incumbent. That is a legible thesis rather than a punt, and it falls straight out of currency being a parameter instead of a constant.</p>
+    </div>
+    <p>Phase 1 settles everything in native AVAX. The field is in the pool config from the first block, so opening it later is a registry change, not a migration.</p>
+
+    <h3>The launch fee pays the creator</h3>
+    <p>The pool runs a dynamic fee: 99% at creation, decaying linearly to 1% over 30 seconds. It is a <em>pool</em> fee, so none of it is burned — it flows into the same distribution as any other trade.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th class="n">t</th><th class="n">0s</th><th class="n">3s</th><th class="n">15s</th><th class="n">≥30s</th></tr></thead>
+        <tbody><tr><td class="k">fee</td><td class="n">99.00%</td><td class="n">89.20%</td><td class="n">50.00%</td><td class="n">1.00%</td></tr></tbody>
+      </table>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Dana buys at t = 3s with 100 AVAX · fee 89.20%</th><th class="n">AVAX</th></tr></thead>
+        <tbody>
+          <tr><td>Re-minted as permanent liquidity</td><td class="n">17.84</td></tr>
+          <tr><td>Creator</td><td class="n">44.60</td></tr>
+          <tr><td>Platform that created the coin</td><td class="n">17.84</td></tr>
+          <tr><td>Platform owner</td><td class="n">4.46</td></tr>
+          <tr><td>Trading referrer</td><td class="n">3.57</td></tr>
+          <tr><td>Curve owner</td><td class="n">0.89</td></tr>
+          <tr><td>Dana's actual purchase</td><td class="n">10.80</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Sniping inside the launch window is a transfer from the sniper to the creator and to permanent liquidity. There is no anti-bot heuristic in the protocol — bots are made to pay for the launch. The creator's own first buy is exempt, which is why deploy and first buy are a single transaction.</p>
+
+    <h3>Five roles, one fee</h3>
+    <figure class="split">
+      <div class="splitbar" role="img" aria-label="The 1% fee splits into permanent liquidity 20%, creator 50%, third-party platform 20%, platform owner 5%, trading referrer 4%, curve owner 1%">
+        <div class="seg a1" style="flex:20"><span>Liquidity 20%</span></div>
+        <div class="seg a2" style="flex:50"><span>Creator 50%</span></div>
+        <div class="seg a3" style="flex:20"><span>Platform 20%</span></div>
+        <div class="seg a4" style="flex:5"></div>
+        <div class="seg a5" style="flex:4"></div>
+        <div class="seg a6" style="flex:1"></div>
+      </div>
+      <div class="legend">
+        <div><span class="chip c1"></span>Liquidity 20%</div>
+        <div><span class="chip c2"></span>Creator 50%</div>
+        <div><span class="chip c3"></span>Platform 20%</div>
+        <div><span class="chip c4"></span>Owner 5%</div>
+        <div><span class="chip c5"></span>Referrer 4%</div>
+        <div><span class="chip c6"></span>Curve 1%</div>
+      </div>
+    </figure>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Role</th><th class="n">Notional</th><th class="n">Per $1M volume</th><th>Paid for</th></tr></thead>
+        <tbody>
+          <tr><td>Permanent liquidity</td><td class="n">0.20%</td><td class="n">$2,000</td><td>re-minted, unwithdrawable — depth grows with volume</td></tr>
+          <tr><td><strong>Creator</strong></td><td class="n">0.50%</td><td class="n">$5,000</td><td>owning the asset</td></tr>
+          <tr><td><strong>Third-party platform</strong></td><td class="n">0.20%</td><td class="n">$2,000</td><td>bringing the asset</td></tr>
+          <tr><td>Platform owner</td><td class="n">0.05%</td><td class="n">$500</td><td>running the protocol</td></tr>
+          <tr><td>Trading referrer</td><td class="n">0.04%</td><td class="n">$400</td><td>bringing the trade</td></tr>
+          <tr><td><strong>Curve owner</strong></td><td class="n">0.01%</td><td class="n">$100</td><td>designing the market's shape</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Multi-recipient fee routing is proven, not speculative: Bags has settled over <strong>$5B</strong> of cumulative volume with fee sharing made mandatory at launch, paid to designated recipients in perpetuity. The difference here is <em>what the recipients are</em>. Bags splits to wallets a creator names. Leak splits to <strong>roles defined by a function performed</strong> — and one of them has no analogue anywhere: no other launchpad pays for the shape of the market, because no other launchpad lets the shape vary.</p>
+    <p><strong>The re-minted 20% never leaves.</strong> An asset's liquidity becomes a function of volume already done rather than of anyone's continued willingness to provide it. <strong>The third-party leg is the business model:</strong> a platform tokenizing its assets through Leak earns 0.20% of notional on everything it brings, with no agreement to sign and no revenue share to invoice.</p>
+    <p>An asset doing $50,000 of lifetime volume returns $250 to its owner, $100 to that platform, $25 to the protocol, $5 to the curve author, and adds $100 of liquidity that can never be removed — against a $0.01 launch cost.</p>
+  </div>
+</section>
+
+<section id="layer2">
+  <div class="num">06</div>
+  <div class="body">
+    <h2>Layer 2 — Asset tokenization</h2>
+    <p class="lead">Layer 1 is indifferent to what a token represents. Layer 2 is where the protocol acquires meaning, users and liquidity — and it is the layer that decides whether any of this is a market or a casino.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Job</th><th>What it does</th><th>Why it decides the outcome</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Verify</strong></td><td>reads ownership from the platform that already custodies the asset</td><td>a token bound to a proven owner is a different instrument from a token bound to a name anyone can type</td></tr>
+          <tr><td><strong>Onboard</strong></td><td>the owner signs in to a platform they already use — no new account, no listing application, no review queue</td><td>the acquisition surface is the custodian's existing user base, not ours</td></tr>
+          <tr><td><strong>Connect liquidity</strong></td><td>selects the settlement currency and curve mode at mint</td><td>the pair sets the ceiling on depth and decides who can trade the asset without an extra hop</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Verification: three tiers, assigned once</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Tier</th><th>Custody source</th><th>Proof</th><th>Strength</th></tr></thead>
+        <tbody>
+          <tr><td><strong>On-chain</strong></td><td class="k">any chain</td><td>the connected wallet holds the token</td><td>cryptographic</td></tr>
+          <tr><td><strong>Verified</strong></td><td class="k"><a href="https://huggingface.co" target="_blank" rel="noopener noreferrer">HuggingFace</a> · <a href="https://www.seekclaw.com" target="_blank" rel="noopener noreferrer">SeekClaw</a> · <a href="https://www.skills.sh/" target="_blank" rel="noopener noreferrer">Skills</a> · <a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a> · <a href="https://x.com/" target="_blank" rel="noopener noreferrer">X</a></td><td>the custodian&#39;s own auth reports the owner</td><td>as strong as that platform</td></tr>
+          <tr><td><strong>Attested</strong></td><td class="k">Leak Platform IPFS</td><td>the uploader signs the claim</td><td>a claim, labelled as one</td></tr>
+          <tr class="is-reject"><td><strong>Reject</strong></td><td class="k">—</td><td>ownership cannot be established</td><td>not minted</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The tier is written on-chain and shown wherever the asset appears. Attested is never described as verification — that distinction is the product, and collapsing it would make every other claim in this document worthless.</p>
+
+    <h3>Liquidity: the settlement currency is a Layer 2 decision</h3>
+    <p>Layer 1 exposes the currency as a parameter. Layer 2 chooses it, per asset class, and that choice is what connects a coin to capital that already exists rather than capital that has to be recruited.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Settlement class</th><th>Examples</th><th class="n">Status</th><th>What it unlocks</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Native</strong></td><td class="k">AVAX</td><td class="n">default</td><td>one hop from the chain&#39;s base asset; depends on no other market</td></tr>
+          <tr><td><strong>Flagship crypto</strong></td><td class="k">BTC.b · HYPE</td><td class="n">phase 2</td><td>the deepest non-native books, and holders who never had to acquire AVAX first</td></tr>
+          <tr><td><strong>Tokenized equity</strong></td><td class="k">NVDA · SPCX</td><td class="n">phase 2</td><td>denominates the coin in a sector — the coin stops being an absolute bet and becomes a <strong>relative</strong> one</td></tr>
+        </tbody>
+        <caption>The registry admits any ERC-20 that clears a depth floor, under the Layer 1 rules: one hop from the base asset, never the protocol&#39;s own token as default</caption>
+      </table>
+    </div>
+    <div class="callout">
+      <span class="label">Why tokenized equity is the interesting one</span>
+      <p>An open model quoted in AVAX asks whether people like the model. The same model quoted in <strong>NVDA</strong> asks whether open weights outperform the chip incumbent — a question with a thesis behind it, an existing audience, and a counterparty who already holds the other side. An agent quoted against a software-sector asset asks the same about a category. That instrument does not exist anywhere today, and nothing about it requires new protocol code: it is a currency-registry entry.</p>
+    </div>
+
+    <h3>Trust assumptions</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Assumption</th><th>Consequence if it breaks</th></tr></thead>
+        <tbody>
+          <tr><td>Custodian auth reports the true owner</td><td>tokens minted through that platform are compromised — blast radius is that platform alone, and the tier is on-chain per asset</td></tr>
+          <tr><td>Ownership at mint is what counts</td><td>later transfer, suspension or deletion of the account does not retroactively change the token</td></tr>
+          <tr><td>No tier conveys a legal claim</td><td>tokenizing a repository or a model does not transfer, license or encumber it</td></tr>
+          <tr><td>Quotes come only from the on-chain quoter</td><td>a pool whose hook affects swaps cannot be priced locally, so integrators need an RPC call per quote</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="related">
+  <div class="num">07</div>
+  <div class="body">
+    <h2>Related work</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Protocol</th><th>Unit tokenized</th><th>Ownership proven</th><th>Tradable at listing</th><th>Curve shape</th><th>Fee recipients</th></tr></thead>
+        <tbody>
+          <tr><td class="plat"><a href="https://pump.fun/" target="_blank" rel="noopener noreferrer">Pump.fun</a></td><td>a name</td><td class="no">no</td><td class="no">no — 85 SOL threshold</td><td class="no">fixed</td><td class="no">creator, 0.05%</td></tr>
+          <tr><td class="plat"><a href="https://bags.fm/" target="_blank" rel="noopener noreferrer">Bags</a></td><td>a name + social</td><td class="no">no</td><td class="no">no — DBC migration</td><td class="no">fixed (Meteora DBC)</td><td>creator + named wallets, 1%</td></tr>
+          <tr><td class="plat"><a href="https://www.virtuals.io/" target="_blank" rel="noopener noreferrer">Virtuals Protocol</a></td><td>an agent</td><td class="no">no</td><td class="no">no — 42,000 VIRTUAL</td><td class="no">fixed</td><td class="no">protocol</td></tr>
+          <tr><td class="plat"><a href="https://clanker.world/" target="_blank" rel="noopener noreferrer">Clanker</a></td><td>a string</td><td class="no">no</td><td>yes</td><td class="no">fixed</td><td class="no">protocol, 20% of LP fees</td></tr>
+          <tr><td class="plat"><a href="https://zora.co/" target="_blank" rel="noopener noreferrer">Zora</a></td><td>a post in Zora</td><td>Zora profile</td><td>yes</td><td class="no">closed endpoint</td><td class="no">creator</td></tr>
+          <tr><td class="plat"><a href="https://arena.social/" target="_blank" rel="noopener noreferrer">The Arena</a></td><td>a social account</td><td>Arena account</td><td class="no">no — curve first</td><td class="no">fixed</td><td class="no">creator</td></tr>
+          <tr class="is-us"><td class="plat">Leak Protocol</td><td>a custodied asset</td><td>yes, by its custodian</td><td>yes</td><td>a parameter</td><td>five protocol roles, incl. the curve author</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><strong>Pump.fun</strong> created this category and still defines it. Roughly <strong>75–80% of all Solana launches</strong> run through it, and the bonding-curve-then-migrate design that every launchpad here inherits — including the ones that criticise it — is its contribution. The argument in §2 is aimed at the threshold, not at the model: without Pump.fun there is no reference point for what a permissionless launch looks like at all. It revised its creator fee schedule in January 2026 after a volume spike exposed how thin the original incentive was, at 0.05% of trading fees.</p>
+
+    <p><strong>Bags</strong> is the closest existing work on fee routing, and the reason a five-way split is an extension rather than a leap. Live since May 2025 on Meteora's dynamic bonding curve, it makes fee-sharing configuration <em>mandatory at launch</em>: 1% of trading volume flows to designated recipients in perpetuity, and a creator can name additional claimers. Over <strong>$5B</strong> in cumulative on-chain volume. What it does not do is bind the token to anything but a social account, remove the curve and the migration, or pay anyone for designing the market — the curve is Meteora's, and it is the same curve for every token launched.</p>
+
+    <p><strong>Virtuals Protocol</strong> proved demand for agent tokens but tokenizes agents only, and its curve is a constant. <strong>Clanker</strong> dropped the threshold and the ceremony — deploy an ERC-20 from a sentence, take 20% of pool-level LP fees, over $8B cumulative volume — but makes no claim about what the token represents. A deployer, not a tokenization layer.</p>
+
+    <p><strong>Zora</strong> is the closest existing mechanism and the honest baseline: a Uniswap v4 hook, a single-sided multi-curve ladder, a 1% pool fee, a dynamic launch fee. Threshold-free launching is not claimed here as an invention — Zora shipped it. What Zora does not do is bind a coin to an asset held by a platform it does not own, expose curve shape as a caller-supplied parameter, or let an integrator build without routing through its infrastructure.</p>
+
+    <p><strong>The Arena</strong> is the evidence the audience exists on this chain: 200,000+ registered users, $450M+ volume and 35,000+ AVAX in fees within two months of relaunch, from a curve launchpad inside a social feed. A candidate integrator, not a competitor.</p>
+
+    <div class="callout">
+      <span class="label">Delta, stated narrowly</span>
+      <p>Ownership proven against third-party custodians · curve shape as a per-class parameter whose author is paid · fee routing extended from creator-named wallets to <strong>protocol roles, one of which is the market designer</strong> · no protocol-operated server in the integration path.</p>
+    </div>
+  </div>
+</section>
+
+<section id="params">
+  <div class="num">08</div>
+  <div class="body">
+    <h2>Parameters</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Parameter</th><th class="n">Value</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td>Total supply</td><td class="n">1,000,000,000</td><td>fixed at mint, no further issuance</td></tr>
+          <tr><td>To market as liquidity</td><td class="n">99%</td><td>held by the hook, unwithdrawable</td></tr>
+          <tr><td>To creator at mint</td><td class="n">1%</td><td>transferable immediately</td></tr>
+          <tr><td>Pool fee</td><td class="n">1.00%</td><td>dynamic flag, hook-controlled</td></tr>
+          <tr><td>Launch fee</td><td class="n">99% → 1%</td><td>linear decay over 30s</td></tr>
+          <tr><td>Tick spacing</td><td class="n">200</td><td></td></tr>
+          <tr><td>Discovery positions per curve</td><td class="n">11</td><td>reference config: 3 curves</td></tr>
+          <tr><td>LP positions minted</td><td class="n">34 → 31</td><td>after overlap dedupe</td></tr>
+          <tr><td>Backing currency</td><td class="n">AVAX</td><td>native; parameterised for future pairs</td></tr>
+          <tr><td>Deploy cost</td><td class="n">~7M gas</td><td>0.00035 AVAX at 0.05 gwei</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Two invariants are enforced on-chain at deploy: the sum of discovery supply shares must be strictly below 100% of supply, and total positions must fall between 2 and 200. Violations revert.</p>
+  </div>
+</section>
+
+<section id="roadmap">
+  <div class="num">09</div>
+  <div class="body">
+    <h2>Roadmap</h2>
+    <p>Phase 1 ships the primitive and proves it by being its own first caller. Phase 2 widens what can be tokenized and what it can be priced in. Nothing in phase 2 is required for the protocol to function.</p>
+
+    <div class="phase">
+      <div class="phase-head">
+        <span class="phase-tag">Phase 1</span>
+        <span class="phase-line">Both layers live on mainnet</span>
+      </div>
+      <div class="tablewrap">
+        <table>
+          <tbody>
+            <tr><td class="lay">Layer 1</td><td>Permissionless launch platform on Avalanche mainnet. Multicurve and lockable multicurve live, five-way fee split settling on-chain, curve and currency registries deployed. Anyone can call <code>deploy</code> without asking.</td></tr>
+            <tr><td class="lay">Layer 2</td><td>Custodian-verified tokenization for <strong>Agents</strong>, <strong>Skills</strong>, <strong>GitHub repositories</strong>, <strong>X posts</strong> and <strong>Short Media</strong> — ownership proven at mint, tier written on-chain.</td></tr>
+            <tr><td class="lay">SDK</td><td><strong>Both layers published as open interfaces.</strong> A third party can launch a market through Layer 1 and verify ownership through Layer 2 from their own front end, building every call client-side — no API key, no allowlist, and no Leak-operated server anywhere in the path.</td></tr>
+            <tr><td class="lay">Assurance</td><td>Third-party audit published; contracts verified on the explorer.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-head">
+        <span class="phase-tag">Phase 2</span>
+        <span class="phase-line">Wider assets, wider money</span>
+      </div>
+      <div class="tablewrap">
+        <table>
+          <tbody>
+            <tr><td class="lay">Layer 1</td><td>Dynamic Dutch and Fixed price modes. <strong>Curve authoring opened as a public role</strong> — anyone can publish a mode and earn 0.01% of the notional volume of every coin launched with it.</td></tr>
+            <tr><td class="lay">Layer 2</td><td><strong>HuggingFace</strong> models and datasets; <strong>NFT</strong>.</td></tr>
+            <tr><td class="lay">Currency</td><td>Settlement opened well beyond AVAX: <strong>USDC</strong> for a stable unit, <strong>BTC.b</strong> and <strong>HYPE</strong> for the deepest crypto books, and <strong>tokenized equities</strong> — NVDA, SPCX — so an asset can be quoted against the sector it competes with.</td></tr>
+            <tr><td class="lay">Governance</td><td>LEAK admitted as an <em>optional</em> pair currency. Never the default, for the reason given in §5.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+</div>

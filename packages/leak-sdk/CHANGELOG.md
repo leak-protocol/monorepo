@@ -1,0 +1,428 @@
+# @zoralabs/coins-sdk
+
+## 0.8.0
+
+### Minor Changes
+
+- 0ce51caec: Add `getCoinMergedComments` for a coin's unified comment feed. It returns on-chain, backfilled, and off-chain comments pre-sorted newest-first under a single cursor — mirroring the `GraphQLMergedComment` union the Zora web and mobile apps consume. The existing `getCoinComments` is unchanged (on-chain `zoraComments` only).
+
+## 0.7.1
+
+### Patch Changes
+
+- fbb389583: Bump viem to 2.53.1
+
+  Raise the pinned viem version from 2.22.12 to 2.53.1 across the monorepo to pick up newer chain definitions and support the latest x402 v2 client packages.
+
+- Updated dependencies [fbb389583]
+  - @zoralabs/protocol-deployments@0.7.6
+
+## 0.7.0
+
+### Minor Changes
+
+- c8374a6a7: Add smart wallet variants for all four SDK actions — createCoinSmartWallet, tradeCoinSmartWallet, updateCoinURISmartWallet, and updatePayoutRecipientSmartWallet — alongside a new enableSmartWalletRouting flag on CreateCoinArgs
+- 663820551: handle bundler client gas errors explicitly so they can be surfaced to users and become actionable
+- 1121bfefe: Move action validation into explicit validation helpers and export them from the sdk, add a consolidated GenericCall type to support future user operation execution flow.
+- e1fa9e73c: Add `apiUrl` helper to allow consumers to construct full api urls.
+
+## 0.6.0
+
+### Minor Changes
+
+- 8baf100b2: Add getCoinPriceHistory and getCreatorLivestreamComments query functions
+  - getCoinPriceHistory retrieves historical price data across multiple time periods
+  - getCreatorLivestreamComments fetches paginated comments from creator livestreams
+
+### Patch Changes
+
+- bcfc04153: Add `getWalletTradeActivity` query to fetch trade activity for a wallet address
+
+## 0.5.2
+
+### Patch Changes
+
+- 278d7705e: Add new Valuation fields to coin balances endpoint, coin price history endpoint, and creator livestream comments endpoint
+
+  Only works with api-key authenticated calls otherwise valuation response is null.
+
+- b41ed41f9: Fix JWT refresh loop on uploads
+
+## 0.5.1
+
+### Patch Changes
+
+- 78df4fc6: Updated to allow for a different base URL for testing
+
+## 0.5.0
+
+### Minor Changes
+
+- e174b53f: Add `getTrend` and `getTrends` for looking up trend coins
+  - `getTrend({ ticker })` — look up a single trend coin by ticker (case-insensitive, server-side)
+  - `getTrends({ name })` — search trend coins by name with pagination
+  - Also exports `TrendCoinResponse` and `TrendsByNameResponse` types for consumers
+
+## 0.4.9
+
+### Patch Changes
+
+- ef523acf: Add new endpoints for trend coins
+
+## 0.4.8
+
+### Patch Changes
+
+- 7dda692d: Add a top-level `getTokenInfo` query export to the coins SDK
+
+## 0.4.7
+
+### Patch Changes
+
+- 0c0d8e85: Add explore wrappers for trending and trend list types
+  Add `getMostValuableAll` wrapper for querying most valuable coins across all coin types
+
+## 0.4.6
+
+### Patch Changes
+
+- Updated dependencies [625684d2]
+- Updated dependencies [50134ebc]
+  - @zoralabs/protocol-deployments@0.7.5
+
+## 0.4.5
+
+### Patch Changes
+
+- Updated dependencies [78dffbdc]
+  - @zoralabs/protocol-deployments@0.7.4
+
+## 0.4.4
+
+### Patch Changes
+
+- Updated dependencies [67d27f1d]
+- Updated dependencies [27f588b2]
+  - @zoralabs/protocol-deployments@0.7.3
+
+## 0.4.3
+
+### Patch Changes
+
+- Updated dependencies [668bfa3c]
+  - @zoralabs/protocol-deployments@0.7.2
+
+## 0.4.2
+
+### Patch Changes
+
+- Updated dependencies [9af2904a]
+  - @zoralabs/protocol-deployments@0.7.1
+
+## 0.4.1
+
+### Patch Changes
+
+- Updated dependencies [5d656794]
+  - @zoralabs/protocol-deployments@0.7.0
+
+## 0.4.0
+
+### Minor Changes
+
+- 40af75bc: Added new profileSocial endpoint, moved poolConfig endpoints to standard queries, and updated docs on smart wallet create key
+
+### Patch Changes
+
+- 9f74986f: Add new leaderboard and featured creators queries
+- Updated dependencies [9391359c]
+  - @zoralabs/protocol-deployments@0.6.5
+
+## 0.3.3
+
+### Patch Changes
+
+- Updated dependencies [3c274d9d]
+  - @zoralabs/protocol-deployments@0.6.4
+
+## 0.3.2
+
+### Patch Changes
+
+- Updated dependencies [131c719a]
+- Updated dependencies [cdaa9d25]
+  - @zoralabs/protocol-deployments@0.6.3
+
+## 0.3.1
+
+### Patch Changes
+
+- 1bd2452c: Fix chainId default setting logic
+
+## 0.3.0
+
+### Minor Changes
+
+- 4819056e: Creator coins can only be created via the Zora app. This SDK allows you to create content coins paired with existing creator coins.
+
+  Create content flow uses server-generated calldata via the SDK API.
+  - **Server-generated calldata**: `createCoinCall` now requests calldata from the SDK API and returns an array of transaction parameters `{ to, data, value }[]` instead of a Viem `SimulateContractParameters` object.
+  - **Direct transaction sending**: `createCoin` constructs and sends the transaction using `walletClient.sendTransaction` with manual gas estimation and an option to skip validation.
+  - **Sanity checks**: Ensures the call targets the expected factory for the specified `chainId` and that no ETH value is sent with this SDK version.
+  - **Smart accounts support**: Compatible with smart accounts thanks to server-generated calldata.
+
+  API changes (breaking changes):
+  - **Args shape updated**
+    - Removed: `initialPurchase`, and `currency: DeployCurrency`.
+    - Renamed: `owners` to `additionalOwners` - adds additional owners to the coin, `payoutRecipient` to `payoutRecipientOverride` overrides the creator as the payout recipient.
+    - Added: `creator: string`, `metadata: { type: 'RAW_URI'; uri: string }`, `currency: ContentCoinCurrency`, `chainId?: number`, `startingMarketCap?: StartingMarketCap`, `platformReferrer?: string`, `skipMetadataValidation?: boolean`.
+    - New types/constants: `ContentCoinCurrency` with runtime constants `CreateConstants.ContentCoinCurrencies` (`CREATOR_COIN`, `ETH`, `ZORA`, `CREATOR_COIN_OR_ZORA`) and `StartingMarketCap` with runtime constants `CreateConstants.StartingMarketCaps` (`LOW`, `HIGH`).
+  - **Removed local pool/hook logic**: Internal pool config selection and prepurchase hook generation are removed and handled by the API.
+  - **Options updated**: `createCoin({ ..., options })` adds `skipValidateTransaction?: boolean` (skips a dry-run call and uses a fixed gas fallback) and continues to accept `account`.
+
+  Migration example
+  Before (main):
+
+  ```ts
+  await createCoin(
+    { name, symbol, uri, payoutRecipient, chainId, currency },
+    walletClient,
+    publicClient,
+  );
+  ```
+
+  After (new):
+
+  ```ts
+  await createCoin({
+    call: {
+      creator,
+      name,
+      symbol,
+      metadata: { type: "RAW_URI", uri },
+      currency: CreateConstants.ContentCoinCurrencies.CREATOR_COIN,
+      chainId,
+      startingMarketCap: CreateConstants.StartingMarketCaps.LOW,
+      platformReferrer,
+    },
+    walletClient,
+    publicClient,
+    options: { skipValidateTransaction: false },
+  });
+  ```
+
+## 0.2.11
+
+### Patch Changes
+
+- a60f441b: Adding new getCoinSwaps and getCoinHolders endpoints
+
+## 0.2.10
+
+### Patch Changes
+
+- Updated dependencies [262d1539]
+  - @zoralabs/protocol-deployments@0.6.2
+
+## 0.2.9
+
+### Patch Changes
+
+- 3c36f8ed: Small documentation and types fixes
+
+## 0.2.8
+
+### Patch Changes
+
+- d8f29ef0: Fixed import paths
+
+## 0.2.7
+
+### Patch Changes
+
+- bd371420: Small trade types fixes
+
+## 0.2.6
+
+### Patch Changes
+
+- 86a3d4f3: Add tradeCoin function to trade creator and content coins
+
+## 0.2.5
+
+### Patch Changes
+
+- 4153eddc: Added metadata uploading feature
+
+## 0.2.4
+
+### Patch Changes
+
+- 3d5f9152: Removing `tradeCoin` function as its currently incompatible with UniswapV4 backed coins
+- d8727949: Add create coin $ZORA initial buy
+
+## 0.2.3
+
+### Patch Changes
+
+- Updated dependencies [9035ce3b]
+  - @zoralabs/protocol-deployments@0.6.1
+
+## 0.2.2
+
+### Patch Changes
+
+- Updated dependencies [73784d07]
+- Updated dependencies [9adcb702]
+- Updated dependencies [9adcb702]
+  - @zoralabs/protocol-deployments@0.6.0
+
+## 0.2.1
+
+### Patch Changes
+
+- aa2bc7cd: Add new backend queries to SDK
+
+## 0.2.0
+
+### Minor Changes
+
+- 74885b84: Support creating uniswap v4 coins
+
+## 0.1.3
+
+### Patch Changes
+
+- Updated dependencies [8cd56863]
+  - @zoralabs/protocol-deployments@0.5.10
+
+## 0.1.2
+
+### Patch Changes
+
+- Updated dependencies [73e95f69]
+- Updated dependencies [0c50e8e7]
+  - @zoralabs/protocol-deployments@0.5.6
+
+## 0.1.1
+
+### Patch Changes
+
+- 9ed0ce76: - Publishing new coins hooks in `@zoralabs/protocol-deployments`
+  - In coins, pulling ISwapRouter from `@zoralabs/shared-contracts`, and updated the shared interface to match the full interface of the ISwapRouter. This new interface is published in `@zoralabs/protocol-deployments`.
+  - Removed publishing of the factory addresses directly in the wagmi config of the coins package, as that's inconsistent with the rest of the packages.
+  - Updated the `@zoralabs/coins-sdk` to use `@zoralabs/protocol-deployments` for abis and addresses, which significantly reduces the dependency tree of it and has it follow the patterns of the other sdk packages.
+- Updated dependencies [9ed0ce76]
+- Updated dependencies [ce3022d8]
+- Updated dependencies [ce3022d8]
+- Updated dependencies [9ed0ce76]
+- Updated dependencies [9ed0ce76]
+  - @zoralabs/protocol-deployments@0.5.5
+
+## 0.1.0
+
+### Minor Changes
+
+- 67356470: Updated to use new low market cap settings on ZORA.co
+
+## 0.0.8
+
+### Patch Changes
+
+- Updated dependencies [265dcbeb]
+  - @zoralabs/coins@0.7.1
+
+## 0.0.7
+
+### Patch Changes
+
+- 529fe6f2: Fix coin create default value
+
+## 0.0.6
+
+### Patch Changes
+
+- Updated dependencies [23f723dd]
+  - @zoralabs/coins@0.7.0
+
+## 0.0.5
+
+### Patch Changes
+
+- 514f8dd4: Added validation to URI used to create a coin matching a JSON object with URIs
+
+## 0.0.4
+
+### Patch Changes
+
+- de700d12: Updated intermediary types in coins-sdk to better handle nulls
+- b08b33ae: Fix multiple coins get and update types
+
+## 0.0.3
+
+### Patch Changes
+
+- Updated dependencies [b9f717db]
+  - @zoralabs/coins@0.6.1
+
+## 0.0.2
+
+### Patch Changes
+
+- d9eb5a40: Initial release
+
+## 0.0.2-sdkalpha.8
+
+### Patch Changes
+
+- Update export pattern for types on queries
+
+## 0.0.2-sdkalpha.7
+
+### Patch Changes
+
+- 8f5d9185: Fix types and exports
+
+## 0.0.2-sdkalpha.6
+
+### Patch Changes
+
+- Properly export set api key
+
+## 0.0.2-sdkalpha.5
+
+### Patch Changes
+
+- Release API changes
+
+## 0.0.2-sdkalpha.4
+
+### Patch Changes
+
+- d8cbf6ea: Update coin sdk structure and offchain functions
+
+## 0.0.2-sdkalpha.3
+
+### Patch Changes
+
+- 60568036: Add offchain data
+
+## 0.0.2-sdkalpha.2
+
+### Patch Changes
+
+- SDK Update
+
+## 0.0.2-sdkalpha.1
+
+### Patch Changes
+
+- Fix package json inclusion
+
+## 0.0.2-sdkalpha.0
+
+### Patch Changes
+
+- 29a34eaf: Introduce Coins SDK
+- Updated dependencies [29a34eaf]
+  - @zoralabs/coins@0.5.1-sdkalpha.0

@@ -1,0 +1,217 @@
+# MVP all-in-one.
+#
+#   docker compose -f docker/compose.yml --profile all     up --build   # full local stack
+#   docker compose -f docker/compose.yml --profile local   up --build   # chain + web only
+#   docker compose -f docker/compose.yml --profile mainnet up --build   # real Avalanche
+#
+# The `indexing` profile stacks on top of `local` or `mainnet` and does NOT run alone:
+# graph-node and the API need a chain endpoint, which one of those profiles provides.
+# `all` is local + indexing, predefined so nobody has to remember the pairing.
+#
+# No testnet profile: Uniswap v4 is not deployed on Fuji.
+name: leak
+
+volumes:
+  runtime:
+  postgres-data:
+  ipfs-data:
+
+services:
+  # ---------------------------------------------------------------- local ---
+  anvil:
+    profiles: ["local", "all"]
+    image: ghcr.io/foundry-rs/foundry:v1.3.5
+    # Forks the exact block the Solidity and SDK test suites pin, so every layer sees
+    # identical chain state. anvil keeps the upstream chain id, 43114.
+    entrypoint:
+      - anvil
+      - --fork-url
+      - "${AVALANCHE_RPC_URL:-https://api.avax.network/ext/bc/C/rpc}"
+      - --fork-block-number
+      - "93821000"
+      - --host
+      - "0.0.0.0"
+      - --port
+      - "8545"
+    ports:
+      - "8545:8545"
+    healthcheck:
+      test: ["CMD", "cast", "block-number", "--rpc-url", "http://127.0.0.1:8545"]
+      interval: 5s
+      timeout: 10s
+      retries: 60
+
+  deployer:
+    profiles: ["local", "all"]
+    build:
+      context: ..
+      dockerfile: docker/deployer/Dockerfile
+    depends_on:
+      anvil:
+        condition: service_healthy
+    environment:
+      RPC_URL: "http://anvil:8545"
+      # anvil's account 0, already unlocked, so no private key is needed.
+      DEPLOYER: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+      # The browser runs outside the docker network, so this must be a host-visible URL.
+      WEB_RPC_URL: "${WEB_RPC_URL:-http://127.0.0.1:8545}"
+      API_URL: "${API_URL:-http://127.0.0.1:8787}"
+    volumes:
+      - runtime:/runtime
+    restart: "no"
+
+  # -------------------------------------------------------------- mainnet ---
+  config-init:
+    profiles: ["mainnet"]
+    image: alpine:3.21
+    entrypoint: ["sh", "/opt/write-config.sh"]
+    environment:
+      # Do not use "${VAR:?}": compose interpolates the ENTIRE file regardless of which
+      # profile is active, so :? here would break `--profile local` too. write-config.sh
+      # is where the requirement belongs.
+      LEAK_FACTORY: "${LEAK_FACTORY:-}"
+      LEAK_FACTORY_DEPLOY_BLOCK: "${LEAK_FACTORY_DEPLOY_BLOCK:-}"
+      WEB_RPC_URL: "${WEB_RPC_URL:-https://api.avax.network/ext/bc/C/rpc}"
+      API_URL: "${API_URL:-http://127.0.0.1:8787}"
+    volumes:
+      - runtime:/runtime
+    restart: "no"
+
+  # ------------------------------------------------------------------ web ---
+  web:
+    profiles: ["local", "mainnet", "all"]
+    build:
+      context: ..
+      dockerfile: apps/web/Dockerfile
+    # The web app reads /runtime/config.json on page load. Starting before that file
+    # exists shows a configuration error and forces a manual reload.
+    depends_on:
+      deployer:
+        condition: service_completed_successfully
+        required: false
+      config-init:
+        condition: service_completed_successfully
+        required: false
+    ports:
+      - "5173:80"
+    volumes:
+      - runtime:/usr/share/nginx/html/runtime:ro
+
+  # ------------------------------------------------------------- indexing ---
+  postgres:
+    profiles: ["indexing", "all"]
+    image: postgres:16-alpine
+    command:
+      - postgres
+      - -cshared_preload_libraries=pg_stat_statements
+      - -cmax_connections=200
+    environment:
+      POSTGRES_USER: graph-node
+      POSTGRES_PASSWORD: let-me-in
+      POSTGRES_DB: graph-node
+      PGDATA: /var/lib/postgresql/data
+      # graph-node requires locale C; anything else and it refuses to start.
+      POSTGRES_INITDB_ARGS: "-E UTF8 --locale=C"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      # Creates a separate `leak_api` database. graph-node owns the `graph-node`
+      # database and manages its schema there; letting the API migrate into it
+      # corrupts both.
+      - ./postgres/initdb:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U graph-node -d graph-node"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  ipfs:
+    profiles: ["indexing", "all"]
+    image: ipfs/kubo:v0.43.0
+    ports:
+      - "5001:5001"
+    volumes:
+      - ipfs-data:/data/ipfs
+    healthcheck:
+      test: ["CMD", "ipfs", "id"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  graph-node:
+    profiles: ["indexing", "all"]
+    image: graphprotocol/graph-node:v0.45.0
+    depends_on:
+      postgres:
+        condition: service_healthy
+      ipfs:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+      - "8020:8020"
+      - "8030:8030"
+    environment:
+      postgres_host: postgres
+      postgres_user: graph-node
+      postgres_pass: let-me-in
+      postgres_db: graph-node
+      ipfs: "ipfs:5001"
+      # The network name on the left MUST match `network: avalanche` in subgraph.template.yaml.
+      ethereum: "avalanche:${GRAPH_ETHEREUM_URL:-http://anvil:8545}"
+      GRAPH_LOG: info
+
+  subgraph-deploy:
+    profiles: ["indexing", "all"]
+    build:
+      context: ..
+      dockerfile: apps/subgraph/Dockerfile
+    depends_on:
+      graph-node:
+        condition: service_started
+      # local profile: real factory addresses must exist before the manifest is rendered.
+      deployer:
+        condition: service_completed_successfully
+        required: false
+    environment:
+      GRAPH_NODE: "http://graph-node:8020"
+      IPFS_URL: "http://ipfs:5001"
+      SUBGRAPH_NAME: "${SUBGRAPH_NAME:-leak/subgraph}"
+      # mainnet profile: there is no deployer, so these come from docker/.env by hand.
+      LEAK_FACTORY: "${LEAK_FACTORY:-}"
+      LEAK_COIN_HOOK: "${LEAK_COIN_HOOK:-}"
+      LEAK_START_BLOCK: "${LEAK_FACTORY_DEPLOY_BLOCK:-}"
+    volumes:
+      - runtime:/runtime:ro
+    restart: "no"
+
+  api:
+    profiles: ["indexing", "all"]
+    build:
+      context: ..
+      dockerfile: apps/api/Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+      ipfs:
+        condition: service_healthy
+      subgraph-deploy:
+        condition: service_completed_successfully
+    ports:
+      - "8787:8787"
+    environment:
+      LEAK_API_PORT: "8787"
+      # A SEPARATE database, not shared with graph-node (see postgres/initdb).
+      LEAK_DATABASE_URL: "postgres://graph-node:let-me-in@postgres:5432/leak_api"
+      # This path must match subgraph-deploy's SUBGRAPH_NAME.
+      LEAK_SUBGRAPH_URL: "http://graph-node:8000/subgraphs/name/${SUBGRAPH_NAME:-leak/subgraph}"
+      LEAK_IPFS_API_URL: "http://ipfs:5001"
+      LEAK_RPC_URL: "${GRAPH_ETHEREUM_URL:-http://anvil:8545}"
+      # Required, minimum 32 characters (apps/api/src/env.ts). Change for real deployments.
+      LEAK_UPLOAD_JWT_SECRET: "${LEAK_UPLOAD_JWT_SECRET:-dev-only-secret-please-change-me-32b}"
+      # Browser origins, NOT hostnames inside the docker network.
+      LEAK_CORS_ORIGINS: "${LEAK_CORS_ORIGINS:-http://127.0.0.1:5173,http://localhost:5173}"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:8787/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s

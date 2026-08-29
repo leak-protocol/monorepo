@@ -1,0 +1,10 @@
+# Default: the repository owner reviews everything.
+*                               @dragunov0x
+
+# Contract changes move real money — they get their own review gate.
+/packages/coins/                @dragunov0x
+/packages/limit-orders/         @dragunov0x
+/packages/coins-deployments/    @dragunov0x
+
+# CI definition: changing it changes what "green" means.
+/.github/workflows/             @dragunov0x

@@ -1,0 +1,9 @@
+packages:
+  - 'packages/*'
+  - 'apps/*'
+  # protocol-deployments cannot build: its copy-generated script reads
+  # ../../legacy/1155-contracts/chainConfigs, a directory from Zora's full monorepo
+  # that was not vendored here. Nothing depends on this package. Excluding it keeps
+  # `pnpm run build` green; the source is untouched, so deleting this line brings it
+  # back.
+  - '!packages/protocol-deployments'

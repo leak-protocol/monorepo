@@ -1,0 +1,71 @@
+specVersion: 1.3.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: LeakFactory
+    network: avalanche
+    source:
+      address: "__LEAK_FACTORY__"
+      abi: LeakFactoryImpl
+      startBlock: __START_BLOCK__
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.9
+      language: wasm/assemblyscript
+      entities:
+        - Coin
+      abis:
+        - name: LeakFactoryImpl
+          file: ./abis/LeakFactoryImpl.json
+      eventHandlers:
+        - event: CoinCreatedV4(indexed address,indexed address,indexed address,address,string,string,string,address,(address,address,uint24,int24,address),bytes32,string)
+          handler: handleCoinCreatedV4
+      file: ./src/factory.ts
+  - kind: ethereum
+    name: LeakCoinHook
+    network: avalanche
+    source:
+      address: "__LEAK_COIN_HOOK__"
+      abi: LeakCoinHook
+      startBlock: __START_BLOCK__
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.9
+      language: wasm/assemblyscript
+      entities:
+        - Coin
+        - Swap
+        - Candle
+        - RewardPayout
+      abis:
+        - name: LeakCoinHook
+          file: ./abis/LeakCoinHook.json
+      eventHandlers:
+        - event: Swapped(indexed address,indexed address,bool,(address,address,uint24,int24,address),indexed bytes32,(bool,int256,uint160),int128,int128,bool,bytes,uint160)
+          handler: handleSwapped
+        - event: CoinMarketRewardsV4(address,address,address,address,address,address,address,(uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256))
+          handler: handleCoinMarketRewardsV4
+      file: ./src/hook.ts
+templates:
+  - kind: ethereum
+    name: LeakCoin
+    network: avalanche
+    source:
+      abi: ContentCoin
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.9
+      language: wasm/assemblyscript
+      entities:
+        - Coin
+        - Holder
+      abis:
+        - name: ContentCoin
+          file: ./abis/ContentCoin.json
+      eventHandlers:
+        - event: CoinTransfer(indexed address,indexed address,uint256,uint256,uint256)
+          handler: handleCoinTransfer
+      file: ./src/coin.ts

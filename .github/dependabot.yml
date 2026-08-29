@@ -1,0 +1,30 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      # Grouped so this does not open twenty pull requests a week.
+      dev-tooling:
+        patterns: ["typescript", "prettier", "vitest", "vite", "tsup", "tsx", "@types/*"]
+    ignore:
+      # viem is pinned in pnpm.overrides (2.53.1) across the whole workspace, and
+      # wagmi 2.19.5 matches that peer range. Letting dependabot bump either one
+      # breaks the install; the pair has to be upgraded together, by hand.
+      - dependency-name: "viem"
+      - dependency-name: "wagmi"
+      # graph-cli and graph-ts must stay compatible with the graph-node image
+      # pinned in docker/compose.yml.
+      - dependency-name: "@graphprotocol/*"
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: monthly
+
+  - package-ecosystem: docker
+    directory: "/docker/deployer"
+    schedule:
+      interval: monthly

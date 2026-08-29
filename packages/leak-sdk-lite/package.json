@@ -1,0 +1,50 @@
+{
+  "name": "@leak/sdk-lite",
+  "version": "0.0.1",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "src/",
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.cjs"
+    }
+  },
+  "scripts": {
+    "build": "tsup && tsc --project tsconfig.build.json --emitDeclarationOnly --declaration --declarationMap --skipLibCheck",
+    "build:js": "pnpm run build",
+    "lint": "prettier --check 'src/**/*.ts' 'test/**/*.ts'",
+    "prettier:write": "prettier --write 'src/**/*.ts' 'test/**/*.ts'",
+    "test": "vitest run test/curves.test.ts test/external-registry.test.ts src",
+    "test:fork": "vitest run test/setup test/actions test/onchain",
+    "test:js": "vitest run test/curves.test.ts test/external-registry.test.ts src",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "abitype": "^1.0.8",
+    "viem": "2.53.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.13.0",
+    "@zoralabs/coins": "workspace:^",
+    "@zoralabs/tsconfig": "workspace:^",
+    "abitype": "^1.0.8",
+    "prettier": "^3.0.3",
+    "tsup": "^8.4.0",
+    "typescript": "^5.2.2",
+    "viem": "2.53.1",
+    "vitest": "^2.0.5"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

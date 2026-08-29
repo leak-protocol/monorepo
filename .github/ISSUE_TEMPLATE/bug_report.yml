@@ -1,0 +1,53 @@
+name: Bug report
+description: Something behaves incorrectly
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For a **security vulnerability**, do not use this form — report it privately.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - contracts (packages/coins, limit-orders)
+        - sdk (leak-sdk, leak-sdk-lite)
+        - api (apps/api)
+        - subgraph (apps/subgraph)
+        - web (apps/web)
+        - docker / deployment
+        - other
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you observed. Not what you think caused it.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: How to reproduce
+      description: Runnable commands, as short as you can make them.
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected instead
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: Environment
+      placeholder: "node v22.x, pnpm 9.0.0, forge 1.3.5, chain 43114 fork @ 93821000"
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or error output, verbatim
+      render: shell

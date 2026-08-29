@@ -1,0 +1,151 @@
+# Five entities. Every @entity carries an `immutable` argument because graph-cli 0.98.1
+# requires it. An entity `id` may only be Bytes!, String! or Int8!.
+
+"""
+A coin created by LeakFactory. Source: CoinCreatedV4.
+id = the coin address.
+"""
+type Coin @entity(immutable: false) {
+  id: Bytes!
+
+  "CoinCreatedV4.caller — the address that created the coin"
+  caller: Bytes!
+  payoutRecipient: Bytes!
+  platformReferrer: Bytes!
+  "The pool's backing currency. address(0) means native AVAX."
+  currency: Bytes!
+  uri: String!
+  name: String!
+  symbol: String!
+  "The coin's IVersionedContract.contractVersion(), taken verbatim from the event"
+  version: String!
+
+  "keccak256(abi.encode(poolKey)). The same value appears in Swapped."
+  poolKeyHash: Bytes!
+  "The five poolKey fields"
+  currency0: Bytes!
+  currency1: Bytes!
+  fee: Int!
+  tickSpacing: Int!
+  hooks: Bytes!
+  "True when the coin is currency0. Determines the direction of price and volume."
+  coinIsToken0: Boolean!
+
+  "18, a constant of BaseCoin"
+  decimals: Int!
+  "Accumulated from CoinTransfer on mint and burn"
+  totalSupply: BigInt!
+  "Number of addresses holding a non-zero balance"
+  holderCount: Int!
+  swapCount: Int!
+  "Total volume denominated in the backing currency, in raw units"
+  volumeCurrency: BigInt!
+  "Coin price in the backing currency, as a raw ratio. See src/price.ts."
+  lastPrice: BigDecimal!
+  lastSqrtPriceX96: BigInt!
+
+  createdAt: BigInt!
+  createdAtBlock: BigInt!
+  createdTx: Bytes!
+
+  swaps: [Swap!]! @derivedFrom(field: "coin")
+  holders: [Holder!]! @derivedFrom(field: "coin")
+  candles: [Candle!]! @derivedFrom(field: "coin")
+  rewardPayouts: [RewardPayout!]! @derivedFrom(field: "coin")
+}
+
+"""
+One swap. Source: Swapped. id = txHash ++ logIndex.
+The event carries no recipient address — none of its eleven parameters is one — so
+`trader` serves as both the sending and the receiving party.
+"""
+type Swap @entity(immutable: true) {
+  id: Bytes!
+  coin: Coin!
+
+  "Swapped.sender — whoever called the PoolManager, usually a router"
+  sender: Bytes!
+  "Swapped.swapSender — the actual trader, resolved by the hook"
+  trader: Bytes!
+  isTrustedSwapSender: Boolean!
+
+  "Swapped.isCoinBuy. The only source of truth for BUY versus SELL direction."
+  isCoinBuy: Boolean!
+  "Swapped.params.zeroForOne"
+  zeroForOne: Boolean!
+  "Swapped.params.amountSpecified, sign preserved"
+  amountSpecified: BigInt!
+
+  "Absolute amount on the coin side"
+  coinAmount: BigInt!
+  "Absolute amount on the currency side"
+  currencyAmount: BigInt!
+  "The two raw deltas with their signs, so a consumer can reconcile if needed"
+  amount0: BigInt!
+  amount1: BigInt!
+
+  "Price after the swap, read from slot0"
+  sqrtPriceX96: BigInt!
+  priceInCurrency: BigDecimal!
+
+  timestamp: BigInt!
+  blockNumber: BigInt!
+  txHash: Bytes!
+  "Log index within the transaction"
+  logIndex: BigInt!
+}
+
+"""
+OHLC candle derived from Swapped. id = "<coin hex>-<interval>-<periodStart>".
+interval is one of "5m", "1h", "1d".
+"""
+type Candle @entity(immutable: false) {
+  id: String!
+  coin: Coin!
+  interval: String!
+  "Start of the bucket, epoch seconds, rounded down to a multiple of the interval"
+  periodStart: BigInt!
+  open: BigDecimal!
+  high: BigDecimal!
+  low: BigDecimal!
+  "Closing price for the bucket"
+  close: BigDecimal!
+  volumeCurrency: BigInt!
+  swapCount: Int!
+}
+
+"""
+One wallet's balance in one coin. Source: CoinTransfer.
+id = coin address ++ owner address.
+"""
+type Holder @entity(immutable: false) {
+  id: Bytes!
+  coin: Coin!
+  "The holding address"
+  owner: Bytes!
+  "Assigned directly from the event, not accumulated"
+  balance: BigInt!
+  updatedAt: BigInt!
+}
+
+"""
+One reward paid to one role. Source: CoinMarketRewardsV4.
+Each event produces up to five rows, one per role with a non-zero amount.
+id = txHash ++ logIndex ++ role index.
+"""
+type RewardPayout @entity(immutable: true) {
+  id: Bytes!
+  coin: Coin!
+  "Currency address taken from the event"
+  currency: Bytes!
+  "creator | platformReferrer | tradeReferrer | protocol | doppler"
+  role: String!
+  recipient: Bytes!
+  amountCurrency: BigInt!
+  "Always 0 on the content-coin path. Kept so the schema need not change later."
+  amountCoin: BigInt!
+  timestamp: BigInt!
+  blockNumber: BigInt!
+  txHash: Bytes!
+  logIndex: BigInt!
+}

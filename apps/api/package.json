@@ -27,13 +27,13 @@
   },
   "devDependencies": {
     "@hey-api/openapi-ts": "0.64.15",
-    "@types/node": "^20.13.0",
+    "@types/node": "^26.3.0",
     "@zoralabs/tsconfig": "workspace:^",
     "drizzle-kit": "0.31.10",
     "prettier": "^3.0.3",
     "tsx": "^4.19.4",
-    "typescript": "^5.8.3",
-    "vitest": "^2.1.9"
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.11"
   },
   "engines": {
     "node": ">=22"

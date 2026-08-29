@@ -23,7 +23,7 @@
     "glob": "^10.2.2",
     "tsup": "^7.2.0",
     "tsx": "^4.19.2",
-    "typescript": "^5.2.2",
+    "typescript": "^7.0.2",
     "viem": "^1.10.0"
   },
   "keywords": [],
@@ -32,6 +32,6 @@
   "devDependencies": {
     "handlebars": "^4.7.8",
     "pathe": "^1.1.2",
-    "@types/node": "^20.0.0"
+    "@types/node": "^26.3.0"
   }
 }

@@ -34,15 +34,15 @@
     "viem": "2.53.1"
   },
   "devDependencies": {
-    "@types/node": "^20.13.0",
+    "@types/node": "^26.3.0",
     "@zoralabs/coins": "workspace:^",
     "@zoralabs/tsconfig": "workspace:^",
     "abitype": "^1.0.8",
     "prettier": "^3.0.3",
     "tsup": "^8.4.0",
-    "typescript": "^5.2.2",
+    "typescript": "^7.0.2",
     "viem": "2.53.1",
-    "vitest": "^2.0.5"
+    "vitest": "^4.1.11"
   },
   "engines": {
     "node": ">=20"

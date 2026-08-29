@@ -54,7 +54,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       # turbo caches by content; persist it between runs to avoid rebuilding everything.
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: .turbo
           key: turbo-${{ runner.os }}-${{ github.sha }}
@@ -107,7 +107,7 @@ jobs:
 
       # Cache fork state by (chain id, block) so later runs do not refetch thousands
       # of storage slots over RPC.
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: ~/.foundry/cache/rpc
           key: foundry-rpc-43114-93821000-${{ github.sha }}

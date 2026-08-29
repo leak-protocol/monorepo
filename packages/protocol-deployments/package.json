@@ -25,7 +25,7 @@
     "lint": "prettier --check 'src/**/*.ts' 'scripts/*'"
   },
   "devDependencies": {
-    "@lavamoat/preinstall-always-fail": "2.0.0",
+    "@lavamoat/preinstall-always-fail": "3.0.0",
     "@types/node": "^20.3.2",
     "@zoralabs/tsconfig": "workspace:^",
     "abitype": "^1.0.2",

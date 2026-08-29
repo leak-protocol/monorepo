@@ -17,13 +17,16 @@ code an addressable unit, and **AI assets** — agents, skills, models, datasets
 changed the shape of the category. Each is independently owned, independently
 forked, independently measured. None has a price.
 
-Leak is two layers. A **token launch platform** that mints supply straight into a
-single Uniswap v4 pool — tradable in the next block, no bonding-curve phase, no
-graduation threshold, no migration. And an **asset tokenization layer** above it
-that classifies an asset, proves ownership, and mints against that proof.
+Leak Protocol is two layers, and the front tier is the one that matters to a
+user. The **asset tokenization layer** classifies a digital asset, proves who owns
+it through the platform that already custodies it, and mints against that proof.
+It also picks what the market settles in.
 
-Layer 1 is permissionless: any platform can tokenize through it without an
-agreement and without depending on a server Leak operates. Curve shape and pair
+Beneath it, a **token launch platform** mints supply straight into a single
+Uniswap v4 pool — tradable in the next block, no bonding-curve phase, no
+graduation threshold, no migration. That layer is permissionless: any platform can
+tokenize through it without an agreement and without depending on a server Leak Protocol
+Protocol operates. Curve shape and pair
 currency are both parameters, so each asset class gets a market built for it, and
 every trade splits across five roles on-chain.
 
@@ -82,7 +85,7 @@ the creator economics on top of it — mandatory, perpetual fee sharing configur
 at launch — and kept the curve and the migration intact, because removing them
 removes the product.
 
-Leak has no threshold because it has no migration. Supply is minted directly into
+Leak Protocol has no threshold because it has no migration. Supply is minted directly into
 the pool as single-sided liquidity, so no counter-currency is needed to open a
 market and the entire cost is one transaction.
 
@@ -146,9 +149,10 @@ Three properties separate that from a pure punt.
 
 ## 4. Architecture
 
-Two layers over the Uniswap v4 singleton. Layer 1 is a public primitive that
-knows nothing about what a token represents. Layer 2 is where the protocol
-acquires meaning, users and liquidity.
+Two layers over the Uniswap v4 singleton, and the stack is read top-down.
+**Layer 2 is the front tier** — where a user arrives and where an asset becomes a
+token. Layer 1 is the settlement tier beneath it: a public primitive that knows
+nothing about what a token represents.
 
 ```
 ┌─ LAYER 2 — Asset tokenization ───────────── verify · onboard · connect ─┐
@@ -196,7 +200,67 @@ builds the same thing.
 
 ---
 
-## 5. Layer 1 — Token launch platform
+## 5. Layer 2 — Asset tokenization
+
+The front tier. Every user arrives here, every asset becomes a token here, and
+every market gets the currency it settles in here. The launch platform underneath
+(§6) is indifferent to what a token represents — this is the layer that decides
+whether any of it is a market or a casino.
+
+| Job | What it does | Why it decides the outcome |
+|---|---|---|
+| **Verify** | reads ownership from the platform that already custodies the asset | a token bound to a proven owner is a different instrument from a token bound to a name anyone can type |
+| **Onboard** | the owner signs in to a platform they already use — no new account, no listing application, no review queue | the acquisition surface is the custodian's existing user base, not ours |
+| **Connect liquidity** | selects the settlement currency and curve mode at mint | the pair sets the ceiling on depth and decides who can trade the asset without an extra hop |
+
+### Verification: three tiers, assigned once
+
+| Tier | Custody source | Proof | Strength |
+|---|---|---|---|
+| **On-chain** | any chain | the connected wallet holds the token | cryptographic |
+| **Verified** | [HuggingFace](https://huggingface.co) · [SeekClaw](https://www.seekclaw.com) · [Skills](https://www.skills.sh/) · [GitHub](https://github.com) · [X](https://x.com/) | the custodian's own auth reports the owner | as strong as that platform |
+| **Attested** | Leak Platform IPFS | the uploader signs the claim | a claim, labelled as one |
+| **Reject** | — | ownership cannot be established | not minted |
+
+The tier is written on-chain and shown wherever the asset appears. Attested is
+never described as verification — that distinction is the product, and collapsing
+it would make every other claim in this document worthless.
+
+### Liquidity: the settlement currency is a Layer 2 decision
+
+Layer 1 exposes the currency as a parameter (§6). Layer 2 chooses it, per asset class,
+and that choice is what connects a coin to capital that already exists rather
+than capital that has to be recruited.
+
+| Settlement class | Examples | Status | What it unlocks |
+|---|---|---:|---|
+| **Native** | AVAX | default | one hop from the chain's base asset; depends on no other market |
+| **Flagship crypto** | BTC.b · HYPE | phase 2 | the deepest non-native books, and holders who never had to acquire AVAX first |
+| **Tokenized equity** | NVDA · SPCX | phase 2 | denominates the coin in a sector — the coin stops being an absolute bet and becomes a **relative** one |
+
+*The registry admits any ERC-20 that clears a depth floor, under the Layer 1
+rules (§6): one hop from the base asset, never the protocol's own token as default.*
+
+> **Why tokenized equity is the interesting one.** An open model quoted in AVAX
+> asks whether people like the model. The same model quoted in **NVDA** asks
+> whether open weights outperform the chip incumbent — a question with a thesis
+> behind it, an existing audience, and a counterparty who already holds the other
+> side. An agent quoted against a software-sector asset asks the same about a
+> category. That instrument does not exist anywhere today, and nothing about it
+> requires new protocol code: it is a currency-registry entry.
+
+### Trust assumptions
+
+| Assumption | Consequence if it breaks |
+|---|---|
+| Custodian auth reports the true owner | tokens minted through that platform are compromised — blast radius is that platform alone, and the tier is on-chain per asset |
+| Ownership at mint is what counts | later transfer, suspension or deletion of the account does not retroactively change the token |
+| No tier conveys a legal claim | tokenizing a repository or a model does not transfer, license or encumber it |
+| Quotes come only from the on-chain quoter | a pool whose hook affects swaps cannot be priced locally, so integrators need an RPC call per quote |
+
+---
+
+## 6. Layer 1 — Token launch platform
 
 ### There is no bonding curve
 
@@ -334,7 +398,7 @@ flag charges them 1%, which is why deploy and first buy are a single transaction
 Multi-recipient fee routing is proven, not speculative: Bags has settled over
 **$5B** of cumulative volume with fee sharing made mandatory at launch, paid to
 designated recipients in perpetuity. The difference here is *what the recipients
-are*. Bags splits to wallets a creator names. Leak splits to **roles defined by a
+are*. Bags splits to wallets a creator names. Leak Protocol splits to **roles defined by a
 function performed** — and one of them has no analogue anywhere: no other
 launchpad pays for the shape of the market, because no other launchpad lets the
 shape vary.
@@ -342,71 +406,12 @@ shape vary.
 **The re-minted 20% never leaves.** An asset's liquidity becomes a function of
 volume already done rather than of anyone's continued willingness to provide it.
 **The third-party leg is the business model:** a platform tokenizing its assets
-through Leak earns 0.20% of notional on everything it brings, with no agreement
+through Leak Protocol earns 0.20% of notional on everything it brings, with no agreement
 to sign and no revenue share to invoice.
 
 An asset doing $50,000 of lifetime volume returns $250 to its owner, $100 to that
 platform, $25 to the protocol, $5 to the curve author, and adds $100 of liquidity
 that can never be removed — against a $0.01 launch cost.
-
----
-
-## 6. Layer 2 — Asset tokenization
-
-Layer 1 is indifferent to what a token represents. Layer 2 is where the protocol
-acquires meaning, users and liquidity — and it is the layer that decides whether
-any of this is a market or a casino.
-
-| Job | What it does | Why it decides the outcome |
-|---|---|---|
-| **Verify** | reads ownership from the platform that already custodies the asset | a token bound to a proven owner is a different instrument from a token bound to a name anyone can type |
-| **Onboard** | the owner signs in to a platform they already use — no new account, no listing application, no review queue | the acquisition surface is the custodian's existing user base, not ours |
-| **Connect liquidity** | selects the settlement currency and curve mode at mint | the pair sets the ceiling on depth and decides who can trade the asset without an extra hop |
-
-### Verification: three tiers, assigned once
-
-| Tier | Custody source | Proof | Strength |
-|---|---|---|---|
-| **On-chain** | any chain | the connected wallet holds the token | cryptographic |
-| **Verified** | [HuggingFace](https://huggingface.co) · [SeekClaw](https://www.seekclaw.com) · [Skills](https://www.skills.sh/) · [GitHub](https://github.com) · [X](https://x.com/) | the custodian's own auth reports the owner | as strong as that platform |
-| **Attested** | Leak Platform IPFS | the uploader signs the claim | a claim, labelled as one |
-| **Reject** | — | ownership cannot be established | not minted |
-
-The tier is written on-chain and shown wherever the asset appears. Attested is
-never described as verification — that distinction is the product, and collapsing
-it would make every other claim in this document worthless.
-
-### Liquidity: the settlement currency is a Layer 2 decision
-
-Layer 1 exposes the currency as a parameter. Layer 2 chooses it, per asset class,
-and that choice is what connects a coin to capital that already exists rather
-than capital that has to be recruited.
-
-| Settlement class | Examples | Status | What it unlocks |
-|---|---|---:|---|
-| **Native** | AVAX | default | one hop from the chain's base asset; depends on no other market |
-| **Flagship crypto** | BTC.b · HYPE | phase 2 | the deepest non-native books, and holders who never had to acquire AVAX first |
-| **Tokenized equity** | NVDA · SPCX | phase 2 | denominates the coin in a sector — the coin stops being an absolute bet and becomes a **relative** one |
-
-*The registry admits any ERC-20 that clears a depth floor, under the Layer 1
-rules: one hop from the base asset, never the protocol's own token as default.*
-
-> **Why tokenized equity is the interesting one.** An open model quoted in AVAX
-> asks whether people like the model. The same model quoted in **NVDA** asks
-> whether open weights outperform the chip incumbent — a question with a thesis
-> behind it, an existing audience, and a counterparty who already holds the other
-> side. An agent quoted against a software-sector asset asks the same about a
-> category. That instrument does not exist anywhere today, and nothing about it
-> requires new protocol code: it is a currency-registry entry.
-
-### Trust assumptions
-
-| Assumption | Consequence if it breaks |
-|---|---|
-| Custodian auth reports the true owner | tokens minted through that platform are compromised — blast radius is that platform alone, and the tier is on-chain per asset |
-| Ownership at mint is what counts | later transfer, suspension or deletion of the account does not retroactively change the token |
-| No tier conveys a legal claim | tokenizing a repository or a model does not transfer, license or encumber it |
-| Quotes come only from the on-chain quoter | a pool whose hook affects swaps cannot be priced locally, so integrators need an RPC call per quote |
 
 ---
 
@@ -446,12 +451,12 @@ deploy an ERC-20 from a sentence, take 20% of pool-level LP fees, over $8B
 cumulative volume — but makes no claim about what the token represents. A
 deployer, not a tokenization layer.
 
-**Zora** is the closest existing mechanism and the honest baseline: a Uniswap v4
-hook, a single-sided multi-curve ladder, a 1% pool fee, a dynamic launch fee.
-Threshold-free launching is not claimed here as an invention — Zora shipped it.
-What Zora does not do is bind a coin to an asset held by a platform it does not
-own, expose curve shape as a caller-supplied parameter, or let an integrator
-build without routing through its infrastructure.
+**Media-coin launchpads** are the closest existing category, and threshold-free
+launching is not claimed here as an invention — that pattern has already shipped.
+What none of them do is bind a coin to an asset held by a platform they do not own,
+expose curve shape as a caller-supplied parameter, or let an integrator build
+without routing through their infrastructure. Those three are where Leak Protocol
+differs, and they are the only claims made here.
 
 **The Arena** is the evidence the audience exists on this chain: 200,000+
 registered users, $450M+ volume and 35,000+ AVAX in fees within two months of
@@ -498,7 +503,7 @@ required for the protocol to function.
 |---|---|
 | **Layer 1** | Permissionless launch platform on Avalanche mainnet. Multicurve and lockable multicurve live, five-way fee split settling on-chain, curve and currency registries deployed. Anyone can call `deploy` without asking. |
 | **Layer 2** | Custodian-verified tokenization for **Agents**, **Skills**, **GitHub repositories**, **X posts** and **Short Media** — ownership proven at mint, tier written on-chain. |
-| **SDK** | **Both layers published as open interfaces.** A third party can launch a market through Layer 1 and verify ownership through Layer 2 from their own front end, building every call client-side — no API key, no allowlist, and no Leak-operated server anywhere in the path. |
+| **SDK** | **Both layers published as open interfaces.** A third party can launch a market through Layer 1 and verify ownership through Layer 2 from their own front end, building every call client-side — no API key, no allowlist, and no server operated by Leak Protocol anywhere in the path. |
 | **Assurance** | Third-party audit published; contracts verified on the explorer. |
 
 ### Phase 2 — Wider assets, wider money
@@ -508,4 +513,4 @@ required for the protocol to function.
 | **Layer 1** | Dynamic Dutch and Fixed price modes. **Curve authoring opened as a public role** — anyone can publish a mode and earn 0.01% of the notional volume of every coin launched with it. |
 | **Layer 2** | **HuggingFace** models and datasets; **NFT**. |
 | **Currency** | Settlement opened well beyond AVAX: **USDC** for a stable unit, **BTC.b** and **HYPE** for the deepest crypto books, and **tokenized equities** — NVDA, SPCX — so an asset can be quoted against the sector it competes with. |
-| **Governance** | LEAK admitted as an *optional* pair currency. Never the default, for the reason given in §5. |
+| **Governance** | LEAK admitted as an *optional* pair currency. Never the default, for the reason given in §6. |

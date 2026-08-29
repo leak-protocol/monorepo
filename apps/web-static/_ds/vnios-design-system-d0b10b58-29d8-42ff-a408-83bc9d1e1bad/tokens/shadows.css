@@ -1,0 +1,45 @@
+/* ─── VNIOS Shadow Tokens ────────────────────────────────────────── */
+
+:root {
+  /* ─── Elevation shadows ─────────────────────────────────────────── */
+  /* xs: Very subtle — inputs, table rows */
+  --shadow-xs:    0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+
+  /* sm: Cards, dropdowns */
+  --shadow-sm:    0px 1px 2px 0px rgba(16, 24, 40, 0.06),
+                  0px 1px 3px 0px rgba(16, 24, 40, 0.10);
+
+  /* md: Popovers, tooltips */
+  --shadow-md:    0px 2px 4px -2px rgba(16, 24, 40, 0.06),
+                  0px 4px 8px -2px rgba(16, 24, 40, 0.10);
+
+  /* lg: Modals, sidebars */
+  --shadow-lg:    0px 4px 6px -2px rgba(16, 24, 40, 0.03),
+                  0px 12px 16px -4px rgba(16, 24, 40, 0.08);
+
+  /* xl: Large overlays */
+  --shadow-xl:    0px 8px 8px -4px rgba(16, 24, 40, 0.03),
+                  0px 20px 24px -4px rgba(16, 24, 40, 0.08);
+
+  /* 2xl: Full-screen overlays */
+  --shadow-2xl:   0px 24px 48px -12px rgba(16, 24, 40, 0.18);
+
+  /* 3xl: Hero depth */
+  --shadow-3xl:   0px 32px 64px -12px rgba(16, 24, 40, 0.14);
+
+  /* ─── Focus rings ───────────────────────────────────────────────── */
+  --ring-brand:   0px 0px 0px 4px rgba(21, 112, 239, 0.24);
+  --ring-blue:    0px 0px 0px 4px rgba(46, 144, 250, 0.24);
+  --ring-gray:    0px 0px 0px 4px rgba(152, 162, 179, 0.14);
+  --ring-error:   0px 0px 0px 4px rgba(240, 68, 56, 0.24);
+  --ring-success: 0px 0px 0px 4px rgba(18, 183, 106, 0.24);
+  --ring-warning: 0px 0px 0px 4px rgba(247, 144, 9, 0.24);
+
+  /* ─── Blur effects ──────────────────────────────────────────────── */
+  --blur-sm:  4px;
+  --blur-md:  8px;
+  --blur-lg:  16px;
+  --blur-xl:  24px;
+  --blur-2xl: 40px;
+  --blur-3xl: 64px;
+}

@@ -1,0 +1,32 @@
+/* ─── VNIOS Border Tokens ────────────────────────────────────────── */
+
+:root {
+  /* ─── Border radius ─────────────────────────────────────────────── */
+  --radius-none:  0px;
+  --radius-xxs:   2px;
+  --radius-xs:    4px;
+  --radius-sm:    6px;
+  --radius-md:    8px;    /* default: buttons, inputs, cards */
+  --radius-lg:    10px;
+  --radius-xl:    12px;
+  --radius-2xl:   16px;
+  --radius-3xl:   20px;
+  --radius-4xl:   24px;
+  --radius-full:  9999px; /* pill / avatar */
+
+  /* ─── Border widths ─────────────────────────────────────────────── */
+  --border-width-none: 0px;
+  --border-width:      1px;
+  --border-width-2:    2px;
+
+  /* ─── Component-specific ────────────────────────────────────────── */
+  --btn-radius:     var(--radius-md);
+  --input-radius:   var(--radius-md);
+  --card-radius:    var(--radius-xl);
+  --badge-radius:   var(--radius-full);
+  --tag-radius:     var(--radius-md);
+  --avatar-radius:  var(--radius-full);
+  --tooltip-radius: var(--radius-md);
+  --modal-radius:   var(--radius-2xl);
+  --dropdown-radius: var(--radius-md);
+}

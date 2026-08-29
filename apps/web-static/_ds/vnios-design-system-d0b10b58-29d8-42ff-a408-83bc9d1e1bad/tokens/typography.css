@@ -1,0 +1,101 @@
+/* ─── VNIOS Typography Tokens ────────────────────────────────────── */
+/* Primary: Inter | Mono: Roboto Mono                                  */
+
+:root {
+  /* ─── Font Families ─────────────────────────────────────────────── */
+  --font-sans:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono:    'Roboto Mono', 'SF Mono', 'Fira Code', 'Fira Mono', 'Droid Sans Mono', monospace;
+
+  /* ─── Font Weights ──────────────────────────────────────────────── */
+  --font-thin:        100;
+  --font-extralight:  200;
+  --font-light:       300;
+  --font-regular:     400;
+  --font-medium:      500;
+  --font-semibold:    600;
+  --font-bold:        700;
+  --font-extrabold:   800;
+  --font-black:       900;
+
+  /* ─── Text Scale ────────────────────────────────────────────────── */
+  /* xxs: 10px / 16px — micro labels, badges, captions */
+  --text-xxs-size:     10px;
+  --text-xxs-height:   16px;
+  --text-xxs-tracking: 0em;
+
+  /* xs: 12px / 18px */
+  --text-xs-size:     12px;
+  --text-xs-height:   18px;
+  --text-xs-tracking: 0em;
+
+  /* sm: 14px / 20px */
+  --text-sm-size:     14px;
+  --text-sm-height:   20px;
+  --text-sm-tracking: 0em;
+
+  /* md: 16px / 24px */
+  --text-md-size:     16px;
+  --text-md-height:   24px;
+  --text-md-tracking: 0em;
+
+  /* lg: 18px / 28px */
+  --text-lg-size:     18px;
+  --text-lg-height:   28px;
+  --text-lg-tracking: 0em;
+
+  /* xl: 20px / 30px */
+  --text-xl-size:     20px;
+  --text-xl-height:   30px;
+  --text-xl-tracking: 0em;
+
+  /* ─── Display Scale ─────────────────────────────────────────────── */
+  /* Display xs: 24px / 32px */
+  --display-xs-size:     24px;
+  --display-xs-height:   32px;
+  --display-xs-tracking: 0em;
+
+  /* Display sm: 30px / 38px */
+  --display-sm-size:     30px;
+  --display-sm-height:   38px;
+  --display-sm-tracking: 0em;
+
+  /* Display md: 36px / 44px */
+  --display-md-size:     36px;
+  --display-md-height:   44px;
+  --display-md-tracking: -0.02em;
+
+  /* Display lg: 48px / 60px */
+  --display-lg-size:     48px;
+  --display-lg-height:   60px;
+  --display-lg-tracking: -0.02em;
+
+  /* Display xl: 60px / 72px */
+  --display-xl-size:     60px;
+  --display-xl-height:   72px;
+  --display-xl-tracking: -0.02em;
+
+  /* Display 2xl: 72px / 90px */
+  --display-2xl-size:     72px;
+  --display-2xl-height:   90px;
+  --display-2xl-tracking: -0.02em;
+}
+
+/* ─── Utility Classes ───────────────────────────────────────────── */
+.text-xxs  { font-size: var(--text-xxs-size);     line-height: var(--text-xxs-height);     letter-spacing: var(--text-xxs-tracking); }
+.text-xs   { font-size: var(--text-xs-size);      line-height: var(--text-xs-height);      letter-spacing: var(--text-xs-tracking); }
+.text-sm   { font-size: var(--text-sm-size);      line-height: var(--text-sm-height);      letter-spacing: var(--text-sm-tracking); }
+.text-md   { font-size: var(--text-md-size);      line-height: var(--text-md-height);      letter-spacing: var(--text-md-tracking); }
+.text-lg   { font-size: var(--text-lg-size);      line-height: var(--text-lg-height);      letter-spacing: var(--text-lg-tracking); }
+.text-xl   { font-size: var(--text-xl-size);      line-height: var(--text-xl-height);      letter-spacing: var(--text-xl-tracking); }
+
+.display-xs  { font-size: var(--display-xs-size);   line-height: var(--display-xs-height);   letter-spacing: var(--display-xs-tracking); }
+.display-sm  { font-size: var(--display-sm-size);   line-height: var(--display-sm-height);   letter-spacing: var(--display-sm-tracking); }
+.display-md  { font-size: var(--display-md-size);   line-height: var(--display-md-height);   letter-spacing: var(--display-md-tracking); }
+.display-lg  { font-size: var(--display-lg-size);   line-height: var(--display-lg-height);   letter-spacing: var(--display-lg-tracking); }
+.display-xl  { font-size: var(--display-xl-size);   line-height: var(--display-xl-height);   letter-spacing: var(--display-xl-tracking); }
+.display-2xl { font-size: var(--display-2xl-size);  line-height: var(--display-2xl-height);  letter-spacing: var(--display-2xl-tracking); }
+
+.font-regular  { font-weight: var(--font-regular); }
+.font-medium   { font-weight: var(--font-medium); }
+.font-semibold { font-weight: var(--font-semibold); }
+.font-bold     { font-weight: var(--font-bold); }

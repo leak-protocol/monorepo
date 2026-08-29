@@ -1,0 +1,204 @@
+/* ─── VNIOS Color Tokens ─────────────────────────────────────────── */
+/* Generated from Figma UI DESIGN SYSTEM.fig                          */
+
+:root {
+  /* ─── White / Black ─────────────────────────────────────────────── */
+  --white: #FFFFFF;
+  --black: #000000;
+
+  /* ─── Gray (Neutral) ────────────────────────────────────────────── */
+  --gray-25:  #FCFCFD;
+  --gray-50:  #F9FAFB;
+  --gray-100: #F2F4F7;
+  --gray-200: #E4E7EC;
+  --gray-300: #D0D5DD;
+  --gray-400: #98A2B3;
+  --gray-500: #667085;
+  --gray-600: #475467;
+  --gray-700: #344054;
+  --gray-800: #1D2939;
+  --gray-900: #101828;
+
+  /* ─── Brand / Blue (VNIOS primary brand — customised from Untitled UI default) ── */
+  --brand-25:  #F5FBFF;
+  --brand-50:  #EFF8FF;
+  --brand-100: #D1E9FF;
+  --brand-200: #B2DDFF;
+  --brand-300: #84CAFF;
+  --brand-400: #53B1FD;
+  --brand-500: #2E90FA;
+  --brand-600: #1570EF;  /* primary brand — rgb(21,112,239) — 1260× in Figma */
+  --brand-700: #175CD3;
+  --brand-800: #1849A9;
+  --brand-900: #194185;
+
+  /* ─── Blue (alias — same ramp as brand for semantic use) ────────── */
+  --blue-25:  var(--brand-25);
+  --blue-50:  var(--brand-50);
+  --blue-100: var(--brand-100);
+  --blue-200: var(--brand-200);
+  --blue-300: var(--brand-300);
+  --blue-400: var(--brand-400);
+  --blue-500: var(--brand-500);
+  --blue-600: var(--brand-600);
+  --blue-700: var(--brand-700);
+  --blue-800: var(--brand-800);
+  --blue-900: var(--brand-900);
+
+  /* ─── Purple → aliased to brand blue (purple replaced with equivalent blue steps) ── */
+  --purple-25:  var(--brand-25);
+  --purple-50:  var(--brand-50);
+  --purple-100: var(--brand-100);
+  --purple-200: var(--brand-200);
+  --purple-300: var(--brand-300);
+  --purple-400: var(--brand-400);
+  --purple-500: var(--brand-500);
+  --purple-600: var(--brand-600);
+  --purple-700: var(--brand-700);
+  --purple-800: var(--brand-800);
+  --purple-900: var(--brand-900);
+
+  /* ─── Error / Red ───────────────────────────────────────────────── */
+  --error-25:  #FFFBFA;
+  --error-50:  #FEF3F2;
+  --error-100: #FEE4E2;
+  --error-200: #FECDCA;
+  --error-300: #FDA29B;
+  --error-400: #F97066;
+  --error-500: #F04438;
+  --error-600: #D92D20;
+  --error-700: #B42318;
+  --error-800: #912018;
+  --error-900: #7A271A;
+
+  /* ─── Warning / Yellow ──────────────────────────────────────────── */
+  --warning-25:  #FFFCF5;
+  --warning-50:  #FFFAEB;
+  --warning-100: #FEF0C7;
+  --warning-200: #FEDF89;
+  --warning-300: #FEC84B;
+  --warning-400: #FDB022;
+  --warning-500: #F79009;
+  --warning-600: #DC6803;
+  --warning-700: #B54708;
+  --warning-800: #93370D;
+  --warning-900: #7A2E0E;
+
+  /* ─── Success / Green ───────────────────────────────────────────── */
+  --success-25:  #F6FEF9;
+  --success-50:  #ECFDF3;
+  --success-100: #D1FADF;
+  --success-200: #A9EFC5;
+  --success-300: #6CE9A6;
+  --success-400: #32D583;
+  --success-500: #12B76A;
+  --success-600: #039855;
+  --success-700: #027A48;
+  --success-800: #05603A;
+  --success-900: #054F31;
+
+  /* ─── Orange ────────────────────────────────────────────────────── */
+  --orange-25:  #FFF9F5;
+  --orange-50:  #FFF4ED;
+  --orange-100: #FFE6D5;
+  --orange-200: #FED2AA;
+  --orange-300: #FEB273;
+  --orange-400: #FD853A;
+  --orange-500: #FB6514;
+  --orange-600: #EC4A0A;
+  --orange-700: #C4320A;
+  --orange-800: #9C2A10;
+  --orange-900: #771A0D;
+
+  /* ─── Semantic: Text ────────────────────────────────────────────── */
+  --text-primary:           var(--gray-900);
+  --text-secondary:         var(--gray-700);
+  --text-tertiary:          var(--gray-600);
+  --text-quaternary:        var(--gray-500);
+  --text-placeholder:       var(--gray-500);
+  --text-disabled:          var(--gray-400);
+  --text-white:             var(--white);
+  --text-brand-primary:     var(--brand-900);
+  --text-brand-secondary:   var(--brand-700);
+  --text-brand-tertiary:    var(--brand-600);
+  --text-error-primary:     var(--error-600);
+  --text-warning-primary:   var(--warning-600);
+  --text-success-primary:   var(--success-600);
+
+  /* ─── Semantic: Background ──────────────────────────────────────── */
+  --bg-primary:             var(--white);
+  --bg-primary-alt:         var(--white);
+  --bg-secondary:           var(--gray-50);
+  --bg-secondary-alt:       var(--gray-50);
+  --bg-tertiary:            var(--gray-100);
+  --bg-disabled:            var(--gray-100);
+  --bg-disabled-subtle:     var(--gray-50);
+  --bg-overlay:             var(--gray-900);
+  --bg-brand-primary:       var(--brand-50);
+  --bg-brand-secondary:     var(--brand-100);
+  --bg-brand-solid:         var(--brand-600);
+  --bg-brand-solid-hover:   var(--brand-700);
+  --bg-interactive:         var(--blue-600);
+  --bg-interactive-hover:   var(--blue-700);
+  --bg-error-primary:       var(--error-50);
+  --bg-error-secondary:     var(--error-100);
+  --bg-error-solid:         var(--error-600);
+  --bg-warning-primary:     var(--warning-50);
+  --bg-warning-secondary:   var(--warning-100);
+  --bg-warning-solid:       var(--warning-600);
+  --bg-success-primary:     var(--success-50);
+  --bg-success-secondary:   var(--success-100);
+  --bg-success-solid:       var(--success-600);
+
+  /* ─── Semantic: Border ──────────────────────────────────────────── */
+  --border-primary:         var(--gray-300);
+  --border-secondary:       var(--gray-200);
+  --border-tertiary:        var(--gray-100);
+  --border-disabled:        var(--gray-300);
+  --border-disabled-subtle: var(--gray-200);
+  --border-brand:           var(--brand-300);
+  --border-brand-solid:     var(--brand-600);
+  --border-error:           var(--error-300);
+  --border-error-solid:     var(--error-600);
+  --border-warning:         var(--warning-300);
+  --border-warning-solid:   var(--warning-600);
+  --border-success:         var(--success-300);
+  --border-success-solid:   var(--success-600);
+
+  /* ─── Semantic: Foreground ──────────────────────────────────────── */
+  --fg-primary:             var(--gray-900);
+  --fg-secondary:           var(--gray-700);
+  --fg-tertiary:            var(--gray-600);
+  --fg-quaternary:          var(--gray-500);
+  --fg-quinary:             var(--gray-400);
+  --fg-senary:              var(--gray-300);
+  --fg-white:               var(--white);
+  --fg-disabled:            var(--gray-400);
+  --fg-disabled-subtle:     var(--gray-300);
+  --fg-brand-primary:       var(--brand-600);
+  --fg-brand-secondary:     var(--brand-500);
+  --fg-error-primary:       var(--error-600);
+  --fg-error-secondary:     var(--error-500);
+  --fg-warning-primary:     var(--warning-600);
+  --fg-warning-secondary:   var(--warning-500);
+  --fg-success-primary:     var(--success-600);
+  --fg-success-secondary:   var(--success-500);
+}
+
+/* ─── Dark Mode ─────────────────────────────────────────────────── */
+[data-theme="dark"], .dark {
+  --bg-primary:             #0C111D;
+  --bg-primary-alt:         var(--gray-900);
+  --bg-secondary:           var(--gray-900);
+  --bg-secondary-alt:       #1F242F;
+  --bg-tertiary:            #1F242F;
+  --text-primary:           var(--white);
+  --text-secondary:         var(--gray-300);
+  --text-tertiary:          var(--gray-400);
+  --text-quaternary:        var(--gray-500);
+  --border-primary:         #1F242F;
+  --border-secondary:       #161B26;
+  --fg-primary:             var(--white);
+  --fg-secondary:           var(--gray-300);
+  --fg-tertiary:            var(--gray-400);
+}

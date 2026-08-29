@@ -1,0 +1,23 @@
+/* Generated from Figma Variables. First mode = :root default.
+   FLOAT tokens are unitless — multiply by 1px in calc() where a length is needed. */
+
+:root {
+  --colors-background-bg-primary-alt: var(--colors-base-white); /* @kind color */
+  --colors-background-bg-secondary: var(--colors-gray-light-mode-50); /* @kind color */
+  --colors-base-white: rgb(255,255,255); /* @kind color */
+  --colors-border-border-primary: var(--colors-gray-light-mode-300); /* @kind color */
+  --colors-gray-dark-mode-700: rgb(55,58,65); /* @kind color */
+  --colors-gray-dark-mode-900: rgb(19,22,27); /* @kind color */
+  --colors-gray-light-mode-300: rgb(213,215,218); /* @kind color */
+  --colors-gray-light-mode-50: rgb(250,250,250); /* @kind color */
+  --font-size-text-sm: 14;
+  --radius-none: 0;
+  --spacing-3xl: var(--spacing-6-24px);
+  --spacing-6-24px: 24;
+}
+
+:root[data-theme="dark"], .dark {
+  --colors-background-bg-primary-alt: var(--colors-background-bg-secondary); /* @kind color */
+  --colors-background-bg-secondary: var(--colors-gray-dark-mode-900); /* @kind color */
+  --colors-border-border-primary: var(--colors-gray-dark-mode-700); /* @kind color */
+}

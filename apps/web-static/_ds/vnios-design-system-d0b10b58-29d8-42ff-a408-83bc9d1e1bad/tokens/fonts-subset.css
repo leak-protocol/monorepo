@@ -1,0 +1,25 @@
+/* Subset of tokens/fonts.css: only the weights whose .ttf files are
+   present in this project copy. The full sheet declares 44 faces against
+   files we do not ship, which 404 at runtime and in the static export. */
+/* ─── VNIOS Web Font Declarations ────────────────────────────────── */
+/* Inter (primary) + Roboto Mono (code)                                */
+/* Font files sourced from uploads/ — move to fonts/ for production    */
+
+/* ─── Inter 24pt (Body — 14–24px) ──────────────────────────────── */
+@font-face { font-family: 'Inter'; font-style: normal;  font-weight: 400; font-display: swap; src: url('../uploads/Inter_24pt-Regular.ttf')        format('truetype'); }
+@font-face { font-family: 'Inter'; font-style: normal;  font-weight: 500; font-display: swap; src: url('../uploads/Inter_24pt-Medium.ttf')         format('truetype'); }
+@font-face { font-family: 'Inter'; font-style: normal;  font-weight: 600; font-display: swap; src: url('../uploads/Inter_24pt-SemiBold.ttf')       format('truetype'); }
+@font-face { font-family: 'Inter'; font-style: normal;  font-weight: 700; font-display: swap; src: url('../uploads/Inter_24pt-Bold.ttf')           format('truetype'); }
+
+/* ─── Inter 18pt (Small text — 12–14px) ─────────────────────────── */
+@font-face { font-family: 'Inter 18pt'; font-style: normal;  font-weight: 400; font-display: swap; src: url('../uploads/Inter_18pt-Regular.ttf')        format('truetype'); }
+@font-face { font-family: 'Inter 18pt'; font-style: normal;  font-weight: 500; font-display: swap; src: url('../uploads/Inter_18pt-Medium.ttf')         format('truetype'); }
+@font-face { font-family: 'Inter 18pt'; font-style: normal;  font-weight: 600; font-display: swap; src: url('../uploads/Inter_18pt-SemiBold.ttf')       format('truetype'); }
+
+/* ─── Inter 28pt (Display — 28px+) ─────────────────────────────── */
+@font-face { font-family: 'Inter 28pt'; font-style: normal;  font-weight: 600; font-display: swap; src: url('../uploads/Inter_28pt-SemiBold.ttf')       format('truetype'); }
+@font-face { font-family: 'Inter 28pt'; font-style: normal;  font-weight: 700; font-display: swap; src: url('../uploads/Inter_28pt-Bold.ttf')           format('truetype'); }
+
+/* ─── Roboto Mono (Code / Monospace) ────────────────────────────── */
+@font-face { font-family: 'Roboto Mono'; font-style: normal;  font-weight: 400; font-display: swap; src: url('../uploads/RobotoMono-Regular.ttf')           format('truetype'); }
+@font-face { font-family: 'Roboto Mono'; font-style: normal;  font-weight: 500; font-display: swap; src: url('../uploads/RobotoMono-Medium.ttf')            format('truetype'); }

@@ -1,0 +1,39 @@
+/* ─── VNIOS Design System — Global Stylesheet ────────────────────── */
+/* One-line import for consuming projects.                              */
+/* Source: uploads/UI DESIGN SYSTEM.fig                               */
+
+/* Subset: this project copy ships 11 of the 44 declared .ttf files, and the
+   other 33 faces 404 at runtime and break the static export. */
+@import './tokens/fonts-subset.css';
+@import './tokens/colors.css';
+@import './tokens/typography.css';
+@import './tokens/spacing.css';
+@import './tokens/shadows.css';
+@import './tokens/borders.css';
+@import './tokens/fig-tokens.css';
+/* Dropped: fig-assets.css maps 55 DS stock photos in assets/, a folder this
+   project copy does not ship. None of its classes are used, and every rule
+   404s at runtime and blocks the static export. */
+
+/* ─── Base reset / body defaults ────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-md-size);
+  line-height: var(--text-md-height);
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+a { color: var(--blue-600); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+code, pre, kbd, samp {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}

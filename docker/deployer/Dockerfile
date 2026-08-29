@@ -11,7 +11,7 @@ WORKDIR /repo
 COPY . .
 RUN pnpm install --frozen-lockfile --ignore-scripts
 
-FROM ghcr.io/foundry-rs/foundry:v1.3.5
+FROM ghcr.io/foundry-rs/foundry:v1.8.1
 USER root
 WORKDIR /repo
 # The path stays /repo, so pnpm's symlinks still resolve.

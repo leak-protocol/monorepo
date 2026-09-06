@@ -91,6 +91,25 @@ Work backwards from the two numbers a product person actually has: **starting FD
 Ticks must be multiples of the pool's `tickSpacing` (200). Both presets use round
 hundreds for this reason.
 
+## Modes beyond multicurve
+
+Everything above describes the **multicurve** mode, the only algorithm implemented
+today. `LEAK_MEME` and `LEAK_STABLE` are two parameter sets of that one mode, not two
+modes.
+
+Three further modes are specified but not built:
+
+| Mode | Shape | Fits |
+|---|---|---|
+| **Lockable multicurve** | multicurve plus a permanently locked LP position, signalling liquidity cannot be pulled | assets sold on trust — datasets, skills, long support horizons |
+| **Dynamic Dutch** | price decays each epoch until demand meets it, then ratchets up | assets with no obvious opening price — new models, first-run agents |
+| **Fixed price** | one price until the depth target fills, then a flat book | assets with an externally set value — NFTs, licensed models |
+
+A mode is an encoding of `poolConfig`, so adding one is a new configuration rather than
+a contract upgrade or a governance vote. Whoever authors the mode a coin launches with
+earns 0.01% of that coin's notional volume for the life of the market — see
+[`fees.md`](fees.md).
+
 ## Verifying before you deploy
 
 `tools/curve/` recomputes tick ranges and the liquidity ladder in Python, independently of

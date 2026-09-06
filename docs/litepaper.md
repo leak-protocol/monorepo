@@ -11,11 +11,14 @@ Digital RWA · Avalanche C-Chain · Uniswap v4
 Any digital asset with a provable owner becomes a token with a live market, in
 one transaction, for about a cent.
 
-**Digital RWA** is the asset class: real assets, real owners, real demand
-signals, no legal wrapper. Media and social interaction came first, GitHub made
-code an addressable unit, and **AI assets** — agents, skills, models, datasets —
-changed the shape of the category. Each is independently owned, independently
-forked, independently measured. None has a price.
+**AI assets lead the class.** Agents, models, skills and datasets became
+individually owned, individually forked and individually measured products in
+under two years — and none of them has a price. Repositories, social posts and
+short media sit in the same class and arrive the same way, but the AI end is
+where the supply is growing fastest and where the funding gap is widest.
+
+**Digital RWA** is the class itself: real assets, real owners, real demand
+signals, no legal wrapper.
 
 Leak Protocol is two layers, and the front tier is the one that matters to a
 user. The **asset tokenization layer** classifies a digital asset, proves who owns
@@ -36,6 +39,15 @@ every trade splits across five roles on-chain.
 | **0s** | wait before the first trade |
 | **5** | roles paid from one 1% fee |
 | **0.198%** | of graduation-model launches ever reach a market |
+
+> **The protocol earns from use, not from its own token.** Every role in §6 is paid
+> a share of a fee that only exists because someone traded. There is no emission
+> schedule holding the model up, no treasury sale in the plan, and no point at
+> which the protocol needs its token to be worth something in order to keep
+> running. Operating cost is a handful of contracts and an indexer; the volume
+> that covers it is a fraction of what this chain already does. That is what makes
+> it a **layer other products can build on** rather than a product competing with
+> them.
 
 ---
 
@@ -109,6 +121,7 @@ legal wrapper.**
 | **Model, dataset** | [HuggingFace](https://huggingface.co) | platform auth | downloads, forks |
 | Repository | [GitHub](https://github.com) | platform auth | stars, forks |
 | Social post | [X](https://x.com/) | platform auth | reach |
+| Social post, image | [Instagram](https://instagram.com) | platform auth | reach, saves |
 | Short media — image, video | Leak Platform IPFS | uploader attestation | views |
 | NFT | any chain | **the chain itself** | floor, holders |
 
@@ -212,19 +225,79 @@ whether any of it is a market or a casino.
 | **Verify** | reads ownership from the platform that already custodies the asset | a token bound to a proven owner is a different instrument from a token bound to a name anyone can type |
 | **Onboard** | the owner signs in to a platform they already use — no new account, no listing application, no review queue | the acquisition surface is the custodian's existing user base, not ours |
 | **Connect liquidity** | selects the settlement currency and curve mode at mint | the pair sets the ceiling on depth and decides who can trade the asset without an extra hop |
+| **Admit** | reads the custodian's public signal against a published threshold; below it, a free review queue | a cent per mint is low enough that nothing else keeps ten thousand empty markets out |
 
 ### Verification: three tiers, assigned once
 
 | Tier | Custody source | Proof | Strength |
 |---|---|---|---|
 | **On-chain** | any chain | the connected wallet holds the token | cryptographic |
-| **Verified** | [HuggingFace](https://huggingface.co) · [SeekClaw](https://www.seekclaw.com) · [Skills](https://www.skills.sh/) · [GitHub](https://github.com) · [X](https://x.com/) | the custodian's own auth reports the owner | as strong as that platform |
+| **Verified** | [HuggingFace](https://huggingface.co) · [SeekClaw](https://www.seekclaw.com) · [Skills](https://www.skills.sh/) · [GitHub](https://github.com) · [X](https://x.com/) · [Instagram](https://instagram.com) | the custodian's own auth reports the owner | as strong as that platform |
 | **Attested** | Leak Platform IPFS | the uploader signs the claim | a claim, labelled as one |
 | **Reject** | — | ownership cannot be established | not minted |
 
 The tier is written on-chain and shown wherever the asset appears. Attested is
 never described as verification — that distinction is the product, and collapsing
 it would make every other claim in this document worthless.
+
+### Admission: signal first, queue second
+
+Verification establishes *who owns the asset*. It says nothing about whether the
+asset is worth a market. Minting one costs a cent, which is low enough that
+nothing stops an address from opening ten thousand of them.
+
+So admission runs on the signal the custodian already publishes, and the
+thresholds are public.
+
+| Path | Condition | Wait |
+|---|---|---|
+| **Automatic** | the custodian's public signal clears the published threshold for that class — followers, installs, stars, downloads | none |
+| **Queue** | below the threshold | reviewed in order, free |
+| **Priority** | a protocol tip | reviewed sooner |
+
+An asset that already carries a public audience has been verified by the world
+before it arrives here; there is nothing a reviewer adds. Everything else needs a
+person to look, and people are the scarce input.
+
+> **What a tip buys, stated exactly.** Position in the queue. Never the outcome.
+> An asset that fails review fails it at any tip, refunded; the automatic
+> thresholds are published, so anyone can see which path they are on before paying
+> anything; and the free queue clears rather than starving.
+
+**Most of the tip is minted into the asset's own permanent liquidity**, on the
+same unwithdrawable terms as the 20% fee leg (§6). The payer is deepening the
+market they are about to open, not paying a gatekeeper — and what remains covers
+the cost of the review itself. A spam mint will not pay it. An owner who believes
+in the asset is buying something they keep.
+
+### Issuer verification: a separate axis
+
+Ownership tiers answer *does this account own this asset*. They say nothing about
+*who is behind the account*. For a repository or a post that gap does not matter,
+because the asset is the collateral and its history is public.
+
+It matters when a team is raising against a roadmap rather than against an
+artefact that already exists.
+
+Issuer verification is optional, and it is deliberately not a launchpad: no
+allocation round, no vesting schedule, no listing committee, no discretionary
+approval. Two checks, both mechanical.
+
+| Check | Method | Establishes |
+|---|---|---|
+| **Identity** | Sumsub KYC on named team members | the people are real and reachable |
+| **Track record** | X, GitHub — the public history the team already has | the people have shipped before |
+
+| | Verified issuer | Unverified |
+|---|---|---|
+| Fee-exempt first buy | wider window | minimal |
+| Issuer tier on-chain | yes | — |
+| Fee to the protocol | higher share of the platform leg | standard |
+
+The reward is a **wider window to buy at 1% before the launch fee decays**, not a
+larger free allocation. It is priced in the issuer's own capital, which is why it
+selects for conviction: a team that will not fund its own book at the opening tick
+is telling the market something.
 
 ### Liquidity: the settlement currency is a Layer 2 decision
 
@@ -491,26 +564,148 @@ between 2 and 200. Violations revert.
 
 ---
 
-## 9. Roadmap
+## 9. LEAK
 
-Phase 1 ships the primitive and proves it by being its own first caller. Phase 2
-widens what can be tokenized and what it can be priced in. Nothing in phase 2 is
-required for the protocol to function.
+The protocol works without a token. LEAK exists for three jobs it cannot do
+without one, and it is deliberately absent from the fourth.
 
-### Phase 1 — Both layers live on mainnet
+| Role | What it does |
+|---|---|
+| **Optional pair currency** | admitted to the currency registry like any other ERC-20 that clears the depth floor — **never the default**, for the reason in §6: a default protocol pair forces two exposures at once and turns every market into a leveraged position on the protocol |
+| **Governance** | the currency registry, the automatic-admission thresholds, and the fee split are the parameters worth voting on — each is a value the protocol already reads, not a new mechanism |
+| **Protocol rewards** | emitted against fees already paid, by role |
+
+**Rewards follow the fee, not the balance.** The protocol already measures who
+paid what, per swap, split across the five roles of §6 — creators, integrating
+platforms, trading referrers, curve authors. Emission is a function of that
+record, and it is continuous with the contributor points accrued before mainnet
+(§11): the same principle — reward the action, not the address — applied first to
+a waitlist and then to a fee ledger.
+
+None of this is load-bearing. The protocol's revenue is the fee itself, settled in
+the pair currency, from the first trade onward. LEAK distributes a claim on
+participation; it does not fund the protocol, and the protocol does not need it to
+be worth anything in order to run.
 
 | | |
 |---|---|
-| **Layer 1** | Permissionless launch platform on Avalanche mainnet. Multicurve and lockable multicurve live, five-way fee split settling on-chain, curve and currency registries deployed. Anyone can call `deploy` without asking. |
-| **Layer 2** | Custodian-verified tokenization for **Agents**, **Skills**, **GitHub repositories**, **X posts** and **Short Media** — ownership proven at mint, tier written on-chain. |
-| **SDK** | **Both layers published as open interfaces.** A third party can launch a market through Layer 1 and verify ownership through Layer 2 from their own front end, building every call client-side — no API key, no allowlist, and no server operated by Leak Protocol anywhere in the path. |
-| **Assurance** | Third-party audit published; contracts verified on the explorer. |
+| **Rewarded for** | fees actually paid in a period, weighted by role |
+| **Not rewarded for** | holding a balance at a snapshot |
 
-### Phase 2 — Wider assets, wider money
+The distinction is not cosmetic. Rewarding a snapshot balance rewards whoever
+knows the date; rewarding paid fees rewards use, and the 1% pool fee makes
+manufacturing volume cost more than the reward it earns. It also needs no new
+accounting: `RewardPayout` already records role, recipient and amount for every
+distribution.
+
+---
+
+## 10. Roadmap
+
+Phase 1 proves the primitive on a test network and builds the queue. Phase 2 puts
+both layers on mainnet. Phase 3 widens what can be tokenized and what it can be
+priced in; nothing in it is required for the protocol to function.
+
+### Phase 1 — Testnet, with a waitlist
+
+| | |
+|---|---|
+| **Layer 1** | Permissionless launch platform on the Avalanche test network. Multicurve and lockable multicurve live, five-way fee split settling on-chain, curve and currency registries deployed. Anyone can call `deploy` without asking. |
+| **Layer 2** | Custodian-verified tokenization for **Agents**, **Skills**, **GitHub repositories**, **X** and **Instagram posts**, and **Short Media** — ownership proven at mint, tier written on-chain. Automatic admission above published signal thresholds; a free review queue below them. |
+| **Issuers** | Optional issuer verification — Sumsub identity on named members, public track record on X and GitHub — carrying a wider fee-exempt first buy. |
+| **SDK** | **Both layers published as open interfaces.** A third party can launch a market through Layer 1 and verify ownership through Layer 2 from their own front end, building every call client-side — no API key, no allowlist, and no server operated by Leak Protocol anywhere in the path. |
+| **Waitlist · points** | Issuers and early users register before mainnet and accrue **contributor points** for what they actually do: verifying an asset, opening a market, referring an issuer, providing the first trades. Points are the ordered queue on day one, and the record TGE and revenue sharing settle against. |
+
+### Phase 2 — Mainnet
+
+| | |
+|---|---|
+| **Layer 1** | The same permissionless launch platform, on Avalanche mainnet. |
+| **Layer 2** | Live in priority order — **Agents**, **models**, **GitHub repositories** first, then **Short Media**, **X** and **Instagram**. Skills follow in phase 3. |
+| **Issuers** | Issuer verification in its **light form**: Sumsub identity on named members plus the public track record already on X and GitHub. No entity KYB, no data room, no committee — the raise sizes this product serves do not justify one. Full KYB follows in phase 3. |
+| **Audit** | Third-party audit published; contracts verified on the explorer. |
+
+### Phase 3 — Wider assets, wider money
 
 | | |
 |---|---|
 | **Layer 1** | Dynamic Dutch and Fixed price modes. **Curve authoring opened as a public role** — anyone can publish a mode and earn 0.01% of the notional volume of every coin launched with it. |
-| **Layer 2** | **HuggingFace** models and datasets; **NFT**. |
+| **Layer 2** | **Skills**; **HuggingFace** models and datasets; **NFT**. |
+| **Issuers** | Full issuer verification — entity KYB on top of the phase 2 identity checks — for issuers whose raise justifies it. |
 | **Currency** | Settlement opened well beyond AVAX: **USDC** for a stable unit, **BTC.b** and **HYPE** for the deepest crypto books, and **tokenized equities** — NVDA, SPCX — so an asset can be quoted against the sector it competes with. |
-| **Governance** | LEAK admitted as an *optional* pair currency. Never the default, for the reason given in §6. |
+| **LEAK** | Admitted as an *optional* pair currency — never the default (§6, §9). Governance over the currency registry, admission thresholds and fee split. Protocol rewards emitted against fees already paid, by role. |
+
+---
+
+## 11. Go to market
+
+The protocol is permissionless, so distribution is the only thing that decides
+whether it is used. Five levers, in the order they matter.
+
+### Ship the classes that already have buyers
+
+Supply is not the constraint — a market with no buyer is the failure mode §2
+describes, and it accounts for the 831,300 assets that died inside a curve.
+
+So the order is set by demand, not by how easy an asset is to source:
+
+| | Class | Why it leads |
+|---|---|---|
+| **1** | Agents, models, GitHub repositories | the demand side is already proven for agent tokens; the supply side has no instrument at this size |
+| **2** | Short media, X, Instagram | the deepest supply, but the buyer's thesis is thinnest — these follow, once the book has depth to absorb them |
+
+### Points before mainnet
+
+The waitlist is not a mailing list. **Contributor points** accrue for verifying an
+asset, opening a market, referring an issuer and providing the first trades —
+actions, not signatures. They determine queue order at launch and the record that
+TGE and revenue sharing settle against.
+
+Fifty named platforms and creators with a measurable audience is a demand signal.
+Five thousand anonymous wallets is not, and the difference is the whole point of
+scoring actions instead of counting addresses.
+
+### A lean team is a strategy, not a constraint
+
+A protocol that pays for itself out of trading fees needs a cost base small enough
+for those fees to cover. This one runs on a handful of contracts and an indexer,
+built by a team that has shipped production DeFi before (§12). The operating cost
+is low enough that the volume required to sustain the protocol is a fraction of
+what this chain already clears — which is why the plan does not depend on a
+further raise, or on a token being worth something.
+
+### The community is the first distribution channel
+
+The first markets come from a community that already exists rather than from paid
+acquisition. That is what makes the first cohort reachable at zero cost, and it is
+also what makes it honest: the people opening the first markets are the ones who
+asked for the product.
+
+### The Avalanche Foundation is the bridge
+
+This is the lever with the highest ceiling, and none of it is money.
+
+| Ask | What it unlocks |
+|---|---|
+| **Introductions across the ecosystem** | a permissionless launch layer is only a layer once something other than its own front end calls it; the Foundation is the shortest path to the apps that could |
+| **Existing on-chain assets** | assets already live in the ecosystem — Arena profiles and their content among them — become admissible on Leak Protocol, which makes the two complementary rather than competing: one holds the relationship, the other holds the asset |
+| **First tokenized projects** | kickstarting a first cohort from inside the ecosystem, with KOLs and creators who are already here, is worth more than any launch campaign bought from outside |
+| **AI projects on Avalanche** | the leading AI projects on this chain are the first asset class this plan ships, and the Foundation is how that introduction happens |
+| **Co-marketing at mainnet** | ecosystem social reach at the moment the first markets open |
+
+---
+
+## 12. Team
+
+| | |
+|---|---|
+| **Aaron** | Founder |
+| **Henry** | Co-Founder |
+| **Balwin** | Head of Contract |
+| **AllSky** | Head of UI/UX |
+| **GetLeft** | Head of Social |
+
+The team has built and operated across the categories this protocol sits between
+— **launchpads, DEXs, perpetuals and NFT marketplaces** — and ships production
+DeFi rather than prototypes. That range is the reason a five-person team can run
+Layer 1, Layer 2 and the indexer at a cost the fee alone covers (§11).

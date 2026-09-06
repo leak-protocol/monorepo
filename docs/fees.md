@@ -13,8 +13,24 @@ Every swap through a Leak pool pays a 1% fee. The hook splits it in `afterSwap`:
 | Trade referrer | 0.04% | `TRADE_REFERRAL_REWARD_BPS = 500` |
 | Curve owner | 0.01% | `DOPPLER_REWARD_BPS = 125` |
 
-The basis-point constants are shares *of the 1%*, not of volume — `6250` bps of the fee is
-62.5% of it, which is 0.50% of volume.
+The constants are not all shares of the same base, which is the part worth reading
+carefully.
+
+**The LP share comes off the top.** `LP_REWARD_BPS = 2000` is taken from the whole 1%
+fee and re-minted as liquidity. What reaches the split below is the remaining 80%, and
+the other constants are shares *of that*:
+
+| Constant | Share of the 80% | Share of the fee | Share of volume |
+|---|---:|---:|---:|
+| `CREATOR_REWARD_BPS = 6250` | 62.5% | 50% | 0.50% |
+| `CREATE_REFERRAL_REWARD_BPS = 2500` | 25% | 20% | 0.20% |
+| `TRADE_REFERRAL_REWARD_BPS = 500` | 5% | 4% | 0.04% |
+| `DOPPLER_REWARD_BPS = 125` | 1.25% | 1% | 0.01% |
+| protocol — whatever is left | 6.25% | 5% | 0.05% |
+
+The code states it plainly in `CoinRewardsV4._computeMarketRewards`: the protocol leg is
+`totalAmount` minus the four computed legs, so it absorbs any rounding and any share a
+missing referrer leaves behind.
 
 Uniswap itself takes nothing. `protocolFeeController()` on the Avalanche PoolManager
 returns `address(0)`, verified with `eth_getCode`.
@@ -40,11 +56,15 @@ slice of the fee that nobody withdraws.
 
 ```
 LAUNCH_FEE_START    = 990_000     // 99%, in hundredths of a bip
-LAUNCH_FEE_DURATION = 10 seconds
+LAUNCH_FEE_DURATION = 30 seconds
 ```
 
-For the first ten seconds after a coin is created, the swap fee starts at 99% and decays
-linearly to the standard 1%.
+For the first thirty seconds after a coin is created, the swap fee starts at 99% and
+decays linearly to the standard 1%.
+
+| t | 0s | 3s | 15s | ≥30s |
+|---|---:|---:|---:|---:|
+| fee | 99.00% | 89.20% | 50.00% | 1.00% |
 
 Three things follow, and they are the point of the design:
 

@@ -75,7 +75,7 @@ Full detail, including what happens when a referrer is not declared, in
 ## Snipers are priced out, not locked out
 
 The swap fee starts at **99%** (`LAUNCH_FEE_START = 990_000`) and decays linearly to 1%
-over the first **10 seconds** (`LAUNCH_FEE_DURATION = 10 seconds`).
+over the first **30 seconds** (`LAUNCH_FEE_DURATION = 30 seconds`).
 
 This is deliberately not a trading lock. The pool never closes; someone who wants to buy
 in the first second still can — they just pay 99% for the privilege. And that penalty

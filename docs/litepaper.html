@@ -1,8 +1,12 @@
-<title>Leak Protocol Litepaper</title>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leak Protocol</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap">
-
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
 <style>
 :root{
   --ground:#ECEEEC; --surface:#F6F7F5; --surface-2:#E2E5E2;
@@ -218,523 +222,263 @@ td.lay{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.78rem;lette
   .seg span{font-size:.62rem}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* --- added for the generated build (tools/litepaper/build.mjs) --- */
+
+th {
+  text-align: left;
+  font-weight: 600;
+  font-size: .78rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: .55rem .9rem;
+  border-bottom: 1px solid var(--rule-strong);
+  white-space: nowrap;
+}
+
+td.c, th.c { text-align: center; }
+
+/* A table whose header row is empty is a layout table: drop the header rules
+   and let the first column act as the label. */
+table.plain thead { display: none; }
+table.plain td:first-child { white-space: nowrap; color: var(--muted); }
+
+pre {
+  overflow-x: auto;
+  margin: 1.6rem 0 2rem;
+  padding: 1.1rem 1.3rem;
+  background: var(--surface, #f6f5f1);
+  border: 1px solid var(--rule, #e2e0d9);
+  border-radius: 4px;
+  font-size: .82rem;
+  line-height: 1.5;
+}
+
+pre code {
+  background: none;
+  border: 0;
+  padding: 0;
+  font-size: inherit;
+  white-space: pre;
+}
+
+ul { margin: 1.1rem 0 1.6rem; padding-left: 1.15rem; }
+li { margin-bottom: .45rem; }
+
+
 </style>
-
+</head>
+<body>
 <div class="page">
-
 <header class="masthead">
-  <h1>Leak Protocol</h1>
-  <p class="tagline">A permissionless platform to tokenize everything.</p>
-  <div class="meta"><span>Digital RWA</span><span>Avalanche C-Chain</span><span>Uniswap v4</span></div>
+<h1>Leak Protocol</h1>
+<p class="tagline">A permissionless platform to tokenize everything.</p>
+<div class="meta"><span>Digital RWA</span><span>Avalanche C-Chain</span><span>Uniswap v4</span></div>
 </header>
-
-<main>
-
 <section id="overview">
-  <div class="num">01</div>
-  <div class="body">
-    <h2>Overview</h2>
-    <p class="lead">Any digital asset with a provable owner becomes a token with a live market, in one transaction, for about a cent.</p>
-    <p><strong>Digital RWA</strong> is the asset class: real assets, real owners, real demand signals, no legal wrapper. Media and social interaction came first, GitHub made code an addressable unit, and <strong>AI assets</strong> — agents, skills, models, datasets — changed the shape of the category. Each is independently owned, independently forked, independently measured. None has a price.</p>
-    <p>Leak Protocol is two layers, and the front tier is the one that matters to a user. The <strong>asset tokenization layer</strong> classifies a digital asset, proves who owns it through the platform that already custodies it, and mints against that proof. It also picks what the market settles in.</p>
-    <p>Beneath it, a <strong>token launch platform</strong> mints supply straight into a single Uniswap v4 pool — tradable in the next block, no bonding-curve phase, no graduation threshold, no migration. That layer is permissionless: any platform can tokenize through it without an agreement and without depending on a server Leak Protocol operates. Curve shape and pair currency are both parameters, so each asset class gets a market built for it, and every trade splits across five roles on-chain.</p>
-    <div class="stats">
-      <div class="stat"><span class="figure">$0.01</span><span class="caption">Cost to open a market</span></div>
-      <div class="stat"><span class="figure">0s</span><span class="caption">Wait before the first trade</span></div>
-      <div class="stat"><span class="figure">5</span><span class="caption">Roles paid from one 1% fee</span></div>
-      <div class="stat is-signal"><span class="figure">0.198%</span><span class="caption">Of graduation-model launches ever reach a market</span></div>
-    </div>
-  </div>
-</section>
-
-<section id="whynow">
-  <div class="num">02</div>
-  <div class="body">
-    <h2>Why now</h2>
-    <h3>AI assets are produced faster than they can be funded</h3>
-    <p>Agents, skills, models and datasets became individually addressable products in under two years, and each has a venue: agents on <a href="https://www.seekclaw.com" target="_blank" rel="noopener noreferrer">SeekClaw</a>, skills on <a href="https://www.skills.sh/" target="_blank" rel="noopener noreferrer">Skills</a>, models and datasets on <a href="https://huggingface.co" target="_blank" rel="noopener noreferrer">HuggingFace</a> — forked, fine-tuned, benchmarked and re-published in the open by people who are not employed to do it and are not paid when it works.</p>
-    <p><a href="https://www.virtuals.io/" target="_blank" rel="noopener noreferrer">Virtuals Protocol</a> settled the demand side: people will buy a token representing an AI agent. The gap is on the supply side — the builders producing these assets have no instrument that converts adoption into capital at their size.</p>
-
-    <h3>Graduation is failing, measurably</h3>
-    <p>Every mainstream launchpad holds a token on a private curve until reserves cross a fixed threshold, then migrates it to a real AMM.</p>
-    <div class="tablewrap">
-      <table>
-        <thead><tr><th>Sample</th><th class="n">Launches</th><th class="n">Graduated</th><th class="n">Rate</th></tr></thead>
-        <tbody>
-          <tr><td>Sept–Oct 2025</td><td class="n">655,770</td><td class="n">~4,130</td><td class="n">0.63%</td></tr>
-          <tr><td><strong>8 May – 10 Jun 2026</strong></td><td class="n">832,941</td><td class="n">~1,650</td><td class="n"><strong>0.198%</strong></td></tr>
-        </tbody>
-        <caption><a href="https://pump.fun/" target="_blank" rel="noopener noreferrer">PumpDotFun</a> launches · 2026 figure Wilson 95% CI 0.189–0.208% · a 3.18× decline in eight months</caption>
-      </table>
-    </div>
-    <div class="callout is-signal">
-      <span class="label">What the number means</span>
-      <p><strong>~831,300</strong> assets paid the launch cost and died inside a curve: priced by a formula, with liquidity that could not leave. The threshold is not a quality filter. It is a minimum viable size, and it sits far above where most assets live.</p>
-    </div>
-    <p>It persists because it is load-bearing. Graduation funds the migration: the curve accumulates reserves, the reserves seed the pool, and the threshold is where reserves finally cover the flat cost of moving them. Lower it and that cost is paid on tokens whose lifetime fees never repay it. Remove it and the curve phase has no purpose — which deletes the pricing engine, the reserve custody and the graduation event the model is built around.</p>
-    <p>The design's grip is visible in its successors. <a href="https://bags.fm/" target="_blank" rel="noopener noreferrer">Bags</a> rebuilt the creator economics on top of it — mandatory, perpetual fee sharing configured at launch — and kept the curve and the migration intact, because removing them removes the product.</p>
-    <p>Leak Protocol has no threshold because it has no migration. Supply is minted directly into the pool as single-sided liquidity, so no counter-currency is needed to open a market and the entire cost is one transaction.</p>
-
-    <h3>RWA arrived, but only at one end</h3>
-    <p>Tokenized real-world assets crossed $3B on Avalanche — securities, credit and funds, behind institutional compliance. The long tail of digital assets received none of it, because every step of that pipeline assumes a legal wrapper.</p>
-  </div>
-</section>
-
-<section id="digitalrwa">
-  <div class="num">03</div>
-  <div class="body">
-    <h2>Digital RWA</h2>
-    <p>The segment has an observable boundary: <strong>the asset has a verifiable owner and no legal wrapper.</strong></p>
-    <div class="tablewrap">
-      <table>
-        <thead><tr><th>Class</th><th>Platform</th><th>Ownership proven by</th><th>Public signal</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Agent</strong></td><td class="plat"><a href="https://www.seekclaw.com" target="_blank" rel="noopener noreferrer">SeekClaw</a></td><td>platform auth</td><td class="k">usage, installs</td></tr>
-          <tr><td><strong>Skill</strong></td><td class="plat"><a href="https://www.skills.sh/" target="_blank" rel="noopener noreferrer">Skills</a></td><td>platform auth</td><td class="k">installs</td></tr>
-          <tr><td><strong>Model, dataset</strong></td><td class="plat"><a href="https://huggingface.co" target="_blank" rel="noopener noreferrer">HuggingFace</a></td><td>platform auth</td><td class="k">downloads, forks</td></tr>
-          <tr><td>Repository</td><td class="plat"><a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a></td><td>platform auth</td><td class="k">stars, forks</td></tr>
-          <tr><td>Social post</td><td class="plat"><a href="https://x.com/" target="_blank" rel="noopener noreferrer">X</a></td><td>platform auth</td><td class="k">reach</td></tr>
-          <tr><td>Short media</td><td class="plat">Leak Platform IPFS</td><td>uploader attestation</td><td class="k">views</td></tr>
-          <tr><td>NFT</td><td class="plat">any chain</td><td><strong>the chain itself</strong></td><td class="k">floor, holders</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p>These are real assets with real off-chain existence. What no token minted against them does is convey a legal claim — the token is a market on the asset's attention, not a share in it.</p>
-    <div class="callout">
-      <span class="label">Why the boundary is the design</span>
-      <p>Because no Digital RWA carries a legal wrapper, none crosses the perimeter that makes institutional tokenization slow, expensive and permissioned. The constraint and the capability are the same fact: that is what allows this layer to be permissionless.</p>
-    </div>
-
-    <h3>What tokenizing gives the owner</h3>
-    <p>A maintainer with 400 stars, an agent developer with 2,000 users, a model author whose fine-tune gets forked weekly: none can convert adoption into capital at that size. Grants need an application, sponsorship needs an audience, equity needs a company.</p>
-    <p>Tokenizing does it in one transaction — <strong>1% of supply at mint, then 0.50% of every dollar ever traded, permanently.</strong> The stream scales with exactly the thing these builders already produce.</p>
-
-    <h3>What the buyer is buying</h3>
-    <p>The negative first, because it makes the rest credible: not equity, not a revenue share, not a licence, no governance. It is a position on the asset's attention.</p>
-    <div class="tablewrap">
-      <table>
-        <thead><tr><th>Property</th><th>Why it holds</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Something to form a view about</strong></td><td>stars, downloads, installs and reach are published by the custodian and produced by parties with no stake in the token — an observable series, not a narrative</td></tr>
-          <tr><td><strong>Owner incentive points the same way</strong></td><td>0.50% of volume for the life of the market and 1% of supply from mint, with no vesting cliff to sell into</td></tr>
-          <tr><td><strong>The exit does not decay</strong></td><td>20% of every fee is re-minted as liquidity nobody can withdraw, so day-one depth is a floor rather than a peak</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
-<section id="architecture">
-  <div class="num">04</div>
-  <div class="body">
-    <h2>Architecture</h2>
-    <p>Two layers over the Uniswap v4 singleton, and the stack is read top-down. <strong>Layer 2 is the front tier</strong> — where a user arrives and where an asset becomes a token. Layer 1 is the settlement tier beneath it: a public primitive that knows nothing about what a token represents.</p>
-
-    <figure class="diagram">
-      <div class="band l2">
-        <div class="band-head">
-          <span class="band-tag">Layer 2 — Asset tokenization</span>
-          <span class="band-role">verify · onboard · connect liquidity</span>
-        </div>
-        <div class="mods">
-          <div class="mod"><b>Custody connectors</b><span>OAuth to HuggingFace, SeekClaw, Skills, GitHub, X; IPFS for direct uploads</span></div>
-          <div class="mod"><b>Ownership verifier</b><span>resolves the identifier to a tier: on-chain, verified, attested, reject</span></div>
-          <div class="mod"><b>Metadata resolver</b><span>pulls name, media and adoption metrics from the custodian API</span></div>
-          <div class="mod"><b>Market selector</b><span>picks curve mode and settlement currency for the asset class</span></div>
-        </div>
-      </div>
-
-      <div class="flow">
-        <span class="stem"></span>
-        <span class="act">deploy(owner, proof, uri, curveMode, currency, salt)</span>
-        <span class="stem"></span>
-        <span class="arrowhead"></span>
-      </div>
-
-      <div class="band">
-        <div class="band-head">
-          <span class="band-tag">Layer 1 — Token launch platform · permissionless</span>
-          <span class="band-role">one pool per asset</span>
-        </div>
-        <div class="mods">
-          <div class="mod"><b>Factory</b><span>CREATE2 deploy, predicts the coin address before signing</span></div>
-          <div class="mod"><b>Coin — ERC-20</b><span>mints 1B: 1% to the owner, 99% to the hook</span></div>
-          <div class="mod"><b>Curve registry</b><span>poolConfig bytes per mode; pays the mode&#39;s author 0.01%</span></div>
-          <div class="mod"><b>Currency registry</b><span>admitted settlement assets; enforces one hop from the base asset</span></div>
-          <div class="mod"><b>Hook</b><span>afterInitialize mints the ladder · beforeSwap sets the dynamic fee · afterSwap splits it</span></div>
-          <div class="mod"><b>Router</b><span>native-AVAX entry, passes the trade referrer through to the hook</span></div>
-        </div>
-      </div>
-
-      <div class="flow">
-        <span class="stem"></span>
-        <span class="act">initialize(poolKey, sqrtPrice) · mint 31 single-sided positions</span>
-        <span class="stem"></span>
-        <span class="arrowhead"></span>
-      </div>
-
-      <div class="band base">
-        <div class="band-head">
-          <span class="band-tag">Uniswap v4 PoolManager</span>
-          <span class="band-role">singleton · settlement</span>
-        </div>
-        <div class="mods">
-          <div class="mod"><b>Pool</b><span>one per asset, dynamic-fee flag, tick spacing 200</span></div>
-          <div class="mod"><b>Ladder + tail</b><span>nested positions to the discovery top, one tail to MAX_TICK</span></div>
-          <div class="mod"><b>Fee accrual</b><span>collected on every swap, routed back to the hook</span></div>
-          <div class="mod"><b>Quoter</b><span>the only price source; simulated per quote</span></div>
-        </div>
-      </div>
-    </figure>
-
-    <p><strong>Layer 1 is a public primitive.</strong> Every call is built client-side by the SDK: no API key, no rate limit, no server that can change terms. Any platform can call <code>deploy</code> directly.</p>
-    <p><strong>Layer 2 is the reference implementation of the caller.</strong> It holds no privilege inside layer 1 — it earns the same integrator fee leg as any third party that builds the same thing.</p>
-    <div class="callout">
-      <span class="label">The separation is the point</span>
-      <p>A launch platform only its own front end can use is an app. One that pays outsiders to build on it, automatically, is a layer.</p>
-    </div>
-  </div>
-</section>
-
-<section id="layer2">
-  <div class="num">05</div>
-  <div class="body">
-    <h2>Layer 2 — Asset tokenization</h2>
-    <p class="lead">The front tier. Every user arrives here, every asset becomes a token here, and every market gets the currency it settles in here. The launch platform underneath (§6) is indifferent to what a token represents — this is the layer that decides whether any of it is a market or a casino.</p>
-    <div class="tablewrap">
-      <table>
-        <thead><tr><th>Job</th><th>What it does</th><th>Why it decides the outcome</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Verify</strong></td><td>reads ownership from the platform that already custodies the asset</td><td>a token bound to a proven owner is a different instrument from a token bound to a name anyone can type</td></tr>
-          <tr><td><strong>Onboard</strong></td><td>the owner signs in to a platform they already use — no new account, no listing application, no review queue</td><td>the acquisition surface is the custodian's existing user base, not ours</td></tr>
-          <tr><td><strong>Connect liquidity</strong></td><td>selects the settlement currency and curve mode at mint</td><td>the pair sets the ceiling on depth and decides who can trade the asset without an extra hop</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <h3>Verification: three tiers, assigned once</h3>
-    <div class="tablewrap">
-      <table>
-        <thead><tr><th>Tier</th><th>Custody source</th><th>Proof</th><th>Strength</th></tr></thead>
-        <tbody>
-          <tr><td><strong>On-chain</strong></td><td class="k">any chain</td><td>the connected wallet holds the token</td><td>cryptographic</td></tr>
-          <tr><td><strong>Verified</strong></td><td class="k"><a href="https://huggingface.co" target="_blank" rel="noopener noreferrer">HuggingFace</a> · <a href="https://www.seekclaw.com" target="_blank" rel="noopener noreferrer">SeekClaw</a> · <a href="https://www.skills.sh/" target="_blank" rel="noopener noreferrer">Skills</a> · <a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a> · <a href="https://x.com/" target="_blank" rel="noopener noreferrer">X</a></td><td>the custodian&#39;s own auth reports the owner</td><td>as strong as that platform</td></tr>
-          <tr><td><strong>Attested</strong></td><td class="k">Leak Platform IPFS</td><td>the uploader signs the claim</td><td>a claim, labelled as one</td></tr>
-          <tr class="is-reject"><td><strong>Reject</strong></td><td class="k">—</td><td>ownership cannot be established</td><td>not minted</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p>The tier is written on-chain and shown wherever the asset appears. Attested is never described as verification — that distinction is the product, and collapsing it would make every other claim in this document worthless.</p>
-
-    <h3>Liquidity: the settlement currency is a Layer 2 decision</h3>
-    <p>Layer 1 exposes the currency as a parameter (§6). Layer 2 chooses it, per asset class, and that choice is what connects a coin to capital that already exists rather than capital that has to be recruited.</p>
-    <div class="tablewrap">
-      <table>
-        <thead><tr><th>Settlement class</th><th>Examples</th><th class="n">Status</th><th>What it unlocks</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Native</strong></td><td class="k">AVAX</td><td class="n">default</td><td>one hop from the chain&#39;s base asset; depends on no other market</td></tr>
-          <tr><td><strong>Flagship crypto</strong></td><td class="k">BTC.b · HYPE</td><td class="n">phase 2</td><td>the deepest non-native books, and holders who never had to acquire AVAX first</td></tr>
-          <tr><td><strong>Tokenized equity</strong></td><td class="k">NVDA · SPCX</td><td class="n">phase 2</td><td>denominates the coin in a sector — the coin stops being an absolute bet and becomes a <strong>relative</strong> one</td></tr>
-        </tbody>
-        <caption>The registry admits any ERC-20 that clears a depth floor, under the Layer 1 rules (§6): one hop from the base asset, never the protocol&#39;s own token as default</caption>
-      </table>
-    </div>
-    <div class="callout">
-      <span class="label">Why tokenized equity is the interesting one</span>
-      <p>An open model quoted in AVAX asks whether people like the model. The same model quoted in <strong>NVDA</strong> asks whether open weights outperform the chip incumbent — a question with a thesis behind it, an existing audience, and a counterparty who already holds the other side. An agent quoted against a software-sector asset asks the same about a category. That instrument does not exist anywhere today, and nothing about it requires new protocol code: it is a currency-registry entry.</p>
-    </div>
-
-    <h3>Trust assumptions</h3>
-    <div class="tablewrap">
-      <table>
-        <thead><tr><th>Assumption</th><th>Consequence if it breaks</th></tr></thead>
-        <tbody>
-          <tr><td>Custodian auth reports the true owner</td><td>tokens minted through that platform are compromised — blast radius is that platform alone, and the tier is on-chain per asset</td></tr>
-          <tr><td>Ownership at mint is what counts</td><td>later transfer, suspension or deletion of the account does not retroactively change the token</td></tr>
-          <tr><td>No tier conveys a legal claim</td><td>tokenizing a repository or a model does not transfer, license or encumber it</td></tr>
-          <tr><td>Quotes come only from the on-chain quoter</td><td>a pool whose hook affects swaps cannot be priced locally, so integrators need an RPC call per quote</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
-<section id="layer1">
-  <div class="num">06</div>
-  <div class="body">
-    <h2>Layer 1 — Token launch platform</h2>
-
-    <h3>There is no bonding curve</h3>
-    <p>99% of supply is minted straight into one Uniswap v4 pool as single-sided liquidity, held by a hook. Price moves because the AMM crosses ticks — no pricing formula, no reserve contract. The pool opens at the bottom of its range, so every position is denominated purely in the coin.</p>
-    <p>Positions are <em>nested</em> rather than adjacent: each carries an equal share of coin over a strictly shorter range ending at a common far tick. Depth is therefore non-decreasing in price, and the currency needed to move price by a fixed proportion strictly increases as the market grows.</p>
-    <div class="tablewrap">
-      <table>
-        <thead><tr><th>Actor</th><th class="n">Entry</th><th class="n">Exit</th><th class="n">Currency in</th><th class="n">Coins out</th><th class="n">Cost per +10%</th></tr></thead>
-        <tbody>
-          <tr><td>Alice</td><td class="n">1.311e-4</td><td class="n">2.119e-4</td><td class="n">964.67</td><td class="n">5,430,624</td><td class="n">192</td></tr>
-          <tr><td>Bob</td><td class="n">2.119e-4</td><td class="n">3.493e-4</td><td class="n">4,431.88</td><td class="n">15,656,279</td><td class="n">845</td></tr>
-          <tr><td>Carol</td><td class="n">9.122e-4</td><td class="n">1.070e-3</td><td class="n">207,358.40</td><td class="n">207,386,758</td><td class="n">123,866</td></tr>
-        </tbody>
-        <caption>Reference multicurve configuration, reproduced with tools/curve/ · currency units generic</caption>
-      </table>
-    </div>
-    <p>Moving price 10% costs Carol <strong>647× what it cost Alice</strong>. Early entry is rewarded with price, late entry with depth: the book becomes hard to move exactly as it becomes worth moving.</p>
-    <p>Above the last discovery tick a single tail position runs to the maximum tick. That tail replaces graduation — the pool cannot run out of coin at any price, and no position is withdrawable, so liquidity cannot be pulled.</p>
-
-    <h3>Both sides of the book</h3>
-    <p>Selling walks the same ladder in reverse. Liquidity at a given tick is identical in both directions, so a seller near the top meets the deepest part of the book and impact per coin grows as price falls back toward the opening tick. There is no redemption path and no reserve to drain: every exit is a swap against the same pool every entry went through.</p>
-    <div class="callout">
-      <span class="label">Solvency invariant</span>
-      <p>Currency payable out can never exceed currency paid in, less fees already distributed. The pool holds no leverage, borrows nothing, and promises nothing it is not already holding. There is no state in which a holder is owed something the pool does not have — which is the whole reason the protocol can be permissionless about what gets listed.</p>
-    </div>
-
-    <h3>Curve modes are data, and their authors are paid</h3>
-    <p>The curve is a <code>poolConfig</code> byte string — version, currency, and per-curve arrays of tick bounds, position counts and supply shares. A new mode is a new configuration: no contract, no upgrade, no governance vote. That makes curve design a role rather than an internal decision, and the protocol pays it: <strong>whoever authors the mode a coin launches with earns 0.01% of that coin's notional volume for the life of the market.</strong></p>
-    <div class="modes">
-      <div class="mode">
-        <svg class="plot" viewBox="0 0 260 120" preserveAspectRatio="none" role="img" aria-label="Gradual near the opening price, steepening into the tail">
-          <path class="area" d="M10 106 C 76 102, 116 92, 154 70 C 188 50, 220 26, 250 10 L250 108 L10 108 Z"/>
-          <line class="axis" x1="10" y1="108" x2="250" y2="108"/>
-          <path class="line" d="M10 106 C 76 102, 116 92, 154 70 C 188 50, 220 26, 250 10"/>
-        </svg>
-        <div class="mode-name">Multicurve</div>
-        <div class="mode-status live">Default · live</div>
-        <p>Several curve segments blended into one book. Deep near spot, steep in the tail.</p>
-        <div class="fits">Known reference price — media, posts, repositories</div>
-      </div>
-
-      <div class="mode">
-        <svg class="plot" viewBox="0 0 260 120" preserveAspectRatio="none" role="img" aria-label="Price steps down each epoch until demand is met, then ratchets upward">
-          <line class="axis" x1="10" y1="108" x2="250" y2="108"/>
-          <path class="line" d="M10 20 H50 V40 H90 V60 H130 V80 H154 V62 H194 V42 H226 V22 H250"/>
-          <circle class="dot" cx="154" cy="80" r="5"/>
-        </svg>
-        <div class="mode-name">Dynamic Dutch</div>
-        <div class="mode-status">Planned</div>
-        <p>Price decays each epoch until demand meets it, then ratchets up.</p>
-        <div class="fits">No obvious opening price — new models, first-run agents</div>
-      </div>
-
-      <div class="mode">
-        <svg class="plot" viewBox="0 0 260 120" preserveAspectRatio="none" role="img" aria-label="Multicurve shape above a permanently locked liquidity band">
-          <path class="area" d="M10 106 C 76 102, 116 92, 154 70 C 188 50, 220 26, 250 10 L250 108 L10 108 Z"/>
-          <line class="axis" x1="10" y1="108" x2="250" y2="108"/>
-          <path class="line" d="M10 106 C 76 102, 116 92, 154 70 C 188 50, 220 26, 250 10"/>
-          <line class="lock" x1="10" y1="92" x2="120" y2="92"/>
-        </svg>
-        <div class="mode-name">Lockable multicurve</div>
-        <div class="mode-status live">Live</div>
-        <p>Multicurve plus a permanently locked LP position. Signals that liquidity cannot be pulled.</p>
-        <div class="fits">Sold on trust — datasets, skills, long support horizons</div>
-      </div>
-
-      <div class="mode">
-        <svg class="plot" viewBox="0 0 260 120" preserveAspectRatio="none" role="img" aria-label="A flat price until the depth target fills, then a flat book">
-          <rect class="area" x="10" y="58" width="140" height="50"/>
-          <line class="axis" x1="10" y1="108" x2="250" y2="108"/>
-          <path class="line" d="M10 58 H250"/>
-          <line class="dash" x1="150" y1="42" x2="150" y2="110"/>
-        </svg>
-        <div class="mode-name">Fixed price</div>
-        <div class="mode-status">Planned</div>
-        <p>One price until the depth target fills, then a flat book. Reads like a presale, no discovery.</p>
-        <div class="fits">Externally set value — NFTs, licensed models</div>
-      </div>
-    </div>
-    <p class="axnote">Vertical axis: price. Horizontal: cumulative supply sold. Shapes are schematic.</p>
-
-    <h3>The pair currency is the second parameter</h3>
-    <p>A pool opens single-sided: 100% coin, zero currency. Every unit of the currency side has to be bought in. So the asset a coin settles against decides who can trade it without an extra hop, what unit its price is quoted in, and what the creator is actually paid in. Which makes the pair a ceiling: <strong>a coin can never be deeper than the asset it settles against.</strong></p>
-    <figure class="hops">
-      <div class="hop-row is-good">
-        <span class="hop-tag">One hop</span>
-        <div class="hop-chain"><span class="node">asset coin</span><span class="arrow"></span><span class="node base">AVAX</span></div>
-      </div>
-      <div class="hop-row is-bad">
-        <span class="hop-tag">Chained pairs</span>
-        <div class="hop-chain"><span class="node">asset coin</span><span class="arrow"></span><span class="node">another coin</span><span class="arrow"></span><span class="node">protocol token</span><span class="arrow"></span><span class="node base">base asset</span></div>
-      </div>
-    </figure>
-    <div class="tablewrap">
-      <table>
-        <thead><tr><th>Rule</th><th>Because</th></tr></thead>
-        <tbody>
-          <tr><td><strong>One hop from the base asset</strong></td><td>a coin paired against another launched coin inherits that coin's depth as its ceiling; the weakest link caps everything downstream and routers cannot reliably find the path</td></tr>
-          <tr><td><strong>Never the protocol's own token as default</strong></td><td>it forces two exposures at once — the asset's move and the token's beta — so a coin can rise against the token and still fall in dollars</td></tr>
-          <tr><td><strong>Denomination is a product decision</strong></td><td>against a stable unit the coin is an absolute bet; against a sector asset it is a relative one</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="callout">
-      <span class="label">The case worth building for</span>
-      <p>A Digital RWA quoted against the asset class it competes with. An open model priced against a chip-sector asset asks whether the open model outperforms the incumbent. That is a legible thesis rather than a punt, and it falls straight out of currency being a parameter instead of a constant.</p>
-    </div>
-    <p>Phase 1 settles everything in native AVAX. The field is in the pool config from the first block, so opening it later is a registry change, not a migration.</p>
-
-    <h3>The launch fee pays the creator</h3>
-    <p>The pool runs a dynamic fee: 99% at creation, decaying linearly to 1% over 30 seconds. It is a <em>pool</em> fee, so none of it is burned — it flows into the same distribution as any other trade.</p>
-    <div class="tablewrap">
-      <table>
-        <thead><tr><th class="n">t</th><th class="n">0s</th><th class="n">3s</th><th class="n">15s</th><th class="n">≥30s</th></tr></thead>
-        <tbody><tr><td class="k">fee</td><td class="n">99.00%</td><td class="n">89.20%</td><td class="n">50.00%</td><td class="n">1.00%</td></tr></tbody>
-      </table>
-    </div>
-    <div class="tablewrap">
-      <table>
-        <thead><tr><th>Dana buys at t = 3s with 100 AVAX · fee 89.20%</th><th class="n">AVAX</th></tr></thead>
-        <tbody>
-          <tr><td>Re-minted as permanent liquidity</td><td class="n">17.84</td></tr>
-          <tr><td>Creator</td><td class="n">44.60</td></tr>
-          <tr><td>Platform that created the coin</td><td class="n">17.84</td></tr>
-          <tr><td>Platform owner</td><td class="n">4.46</td></tr>
-          <tr><td>Trading referrer</td><td class="n">3.57</td></tr>
-          <tr><td>Curve owner</td><td class="n">0.89</td></tr>
-          <tr><td>Dana's actual purchase</td><td class="n">10.80</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p>Sniping inside the launch window is a transfer from the sniper to the creator and to permanent liquidity. There is no anti-bot heuristic in the protocol — bots are made to pay for the launch. The creator's own first buy is exempt, which is why deploy and first buy are a single transaction.</p>
-
-    <h3>Five roles, one fee</h3>
-    <figure class="split">
-      <div class="splitbar" role="img" aria-label="The 1% fee splits into permanent liquidity 20%, creator 50%, third-party platform 20%, platform owner 5%, trading referrer 4%, curve owner 1%">
-        <div class="seg a1" style="flex:20"><span>Liquidity 20%</span></div>
-        <div class="seg a2" style="flex:50"><span>Creator 50%</span></div>
-        <div class="seg a3" style="flex:20"><span>Platform 20%</span></div>
-        <div class="seg a4" style="flex:5"></div>
-        <div class="seg a5" style="flex:4"></div>
-        <div class="seg a6" style="flex:1"></div>
-      </div>
-      <div class="legend">
-        <div><span class="chip c1"></span>Liquidity 20%</div>
-        <div><span class="chip c2"></span>Creator 50%</div>
-        <div><span class="chip c3"></span>Platform 20%</div>
-        <div><span class="chip c4"></span>Owner 5%</div>
-        <div><span class="chip c5"></span>Referrer 4%</div>
-        <div><span class="chip c6"></span>Curve 1%</div>
-      </div>
-    </figure>
-    <div class="tablewrap">
-      <table>
-        <thead><tr><th>Role</th><th class="n">Notional</th><th class="n">Per $1M volume</th><th>Paid for</th></tr></thead>
-        <tbody>
-          <tr><td>Permanent liquidity</td><td class="n">0.20%</td><td class="n">$2,000</td><td>re-minted, unwithdrawable — depth grows with volume</td></tr>
-          <tr><td><strong>Creator</strong></td><td class="n">0.50%</td><td class="n">$5,000</td><td>owning the asset</td></tr>
-          <tr><td><strong>Third-party platform</strong></td><td class="n">0.20%</td><td class="n">$2,000</td><td>bringing the asset</td></tr>
-          <tr><td>Platform owner</td><td class="n">0.05%</td><td class="n">$500</td><td>running the protocol</td></tr>
-          <tr><td>Trading referrer</td><td class="n">0.04%</td><td class="n">$400</td><td>bringing the trade</td></tr>
-          <tr><td><strong>Curve owner</strong></td><td class="n">0.01%</td><td class="n">$100</td><td>designing the market's shape</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p>Multi-recipient fee routing is proven, not speculative: Bags has settled over <strong>$5B</strong> of cumulative volume with fee sharing made mandatory at launch, paid to designated recipients in perpetuity. The difference here is <em>what the recipients are</em>. Bags splits to wallets a creator names. Leak Protocol splits to <strong>roles defined by a function performed</strong> — and one of them has no analogue anywhere: no other launchpad pays for the shape of the market, because no other launchpad lets the shape vary.</p>
-    <p><strong>The re-minted 20% never leaves.</strong> An asset's liquidity becomes a function of volume already done rather than of anyone's continued willingness to provide it. <strong>The third-party leg is the business model:</strong> a platform tokenizing its assets through Leak Protocol earns 0.20% of notional on everything it brings, with no agreement to sign and no revenue share to invoice.</p>
-    <p>An asset doing $50,000 of lifetime volume returns $250 to its owner, $100 to that platform, $25 to the protocol, $5 to the curve author, and adds $100 of liquidity that can never be removed — against a $0.01 launch cost.</p>
-  </div>
-</section>
-
-<section id="related">
-  <div class="num">07</div>
-  <div class="body">
-    <h2>Related work</h2>
-    <div class="tablewrap">
-      <table>
-        <thead><tr><th>Protocol</th><th>Unit tokenized</th><th>Ownership proven</th><th>Tradable at listing</th><th>Curve shape</th><th>Fee recipients</th></tr></thead>
-        <tbody>
-          <tr><td class="plat"><a href="https://pump.fun/" target="_blank" rel="noopener noreferrer">Pump.fun</a></td><td>a name</td><td class="no">no</td><td class="no">no — 85 SOL threshold</td><td class="no">fixed</td><td class="no">creator, 0.05%</td></tr>
-          <tr><td class="plat"><a href="https://bags.fm/" target="_blank" rel="noopener noreferrer">Bags</a></td><td>a name + social</td><td class="no">no</td><td class="no">no — DBC migration</td><td class="no">fixed (Meteora DBC)</td><td>creator + named wallets, 1%</td></tr>
-          <tr><td class="plat"><a href="https://www.virtuals.io/" target="_blank" rel="noopener noreferrer">Virtuals Protocol</a></td><td>an agent</td><td class="no">no</td><td class="no">no — 42,000 VIRTUAL</td><td class="no">fixed</td><td class="no">protocol</td></tr>
-          <tr><td class="plat"><a href="https://clanker.world/" target="_blank" rel="noopener noreferrer">Clanker</a></td><td>a string</td><td class="no">no</td><td>yes</td><td class="no">fixed</td><td class="no">protocol, 20% of LP fees</td></tr>
-          <tr><td class="plat"><a href="https://zora.co/" target="_blank" rel="noopener noreferrer">Zora</a></td><td>a post in Zora</td><td>Zora profile</td><td>yes</td><td class="no">closed endpoint</td><td class="no">creator</td></tr>
-          <tr><td class="plat"><a href="https://arena.social/" target="_blank" rel="noopener noreferrer">The Arena</a></td><td>a social account</td><td>Arena account</td><td class="no">no — curve first</td><td class="no">fixed</td><td class="no">creator</td></tr>
-          <tr class="is-us"><td class="plat">Leak Protocol</td><td>a custodied asset</td><td>yes, by its custodian</td><td>yes</td><td>a parameter</td><td>five protocol roles, incl. the curve author</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <p><strong>Pump.fun</strong> created this category and still defines it. Roughly <strong>75–80% of all Solana launches</strong> run through it, and the bonding-curve-then-migrate design that every launchpad here inherits — including the ones that criticise it — is its contribution. The argument in §2 is aimed at the threshold, not at the model: without Pump.fun there is no reference point for what a permissionless launch looks like at all. It revised its creator fee schedule in January 2026 after a volume spike exposed how thin the original incentive was, at 0.05% of trading fees.</p>
-
-    <p><strong>Bags</strong> is the closest existing work on fee routing, and the reason a five-way split is an extension rather than a leap. Live since May 2025 on Meteora's dynamic bonding curve, it makes fee-sharing configuration <em>mandatory at launch</em>: 1% of trading volume flows to designated recipients in perpetuity, and a creator can name additional claimers. Over <strong>$5B</strong> in cumulative on-chain volume. What it does not do is bind the token to anything but a social account, remove the curve and the migration, or pay anyone for designing the market — the curve is Meteora's, and it is the same curve for every token launched.</p>
-
-    <p><strong>Virtuals Protocol</strong> proved demand for agent tokens but tokenizes agents only, and its curve is a constant. <strong>Clanker</strong> dropped the threshold and the ceremony — deploy an ERC-20 from a sentence, take 20% of pool-level LP fees, over $8B cumulative volume — but makes no claim about what the token represents. A deployer, not a tokenization layer.</p>
-
-    <p><strong>Media-coin launchpads</strong> are the closest existing category, and threshold-free launching is not claimed here as an invention — that pattern has already shipped. What none of them do is bind a coin to an asset held by a platform they do not own, expose curve shape as a caller-supplied parameter, or let an integrator build without routing through their infrastructure. Those three are where Leak Protocol differs, and they are the only claims made here.</p>
-
-    <p><strong>The Arena</strong> is the evidence the audience exists on this chain: 200,000+ registered users, $450M+ volume and 35,000+ AVAX in fees within two months of relaunch, from a curve launchpad inside a social feed. A candidate integrator, not a competitor.</p>
-
-    <div class="callout">
-      <span class="label">Delta, stated narrowly</span>
-      <p>Ownership proven against third-party custodians · curve shape as a per-class parameter whose author is paid · fee routing extended from creator-named wallets to <strong>protocol roles, one of which is the market designer</strong> · no protocol-operated server in the integration path.</p>
-    </div>
-  </div>
-</section>
-
-<section id="params">
-  <div class="num">08</div>
-  <div class="body">
-    <h2>Parameters</h2>
-    <div class="tablewrap">
-      <table>
-        <thead><tr><th>Parameter</th><th class="n">Value</th><th>Note</th></tr></thead>
-        <tbody>
-          <tr><td>Total supply</td><td class="n">1,000,000,000</td><td>fixed at mint, no further issuance</td></tr>
-          <tr><td>To market as liquidity</td><td class="n">99%</td><td>held by the hook, unwithdrawable</td></tr>
-          <tr><td>To creator at mint</td><td class="n">1%</td><td>transferable immediately</td></tr>
-          <tr><td>Pool fee</td><td class="n">1.00%</td><td>dynamic flag, hook-controlled</td></tr>
-          <tr><td>Launch fee</td><td class="n">99% → 1%</td><td>linear decay over 30s</td></tr>
-          <tr><td>Tick spacing</td><td class="n">200</td><td></td></tr>
-          <tr><td>Discovery positions per curve</td><td class="n">11</td><td>reference config: 3 curves</td></tr>
-          <tr><td>LP positions minted</td><td class="n">34 → 31</td><td>after overlap dedupe</td></tr>
-          <tr><td>Backing currency</td><td class="n">AVAX</td><td>native; parameterised for future pairs</td></tr>
-          <tr><td>Deploy cost</td><td class="n">~7M gas</td><td>0.00035 AVAX at 0.05 gwei</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p>Two invariants are enforced on-chain at deploy: the sum of discovery supply shares must be strictly below 100% of supply, and total positions must fall between 2 and 200. Violations revert.</p>
-  </div>
-</section>
-
-<section id="roadmap">
-  <div class="num">09</div>
-  <div class="body">
-    <h2>Roadmap</h2>
-    <p>Phase 1 ships the primitive and proves it by being its own first caller. Phase 2 widens what can be tokenized and what it can be priced in. Nothing in phase 2 is required for the protocol to function.</p>
-
-    <div class="phase">
-      <div class="phase-head">
-        <span class="phase-tag">Phase 1</span>
-        <span class="phase-line">Both layers live on mainnet</span>
-      </div>
-      <div class="tablewrap">
-        <table>
-          <tbody>
-            <tr><td class="lay">Layer 1</td><td>Permissionless launch platform on Avalanche mainnet. Multicurve and lockable multicurve live, five-way fee split settling on-chain, curve and currency registries deployed. Anyone can call <code>deploy</code> without asking.</td></tr>
-            <tr><td class="lay">Layer 2</td><td>Custodian-verified tokenization for <strong>Agents</strong>, <strong>Skills</strong>, <strong>GitHub repositories</strong>, <strong>X posts</strong> and <strong>Short Media</strong> — ownership proven at mint, tier written on-chain.</td></tr>
-            <tr><td class="lay">SDK</td><td><strong>Both layers published as open interfaces.</strong> A third party can launch a market through Layer 1 and verify ownership through Layer 2 from their own front end, building every call client-side — no API key, no allowlist, and no server operated by Leak Protocol anywhere in the path.</td></tr>
-            <tr><td class="lay">Assurance</td><td>Third-party audit published; contracts verified on the explorer.</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="phase">
-      <div class="phase-head">
-        <span class="phase-tag">Phase 2</span>
-        <span class="phase-line">Wider assets, wider money</span>
-      </div>
-      <div class="tablewrap">
-        <table>
-          <tbody>
-            <tr><td class="lay">Layer 1</td><td>Dynamic Dutch and Fixed price modes. <strong>Curve authoring opened as a public role</strong> — anyone can publish a mode and earn 0.01% of the notional volume of every coin launched with it.</td></tr>
-            <tr><td class="lay">Layer 2</td><td><strong>HuggingFace</strong> models and datasets; <strong>NFT</strong>.</td></tr>
-            <tr><td class="lay">Currency</td><td>Settlement opened well beyond AVAX: <strong>USDC</strong> for a stable unit, <strong>BTC.b</strong> and <strong>HYPE</strong> for the deepest crypto books, and <strong>tokenized equities</strong> — NVDA, SPCX — so an asset can be quoted against the sector it competes with.</td></tr>
-            <tr><td class="lay">Governance</td><td>LEAK admitted as an <em>optional</em> pair currency. Never the default, for the reason given in §6.</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</section>
-
-</main>
+<div class="num">01</div>
+<div class="body">
+<h2>Overview</h2>
+<p>Any digital asset with a provable owner becomes a token with a live market, in one transaction, for about a cent.</p>
+<p><strong>AI assets lead the class.</strong> Agents, models, skills and datasets became individually owned, individually forked and individually measured products in under two years — and none of them has a price. Repositories, social posts and short media sit in the same class and arrive the same way, but the AI end is where the supply is growing fastest and where the funding gap is widest.</p>
+<p><strong>Digital RWA</strong> is the class itself: real assets, real owners, real demand signals, no legal wrapper.</p>
+<p>Leak Protocol is two layers, and the front tier is the one that matters to a user. The <strong>asset tokenization layer</strong> classifies a digital asset, proves who owns it through the platform that already custodies it, and mints against that proof. It also picks what the market settles in.</p>
+<p>Beneath it, a <strong>token launch platform</strong> mints supply straight into a single Uniswap v4 pool — tradable in the next block, no bonding-curve phase, no graduation threshold, no migration. That layer is permissionless: any platform can tokenize through it without an agreement and without depending on a server Leak Protocol Protocol operates. Curve shape and pair currency are both parameters, so each asset class gets a market built for it, and every trade splits across five roles on-chain.</p>
+<div class="tablewrap"><table class="plain"><tbody><tr><td><strong>$0.01</strong></td><td>cost to open a market</td></tr><tr><td><strong>0s</strong></td><td>wait before the first trade</td></tr><tr><td><strong>5</strong></td><td>roles paid from one 1% fee</td></tr><tr><td><strong>0.198%</strong></td><td>of graduation-model launches ever reach a market</td></tr></tbody></table></div>
+<div class="callout"><p><strong>The protocol earns from use, not from its own token.</strong> Every role in §6 is paid a share of a fee that only exists because someone traded. There is no emission schedule holding the model up, no treasury sale in the plan, and no point at which the protocol needs its token to be worth something in order to keep running. Operating cost is a handful of contracts and an indexer; the volume that covers it is a fraction of what this chain already does. That is what makes it a <strong>layer other products can build on</strong> rather than a product competing with them.</p></div>
 </div>
+</section>
+<section id="why-now">
+<div class="num">02</div>
+<div class="body">
+<h2>Why now</h2>
+<h3>AI assets are produced faster than they can be funded</h3>
+<p>Agents, skills, models and datasets became individually addressable products in under two years, and each has a venue: agents on <a href="https://www.seekclaw.com" target="_blank" rel="noopener noreferrer">SeekClaw</a>, skills on <a href="https://www.skills.sh/" target="_blank" rel="noopener noreferrer">Skills</a>, models and datasets on <a href="https://huggingface.co" target="_blank" rel="noopener noreferrer">HuggingFace</a> — forked, fine-tuned, benchmarked and re-published in the open by people who are not employed to do it and are not paid when it works.</p>
+<p><a href="https://www.virtuals.io/" target="_blank" rel="noopener noreferrer">Virtuals Protocol</a> settled the demand side: people will buy a token representing an AI agent. The gap is on the supply side — the builders producing these assets have no instrument that converts adoption into capital at their size.</p>
+<h3>Graduation is failing, measurably</h3>
+<p>Every mainstream launchpad holds a token on a private curve until reserves cross a fixed threshold, then migrates it to a real AMM.</p>
+<div class="tablewrap"><table><thead><tr><th>Sample</th><th class="n">Launches</th><th class="n">Graduated</th><th class="n">Rate</th></tr></thead><tbody><tr><td>Sept–Oct 2025</td><td class="n">655,770</td><td class="n">~4,130</td><td class="n">0.63%</td></tr><tr><td><strong>8 May – 10 Jun 2026</strong></td><td class="n">832,941</td><td class="n">~1,650</td><td class="n"><strong>0.198%</strong></td></tr></tbody></table></div>
+<p class="lead"><a href="https://pump.fun/" target="_blank" rel="noopener noreferrer">PumpDotFun</a> launches. 2026 figure: Wilson 95% CI 0.189–0.208%. A 3.18× decline in eight months.</p>
+<div class="callout"><p><strong>~831,300</strong> assets paid the launch cost and died inside a curve: priced by a formula, with liquidity that could not leave. The threshold is not a quality filter. It is a minimum viable size, and it sits far above where most assets live.</p></div>
+<p>It persists because it is load-bearing. Graduation funds the migration: the curve accumulates reserves, the reserves seed the pool, and the threshold is where reserves finally cover the flat cost of moving them. Lower it and that cost is paid on tokens whose lifetime fees never repay it. Remove it and the curve phase has no purpose — which deletes the pricing engine, the reserve custody and the graduation event the model is built around.</p>
+<p>The design's grip is visible in its successors. <a href="https://bags.fm/" target="_blank" rel="noopener noreferrer">Bags</a> rebuilt the creator economics on top of it — mandatory, perpetual fee sharing configured at launch — and kept the curve and the migration intact, because removing them removes the product.</p>
+<p>Leak Protocol has no threshold because it has no migration. Supply is minted directly into the pool as single-sided liquidity, so no counter-currency is needed to open a market and the entire cost is one transaction.</p>
+<h3>RWA arrived, but only at one end</h3>
+<p>Tokenized real-world assets crossed $3B on Avalanche — securities, credit and funds, behind institutional compliance. The long tail of digital assets received none of it, because every step of that pipeline assumes a legal wrapper.</p>
+</div>
+</section>
+<section id="digital-rwa">
+<div class="num">03</div>
+<div class="body">
+<h2>Digital RWA</h2>
+<p>The segment has an observable boundary: <strong>the asset has a verifiable owner and no legal wrapper.</strong></p>
+<div class="tablewrap"><table><thead><tr><th>Class</th><th>Platform</th><th>Ownership proven by</th><th>Public signal</th></tr></thead><tbody><tr><td><strong>Agent</strong></td><td><a href="https://www.seekclaw.com" target="_blank" rel="noopener noreferrer">SeekClaw</a></td><td>platform auth</td><td>usage, installs</td></tr><tr><td><strong>Skill</strong></td><td><a href="https://www.skills.sh/" target="_blank" rel="noopener noreferrer">Skills</a></td><td>platform auth</td><td>installs</td></tr><tr><td><strong>Model, dataset</strong></td><td><a href="https://huggingface.co" target="_blank" rel="noopener noreferrer">HuggingFace</a></td><td>platform auth</td><td>downloads, forks</td></tr><tr><td>Repository</td><td><a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a></td><td>platform auth</td><td>stars, forks</td></tr><tr><td>Social post</td><td><a href="https://x.com/" target="_blank" rel="noopener noreferrer">X</a></td><td>platform auth</td><td>reach</td></tr><tr><td>Social post, image</td><td><a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a></td><td>platform auth</td><td>reach, saves</td></tr><tr><td>Short media — image, video</td><td>Leak Platform IPFS</td><td>uploader attestation</td><td>views</td></tr><tr><td>NFT</td><td>any chain</td><td><strong>the chain itself</strong></td><td>floor, holders</td></tr></tbody></table></div>
+<p>These are real assets with real off-chain existence. What no token minted against them does is convey a legal claim — the token is a market on the asset's attention, not a share in it.</p>
+<div class="callout"><p><strong>Why the boundary is the design.</strong> Because no Digital RWA carries a legal wrapper, none crosses the perimeter that makes institutional tokenization slow, expensive and permissioned. The constraint and the capability are the same fact: that is what allows this layer to be permissionless.</p></div>
+<h3>What tokenizing gives the owner</h3>
+<p>A maintainer with 400 stars, an agent developer with 2,000 users, a model author whose fine-tune gets forked weekly: none can convert adoption into capital at that size. Grants need an application, sponsorship needs an audience, equity needs a company.</p>
+<p>Tokenizing does it in one transaction — <strong>1% of supply at mint, then 0.50% of every dollar ever traded, permanently.</strong> No application, no company, nothing to negotiate, and the stream scales with exactly the thing these builders already produce.</p>
+<h3>What the buyer is buying</h3>
+<p>The negative first, because it makes the rest credible: not equity, not a revenue share, not a licence, no governance. It is a position on the asset's attention. Three properties separate that from a pure punt.</p>
+<div class="tablewrap"><table><thead><tr><th>Property</th><th>Why it holds</th></tr></thead><tbody><tr><td><strong>Something to form a view about</strong></td><td>stars, downloads, installs and reach are published by the custodian, updated continuously, and produced by parties with no stake in the token — an observable series, not a narrative</td></tr><tr><td><strong>Owner incentive points the same way</strong></td><td>0.50% of volume for the life of the market and 1% of supply from mint, with no vesting cliff to sell into — paid for the asset staying interesting, not for exiting it</td></tr><tr><td><strong>The exit does not decay</strong></td><td>20% of every fee is re-minted as liquidity nobody can withdraw, so day-one depth is a floor rather than a peak</td></tr></tbody></table></div>
+</div>
+</section>
+<section id="architecture">
+<div class="num">04</div>
+<div class="body">
+<h2>Architecture</h2>
+<p>Two layers over the Uniswap v4 singleton, and the stack is read top-down. <strong>Layer 2 is the front tier</strong> — where a user arrives and where an asset becomes a token. Layer 1 is the settlement tier beneath it: a public primitive that knows nothing about what a token represents.</p>
+<figure class="diagram"><div class="band"><div class="band-head"><span class="band-tag">Layer 2 — Asset tokenization · verify · onboard · connect</span><span class="band-role">the front tier</span></div><div class="mods"><div class="mod"><b>Custody connectors</b><span>OAuth to HuggingFace, SeekClaw, Skills, GitHub, X, Instagram; IPFS for direct uploads</span></div><div class="mod"><b>Ownership verifier</b><span>identifier → tier: on-chain / verified / attested / reject</span></div><div class="mod"><b>Metadata resolver</b><span>name, media, adoption metrics from the custodian API</span></div><div class="mod"><b>Market selector</b><span>curve mode + settlement currency per asset class</span></div></div></div><div class="flow"><span class="stem"></span><span class="act">deploy(owner, proof, uri, curveMode, currency, salt)</span><span class="stem"></span><span class="arrowhead"></span></div><div class="band"><div class="band-head"><span class="band-tag">Layer 1 — Token launch platform · permissionless</span><span class="band-role">one pool per asset</span></div><div class="mods"><div class="mod"><b>Factory</b><span>CREATE2 deploy, predicts the coin address</span></div><div class="mod"><b>Coin — ERC-20</b><span>mints 1B: 1% to the owner, 99% to the hook</span></div><div class="mod"><b>Curve registry</b><span>poolConfig bytes per mode; pays its author 0.01%</span></div><div class="mod"><b>Currency registry</b><span>admitted settlement assets; one hop from base</span></div><div class="mod"><b>Hook</b><span>afterInitialize mints the ladder · beforeSwap sets the dynamic fee · afterSwap splits it</span></div><div class="mod"><b>Router</b><span>native-AVAX entry, passes trade referrer to the hook</span></div></div></div><div class="flow"><span class="stem"></span><span class="act">initialize(poolKey, sqrtPrice) · mint 31 single-sided positions</span><span class="stem"></span><span class="arrowhead"></span></div><div class="band"><div class="band-head"><span class="band-tag">Uniswap v4 PoolManager · singleton</span><span class="band-role">settlement</span></div><div class="mods"><div class="mod"><b>Pool</b><span>one per asset, dynamic-fee flag, tick spacing 200</span></div><div class="mod"><b>Ladder + tail</b><span>nested positions to the discovery top, one tail to MAX</span></div><div class="mod"><b>Fee accrual</b><span>collected on every swap, routed back to the hook</span></div><div class="mod"><b>Quoter</b><span>the only price source; simulated per quote</span></div></div></div><figcaption>Two layers over the Uniswap v4 singleton, read top-down.</figcaption></figure>
+<p><strong>Layer 1 is a public primitive.</strong> Every call is built client-side by the SDK: no API key, no rate limit, no server that can change terms. Any platform can call <code>deploy</code> directly.</p>
+<p><strong>Layer 2 is the reference implementation of the caller.</strong> It holds no privilege inside layer 1 — it earns the same integrator fee leg as any third party that builds the same thing.</p>
+<div class="callout"><p><strong>The separation is the point.</strong> A launch platform only its own front end can use is an app. One that pays outsiders to build on it, automatically, is a layer.</p></div>
+</div>
+</section>
+<section id="layer-2-asset-tokenization">
+<div class="num">05</div>
+<div class="body">
+<h2>Layer 2 — Asset tokenization</h2>
+<p>The front tier. Every user arrives here, every asset becomes a token here, and every market gets the currency it settles in here. The launch platform underneath (§6) is indifferent to what a token represents — this is the layer that decides whether any of it is a market or a casino.</p>
+<div class="tablewrap"><table><thead><tr><th>Job</th><th>What it does</th><th>Why it decides the outcome</th></tr></thead><tbody><tr><td><strong>Verify</strong></td><td>reads ownership from the platform that already custodies the asset</td><td>a token bound to a proven owner is a different instrument from a token bound to a name anyone can type</td></tr><tr><td><strong>Onboard</strong></td><td>the owner signs in to a platform they already use — no new account, no listing application, no review queue</td><td>the acquisition surface is the custodian's existing user base, not ours</td></tr><tr><td><strong>Connect liquidity</strong></td><td>selects the settlement currency and curve mode at mint</td><td>the pair sets the ceiling on depth and decides who can trade the asset without an extra hop</td></tr><tr><td><strong>Admit</strong></td><td>reads the custodian's public signal against a published threshold; below it, a free review queue</td><td>a cent per mint is low enough that nothing else keeps ten thousand empty markets out</td></tr></tbody></table></div>
+<h3>Verification: three tiers, assigned once</h3>
+<div class="tablewrap"><table><thead><tr><th>Tier</th><th>Custody source</th><th>Proof</th><th>Strength</th></tr></thead><tbody><tr><td><strong>On-chain</strong></td><td>any chain</td><td>the connected wallet holds the token</td><td>cryptographic</td></tr><tr><td><strong>Verified</strong></td><td><a href="https://huggingface.co" target="_blank" rel="noopener noreferrer">HuggingFace</a> · <a href="https://www.seekclaw.com" target="_blank" rel="noopener noreferrer">SeekClaw</a> · <a href="https://www.skills.sh/" target="_blank" rel="noopener noreferrer">Skills</a> · <a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a> · <a href="https://x.com/" target="_blank" rel="noopener noreferrer">X</a> · <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a></td><td>the custodian's own auth reports the owner</td><td>as strong as that platform</td></tr><tr><td><strong>Attested</strong></td><td>Leak Platform IPFS</td><td>the uploader signs the claim</td><td>a claim, labelled as one</td></tr><tr><td><strong>Reject</strong></td><td>—</td><td>ownership cannot be established</td><td>not minted</td></tr></tbody></table></div>
+<p>The tier is written on-chain and shown wherever the asset appears. Attested is never described as verification — that distinction is the product, and collapsing it would make every other claim in this document worthless.</p>
+<h3>Admission: signal first, queue second</h3>
+<p>Verification establishes <em>who owns the asset</em>. It says nothing about whether the asset is worth a market. Minting one costs a cent, which is low enough that nothing stops an address from opening ten thousand of them.</p>
+<p>So admission runs on the signal the custodian already publishes, and the thresholds are public.</p>
+<div class="tablewrap"><table><thead><tr><th>Path</th><th>Condition</th><th>Wait</th></tr></thead><tbody><tr><td><strong>Automatic</strong></td><td>the custodian's public signal clears the published threshold for that class — followers, installs, stars, downloads</td><td>none</td></tr><tr><td><strong>Queue</strong></td><td>below the threshold</td><td>reviewed in order, free</td></tr><tr><td><strong>Priority</strong></td><td>a protocol tip</td><td>reviewed sooner</td></tr></tbody></table></div>
+<p>An asset that already carries a public audience has been verified by the world before it arrives here; there is nothing a reviewer adds. Everything else needs a person to look, and people are the scarce input.</p>
+<div class="callout"><p><strong>What a tip buys, stated exactly.</strong> Position in the queue. Never the outcome. An asset that fails review fails it at any tip, refunded; the automatic thresholds are published, so anyone can see which path they are on before paying anything; and the free queue clears rather than starving.</p></div>
+<p><strong>Most of the tip is minted into the asset's own permanent liquidity</strong>, on the same unwithdrawable terms as the 20% fee leg (§6). The payer is deepening the market they are about to open, not paying a gatekeeper — and what remains covers the cost of the review itself. A spam mint will not pay it. An owner who believes in the asset is buying something they keep.</p>
+<h3>Issuer verification: a separate axis</h3>
+<p>Ownership tiers answer <em>does this account own this asset</em>. They say nothing about <em>who is behind the account</em>. For a repository or a post that gap does not matter, because the asset is the collateral and its history is public.</p>
+<p>It matters when a team is raising against a roadmap rather than against an artefact that already exists.</p>
+<p>Issuer verification is optional, and it is deliberately not a launchpad: no allocation round, no vesting schedule, no listing committee, no discretionary approval. Two checks, both mechanical.</p>
+<div class="tablewrap"><table><thead><tr><th>Check</th><th>Method</th><th>Establishes</th></tr></thead><tbody><tr><td><strong>Identity</strong></td><td>Sumsub KYC on named team members</td><td>the people are real and reachable</td></tr><tr><td><strong>Track record</strong></td><td>X, GitHub — the public history the team already has</td><td>the people have shipped before</td></tr></tbody></table></div>
+<div class="tablewrap"><table><thead><tr><th></th><th>Verified issuer</th><th>Unverified</th></tr></thead><tbody><tr><td>Fee-exempt first buy</td><td>wider window</td><td>minimal</td></tr><tr><td>Issuer tier on-chain</td><td>yes</td><td>—</td></tr><tr><td>Fee to the protocol</td><td>higher share of the platform leg</td><td>standard</td></tr></tbody></table></div>
+<p>The reward is a <strong>wider window to buy at 1% before the launch fee decays</strong>, not a larger free allocation. It is priced in the issuer's own capital, which is why it selects for conviction: a team that will not fund its own book at the opening tick is telling the market something.</p>
+<h3>Liquidity: the settlement currency is a Layer 2 decision</h3>
+<p>Layer 1 exposes the currency as a parameter (§6). Layer 2 chooses it, per asset class, and that choice is what connects a coin to capital that already exists rather than capital that has to be recruited.</p>
+<div class="tablewrap"><table><thead><tr><th>Settlement class</th><th>Examples</th><th class="n">Status</th><th>What it unlocks</th></tr></thead><tbody><tr><td><strong>Native</strong></td><td>AVAX</td><td class="n">default</td><td>one hop from the chain's base asset; depends on no other market</td></tr><tr><td><strong>Flagship crypto</strong></td><td>BTC.b · HYPE</td><td class="n">phase 2</td><td>the deepest non-native books, and holders who never had to acquire AVAX first</td></tr><tr><td><strong>Tokenized equity</strong></td><td>NVDA · SPCX</td><td class="n">phase 2</td><td>denominates the coin in a sector — the coin stops being an absolute bet and becomes a <strong>relative</strong> one</td></tr></tbody></table></div>
+<p class="lead">The registry admits any ERC-20 that clears a depth floor, under the Layer 1 rules (§6): one hop from the base asset, never the protocol's own token as default.</p>
+<div class="callout"><p><strong>Why tokenized equity is the interesting one.</strong> An open model quoted in AVAX asks whether people like the model. The same model quoted in <strong>NVDA</strong> asks whether open weights outperform the chip incumbent — a question with a thesis behind it, an existing audience, and a counterparty who already holds the other side. An agent quoted against a software-sector asset asks the same about a category. That instrument does not exist anywhere today, and nothing about it requires new protocol code: it is a currency-registry entry.</p></div>
+<h3>Trust assumptions</h3>
+<div class="tablewrap"><table><thead><tr><th>Assumption</th><th>Consequence if it breaks</th></tr></thead><tbody><tr><td>Custodian auth reports the true owner</td><td>tokens minted through that platform are compromised — blast radius is that platform alone, and the tier is on-chain per asset</td></tr><tr><td>Ownership at mint is what counts</td><td>later transfer, suspension or deletion of the account does not retroactively change the token</td></tr><tr><td>No tier conveys a legal claim</td><td>tokenizing a repository or a model does not transfer, license or encumber it</td></tr><tr><td>Quotes come only from the on-chain quoter</td><td>a pool whose hook affects swaps cannot be priced locally, so integrators need an RPC call per quote</td></tr></tbody></table></div>
+</div>
+</section>
+<section id="layer-1-token-launch-platform">
+<div class="num">06</div>
+<div class="body">
+<h2>Layer 1 — Token launch platform</h2>
+<h3>There is no bonding curve</h3>
+<p>99% of supply is minted straight into one Uniswap v4 pool as single-sided liquidity, held by a hook. Price moves because the AMM crosses ticks — no pricing formula, no reserve contract. The pool opens at the bottom of its range, so every position is denominated purely in the coin.</p>
+<p>Positions are <em>nested</em> rather than adjacent: each carries an equal share of coin over a strictly shorter range ending at a common far tick. Depth is therefore non-decreasing in price across the discovery band, so <code>L(t_k) ≥ L(t_k−1)</code> and the currency needed to move price by a fixed proportion strictly increases as the market grows.</p>
+<div class="tablewrap"><table><thead><tr><th>Actor</th><th class="n">Entry</th><th class="n">Exit</th><th class="n">Currency in</th><th class="n">Coins out</th><th class="n">Cost per +10%</th></tr></thead><tbody><tr><td>Alice</td><td class="n">1.311e-4</td><td class="n">2.119e-4</td><td class="n">964.67</td><td class="n">5,430,624</td><td class="n">192</td></tr><tr><td>Bob</td><td class="n">2.119e-4</td><td class="n">3.493e-4</td><td class="n">4,431.88</td><td class="n">15,656,279</td><td class="n">845</td></tr><tr><td>Carol</td><td class="n">9.122e-4</td><td class="n">1.070e-3</td><td class="n">207,358.40</td><td class="n">207,386,758</td><td class="n">123,866</td></tr></tbody></table></div>
+<p class="lead">Reference multicurve configuration, reproduced with <code>tools/curve/</code>. Currency units generic.</p>
+<p>Moving price 10% costs Carol <strong>647× what it cost Alice</strong>. Early entry is rewarded with price, late entry with depth: the book becomes hard to move exactly as it becomes worth moving.</p>
+<p>Above the last discovery tick a single tail position runs to the maximum tick, so depth goes flat rather than continuing to rise. That tail replaces graduation — the pool cannot run out of coin at any price. No position is withdrawable, so liquidity cannot be pulled.</p>
+<h3>Both sides of the book</h3>
+<p>Selling walks the same ladder in reverse. Liquidity at a given tick is identical in both directions, so a seller near the top meets the deepest part of the book and impact per coin grows as price falls back toward the opening tick. There is no redemption path and no reserve to drain: every exit is a swap against the same pool every entry went through.</p>
+<div class="callout"><p><strong>Solvency invariant.</strong> Currency payable out can never exceed currency paid in, less fees already distributed. The pool holds no leverage, borrows nothing, and promises nothing it is not already holding. There is no state in which a holder is owed something the pool does not have — which is the whole reason the protocol can be permissionless about what gets listed.</p></div>
+<h3>Curve modes are data, and their authors are paid</h3>
+<p>The curve is a <code>poolConfig</code> byte string — version, currency, and per-curve arrays of tick bounds, position counts and supply shares. A new mode is a new configuration: no contract, no upgrade, no governance vote. That makes curve design a role rather than an internal decision, and the protocol pays it: <strong>whoever authors the mode a coin launches with earns 0.01% of that coin's notional volume for the life of the market.</strong></p>
+<div class="tablewrap"><table><thead><tr><th>Mode</th><th>Status</th><th>Shape</th><th>Fits</th></tr></thead><tbody><tr><td><strong>Multicurve</strong></td><td>default · live</td><td>several curve segments blended into one book; deep near spot, steep in the tail</td><td>assets with a known reference price — media, posts, repositories</td></tr><tr><td><strong>Dynamic Dutch</strong></td><td>planned</td><td>price decays each epoch until demand meets it, then ratchets up</td><td>assets with no obvious opening price — new models, first-run agents</td></tr><tr><td><strong>Lockable multicurve</strong></td><td>live</td><td>multicurve plus a permanently locked LP position; signals liquidity cannot be pulled</td><td>assets sold on trust — datasets, skills, long support horizons</td></tr><tr><td><strong>Fixed price</strong></td><td>planned</td><td>one price until the depth target fills, then a flat book; reads like a presale, no discovery</td><td>assets with an externally set value — NFTs, licensed models</td></tr></tbody></table></div>
+<h3>The pair currency is the second parameter</h3>
+<p>A pool opens single-sided: 100% coin, zero currency. Every unit of the currency side has to be bought in. So the asset a coin settles against decides who can trade it without an extra hop, what unit its price is quoted in, and what the creator is actually paid in. Which makes the pair a ceiling: <strong>a coin can never be deeper than the asset it settles against.</strong></p>
+<figure class="diagram hops"><div class="hop-row is-good"><span class="hop-tag">One hop</span><div class="hop-chain"><span class="node">asset coin</span><span class="arrow"></span><span class="node base">AVAX</span></div></div><div class="hop-row is-bad"><span class="hop-tag">Chained pairs</span><div class="hop-chain"><span class="node">asset coin</span><span class="arrow"></span><span class="node">another coin</span><span class="arrow"></span><span class="node">protocol token</span><span class="arrow"></span><span class="node base">base asset</span></div></div><figcaption>A coin is never deeper than the asset it settles against, so every link in the chain is a ceiling.</figcaption></figure>
+<div class="tablewrap"><table><thead><tr><th>Rule</th><th>Because</th></tr></thead><tbody><tr><td><strong>One hop from the base asset</strong></td><td>a coin paired against another launched coin inherits that coin's depth as its ceiling; the weakest link caps everything downstream and routers cannot reliably find the path</td></tr><tr><td><strong>Never the protocol's own token as default</strong></td><td>it forces two exposures at once — the asset's move and the token's beta — so a coin can rise against the token and still fall in dollars, and the whole market becomes a leveraged position on the protocol</td></tr><tr><td><strong>Denomination is a product decision</strong></td><td>against a stable unit the coin is an absolute bet; against a sector asset it is a relative one</td></tr></tbody></table></div>
+<div class="callout"><p><strong>The case worth building for.</strong> A Digital RWA quoted against the asset class it competes with. An open model priced against a chip-sector asset asks whether the open model outperforms the incumbent. An agent priced against a software-sector asset asks the same about a category. That is a legible thesis rather than a punt, and it falls straight out of currency being a parameter instead of a constant.</p></div>
+<p>Phase 1 settles everything in native AVAX. The field is in the pool config from the first block, so opening it later is a registry change, not a migration.</p>
+<h3>The launch fee pays the creator</h3>
+<p>The pool runs a dynamic fee: 99% at creation, decaying linearly to 1% over 30 seconds. It is a <em>pool</em> fee, so none of it is burned — it flows into the same distribution as any other trade.</p>
+<div class="tablewrap"><table><thead><tr><th>t</th><th class="n">0s</th><th class="n">3s</th><th class="n">15s</th><th class="n">≥30s</th></tr></thead><tbody><tr><td>fee</td><td class="n">99.00%</td><td class="n">89.20%</td><td class="n">50.00%</td><td class="n">1.00%</td></tr></tbody></table></div>
+<p><strong>Dana buys at t = 3s with 100 AVAX · fee 89.20%</strong></p>
+<div class="tablewrap"><table><thead><tr><th>Destination</th><th class="n">AVAX</th></tr></thead><tbody><tr><td>Re-minted as permanent liquidity</td><td class="n">17.84</td></tr><tr><td>Creator</td><td class="n">44.60</td></tr><tr><td>Platform that created the coin</td><td class="n">17.84</td></tr><tr><td>Platform owner</td><td class="n">4.46</td></tr><tr><td>Trading referrer</td><td class="n">3.57</td></tr><tr><td>Curve owner</td><td class="n">0.89</td></tr><tr><td>Dana's actual purchase</td><td class="n">10.80</td></tr></tbody></table></div>
+<p>Sniping inside the launch window is a transfer from the sniper to the creator and to permanent liquidity. There is no anti-bot heuristic in the protocol — bots are made to pay for the launch. The creator's own first buy is exempt: a transient flag charges them 1%, which is why deploy and first buy are a single transaction.</p>
+<h3>Five roles, one fee</h3>
+<figure class="diagram"><div class="splitbar" role="img" aria-label="The 1% fee splits into liquidity 20%, creator 50%, platform 20%, owner 5%, referrer 4%, curve 1%"><div class="seg a1" style="flex:20"><span>Liquidity 20%</span></div><div class="seg a2" style="flex:50"><span>Creator 50%</span></div><div class="seg a3" style="flex:20"><span>Platform 20%</span></div><div class="seg a4" style="flex:5"><span>Owner 5%</span></div><div class="seg a5" style="flex:4"><span>Referrer 4%</span></div><div class="seg a6" style="flex:1"><span>Curve 1%</span></div></div><figcaption>One 1% pool fee, six destinations. The liquidity share is re-minted and never leaves.</figcaption></figure>
+<div class="tablewrap"><table><thead><tr><th>Role</th><th class="n">Notional</th><th class="n">Per $1M volume</th><th>Paid for</th></tr></thead><tbody><tr><td>Permanent liquidity</td><td class="n">0.20%</td><td class="n">$2,000</td><td>re-minted, unwithdrawable — depth grows with volume</td></tr><tr><td><strong>Creator</strong></td><td class="n">0.50%</td><td class="n">$5,000</td><td>owning the asset</td></tr><tr><td><strong>Third-party platform</strong></td><td class="n">0.20%</td><td class="n">$2,000</td><td>bringing the asset</td></tr><tr><td><strong>Platform owner</strong></td><td class="n">0.05%</td><td class="n">$500</td><td>running the protocol</td></tr><tr><td><strong>Trading referrer</strong></td><td class="n">0.04%</td><td class="n">$400</td><td>bringing the trade</td></tr><tr><td><strong>Curve owner</strong></td><td class="n">0.01%</td><td class="n">$100</td><td>designing the market's shape</td></tr></tbody></table></div>
+<p>Multi-recipient fee routing is proven, not speculative: Bags has settled over <strong>$5B</strong> of cumulative volume with fee sharing made mandatory at launch, paid to designated recipients in perpetuity. The difference here is <em>what the recipients are</em>. Bags splits to wallets a creator names. Leak Protocol splits to <strong>roles defined by a function performed</strong> — and one of them has no analogue anywhere: no other launchpad pays for the shape of the market, because no other launchpad lets the shape vary.</p>
+<p><strong>The re-minted 20% never leaves.</strong> An asset's liquidity becomes a function of volume already done rather than of anyone's continued willingness to provide it. <strong>The third-party leg is the business model:</strong> a platform tokenizing its assets through Leak Protocol earns 0.20% of notional on everything it brings, with no agreement to sign and no revenue share to invoice.</p>
+<p>An asset doing $50,000 of lifetime volume returns $250 to its owner, $100 to that platform, $25 to the protocol, $5 to the curve author, and adds $100 of liquidity that can never be removed — against a $0.01 launch cost.</p>
+</div>
+</section>
+<section id="related-work">
+<div class="num">07</div>
+<div class="body">
+<h2>Related work</h2>
+<div class="tablewrap"><table><thead><tr><th>Protocol</th><th>Unit tokenized</th><th>Ownership proven</th><th>Tradable at listing</th><th>Curve shape</th><th>Fee recipients</th></tr></thead><tbody><tr><td><a href="https://pump.fun/" target="_blank" rel="noopener noreferrer">Pump.fun</a></td><td>a name</td><td>no</td><td>no — 85 SOL threshold</td><td>fixed</td><td>creator, 0.05%</td></tr><tr><td><a href="https://bags.fm/" target="_blank" rel="noopener noreferrer">Bags</a></td><td>a name + social</td><td>no</td><td>no — DBC migration</td><td>fixed (Meteora DBC)</td><td>creator + named wallets, 1%</td></tr><tr><td><a href="https://www.virtuals.io/" target="_blank" rel="noopener noreferrer">Virtuals Protocol</a></td><td>an agent</td><td>no</td><td>no — 42,000 VIRTUAL</td><td>fixed</td><td>protocol</td></tr><tr><td><a href="https://clanker.world/" target="_blank" rel="noopener noreferrer">Clanker</a></td><td>a string</td><td>no</td><td>yes</td><td>fixed</td><td>protocol, 20% of LP fees</td></tr><tr><td><a href="https://zora.co/" target="_blank" rel="noopener noreferrer">Zora</a></td><td>a post in Zora</td><td>Zora profile</td><td>yes</td><td>closed endpoint</td><td>creator</td></tr><tr><td><a href="https://arena.social/" target="_blank" rel="noopener noreferrer">The Arena</a></td><td>a social account</td><td>Arena account</td><td>no — curve first</td><td>fixed</td><td>creator</td></tr><tr><td><strong>Leak Protocol</strong></td><td><strong>a custodied asset</strong></td><td><strong>yes, by its custodian</strong></td><td><strong>yes</strong></td><td><strong>a parameter</strong></td><td><strong>five protocol roles, incl. the curve author</strong></td></tr></tbody></table></div>
+<p><strong>Pump.fun</strong> created this category and still defines it. Roughly <strong>75–80% of all Solana launches</strong> run through it, and the bonding-curve-then-migrate design that every launchpad here inherits — including the ones that criticise it — is its contribution. The argument in §2 is aimed at the threshold, not at the model: without Pump.fun there is no reference point for what a permissionless launch looks like at all. It revised its creator fee schedule in January 2026 after a volume spike exposed how thin the original incentive was, at 0.05% of trading fees.</p>
+<p><strong>Bags</strong> is the closest existing work on fee routing, and the reason a five-way split is an extension rather than a leap. Live since May 2025 on Meteora's dynamic bonding curve, it makes fee-sharing configuration <em>mandatory at launch</em>: 1% of trading volume flows to designated recipients in perpetuity, and a creator can name additional claimers. Over <strong>$5B</strong> in cumulative on-chain volume. What it does not do is bind the token to anything but a social account, remove the curve and the migration, or pay anyone for designing the market — the curve is Meteora's, and it is the same curve for every token launched.</p>
+<p><strong>Virtuals Protocol</strong> proved demand for agent tokens but tokenizes agents only, and its curve is a constant. <strong>Clanker</strong> dropped the threshold and the ceremony — deploy an ERC-20 from a sentence, take 20% of pool-level LP fees, over $8B cumulative volume — but makes no claim about what the token represents. A deployer, not a tokenization layer.</p>
+<p><strong>Media-coin launchpads</strong> are the closest existing category, and threshold-free launching is not claimed here as an invention — that pattern has already shipped. What none of them do is bind a coin to an asset held by a platform they do not own, expose curve shape as a caller-supplied parameter, or let an integrator build without routing through their infrastructure. Those three are where Leak Protocol differs, and they are the only claims made here.</p>
+<p><strong>The Arena</strong> is the evidence the audience exists on this chain: 200,000+ registered users, $450M+ volume and 35,000+ AVAX in fees within two months of relaunch, from a curve launchpad inside a social feed. A candidate integrator, not a competitor.</p>
+<div class="callout"><p><strong>Delta, stated narrowly.</strong> Ownership proven against third-party custodians · curve shape as a per-class parameter whose author is paid · fee routing extended from creator-named wallets to <strong>protocol roles, one of which is the market designer</strong> · no protocol-operated server in the integration path.</p></div>
+</div>
+</section>
+<section id="parameters">
+<div class="num">08</div>
+<div class="body">
+<h2>Parameters</h2>
+<div class="tablewrap"><table><thead><tr><th>Parameter</th><th class="n">Value</th><th>Note</th></tr></thead><tbody><tr><td>Total supply</td><td class="n">1,000,000,000</td><td>fixed at mint, no further issuance</td></tr><tr><td>To market as liquidity</td><td class="n">99%</td><td>held by the hook, unwithdrawable</td></tr><tr><td>To creator at mint</td><td class="n">1%</td><td>transferable immediately</td></tr><tr><td>Pool fee</td><td class="n">1.00%</td><td>dynamic flag, hook-controlled</td></tr><tr><td>Launch fee</td><td class="n">99% → 1%</td><td>linear decay over 30s</td></tr><tr><td>Tick spacing</td><td class="n">200</td><td></td></tr><tr><td>Discovery positions per curve</td><td class="n">11</td><td>reference config: 3 curves</td></tr><tr><td>LP positions minted</td><td class="n">34 → 31</td><td>after overlap dedupe</td></tr><tr><td>Backing currency</td><td class="n">AVAX</td><td>native; parameterised for future pairs</td></tr><tr><td>Deploy cost</td><td class="n">~7M gas</td><td>0.00035 AVAX at 0.05 gwei</td></tr></tbody></table></div>
+<p>Two invariants are enforced on-chain at deploy: the sum of discovery supply shares must be strictly below 100% of supply, and total positions must fall between 2 and 200. Violations revert.</p>
+</div>
+</section>
+<section id="leak">
+<div class="num">09</div>
+<div class="body">
+<h2>LEAK</h2>
+<p>The protocol works without a token. LEAK exists for three jobs it cannot do without one, and it is deliberately absent from the fourth.</p>
+<div class="tablewrap"><table><thead><tr><th>Role</th><th>What it does</th></tr></thead><tbody><tr><td><strong>Optional pair currency</strong></td><td>admitted to the currency registry like any other ERC-20 that clears the depth floor — <strong>never the default</strong>, for the reason in §6: a default protocol pair forces two exposures at once and turns every market into a leveraged position on the protocol</td></tr><tr><td><strong>Governance</strong></td><td>the currency registry, the automatic-admission thresholds, and the fee split are the parameters worth voting on — each is a value the protocol already reads, not a new mechanism</td></tr><tr><td><strong>Protocol rewards</strong></td><td>emitted against fees already paid, by role</td></tr></tbody></table></div>
+<p><strong>Rewards follow the fee, not the balance.</strong> The protocol already measures who paid what, per swap, split across the five roles of §6 — creators, integrating platforms, trading referrers, curve authors. Emission is a function of that record, and it is continuous with the contributor points accrued before mainnet (§11): the same principle — reward the action, not the address — applied first to a waitlist and then to a fee ledger.</p>
+<p>None of this is load-bearing. The protocol's revenue is the fee itself, settled in the pair currency, from the first trade onward. LEAK distributes a claim on participation; it does not fund the protocol, and the protocol does not need it to be worth anything in order to run.</p>
+<div class="tablewrap"><table class="plain"><tbody><tr><td><strong>Rewarded for</strong></td><td>fees actually paid in a period, weighted by role</td></tr><tr><td><strong>Not rewarded for</strong></td><td>holding a balance at a snapshot</td></tr></tbody></table></div>
+<p>The distinction is not cosmetic. Rewarding a snapshot balance rewards whoever knows the date; rewarding paid fees rewards use, and the 1% pool fee makes manufacturing volume cost more than the reward it earns. It also needs no new accounting: <code>RewardPayout</code> already records role, recipient and amount for every distribution.</p>
+</div>
+</section>
+<section id="roadmap">
+<div class="num">10</div>
+<div class="body">
+<h2>Roadmap</h2>
+<p>Phase 1 proves the primitive on a test network and builds the queue. Phase 2 puts both layers on mainnet. Phase 3 widens what can be tokenized and what it can be priced in; nothing in it is required for the protocol to function.</p>
+<h3>Phase 1 — Testnet, with a waitlist</h3>
+<div class="tablewrap"><table class="plain"><tbody><tr><td><strong>Layer 1</strong></td><td>Permissionless launch platform on the Avalanche test network. Multicurve and lockable multicurve live, five-way fee split settling on-chain, curve and currency registries deployed. Anyone can call <code>deploy</code> without asking.</td></tr><tr><td><strong>Layer 2</strong></td><td>Custodian-verified tokenization for <strong>Agents</strong>, <strong>Skills</strong>, <strong>GitHub repositories</strong>, <strong>X</strong> and <strong>Instagram posts</strong>, and <strong>Short Media</strong> — ownership proven at mint, tier written on-chain. Automatic admission above published signal thresholds; a free review queue below them.</td></tr><tr><td><strong>Issuers</strong></td><td>Optional issuer verification — Sumsub identity on named members, public track record on X and GitHub — carrying a wider fee-exempt first buy.</td></tr><tr><td><strong>SDK</strong></td><td><strong>Both layers published as open interfaces.</strong> A third party can launch a market through Layer 1 and verify ownership through Layer 2 from their own front end, building every call client-side — no API key, no allowlist, and no server operated by Leak Protocol anywhere in the path.</td></tr><tr><td><strong>Waitlist · points</strong></td><td>Issuers and early users register before mainnet and accrue <strong>contributor points</strong> for what they actually do: verifying an asset, opening a market, referring an issuer, providing the first trades. Points are the ordered queue on day one, and the record TGE and revenue sharing settle against.</td></tr></tbody></table></div>
+<h3>Phase 2 — Mainnet</h3>
+<div class="tablewrap"><table class="plain"><tbody><tr><td><strong>Layer 1</strong></td><td>The same permissionless launch platform, on Avalanche mainnet.</td></tr><tr><td><strong>Layer 2</strong></td><td>Live in priority order — <strong>Agents</strong>, <strong>models</strong>, <strong>GitHub repositories</strong> first, then <strong>Short Media</strong>, <strong>X</strong> and <strong>Instagram</strong>. Skills follow in phase 3.</td></tr><tr><td><strong>Issuers</strong></td><td>Issuer verification in its <strong>light form</strong>: Sumsub identity on named members plus the public track record already on X and GitHub. No entity KYB, no data room, no committee — the raise sizes this product serves do not justify one. Full KYB follows in phase 3.</td></tr><tr><td><strong>Audit</strong></td><td>Third-party audit published; contracts verified on the explorer.</td></tr></tbody></table></div>
+<h3>Phase 3 — Wider assets, wider money</h3>
+<div class="tablewrap"><table class="plain"><tbody><tr><td><strong>Layer 1</strong></td><td>Dynamic Dutch and Fixed price modes. <strong>Curve authoring opened as a public role</strong> — anyone can publish a mode and earn 0.01% of the notional volume of every coin launched with it.</td></tr><tr><td><strong>Layer 2</strong></td><td><strong>Skills</strong>; <strong>HuggingFace</strong> models and datasets; <strong>NFT</strong>.</td></tr><tr><td><strong>Issuers</strong></td><td>Full issuer verification — entity KYB on top of the phase 2 identity checks — for issuers whose raise justifies it.</td></tr><tr><td><strong>Currency</strong></td><td>Settlement opened well beyond AVAX: <strong>USDC</strong> for a stable unit, <strong>BTC.b</strong> and <strong>HYPE</strong> for the deepest crypto books, and <strong>tokenized equities</strong> — NVDA, SPCX — so an asset can be quoted against the sector it competes with.</td></tr><tr><td><strong>LEAK</strong></td><td>Admitted as an <em>optional</em> pair currency — never the default (§6, §9). Governance over the currency registry, admission thresholds and fee split. Protocol rewards emitted against fees already paid, by role.</td></tr></tbody></table></div>
+</div>
+</section>
+<section id="go-to-market">
+<div class="num">11</div>
+<div class="body">
+<h2>Go to market</h2>
+<p>The protocol is permissionless, so distribution is the only thing that decides whether it is used. Five levers, in the order they matter.</p>
+<h3>Ship the classes that already have buyers</h3>
+<p>Supply is not the constraint — a market with no buyer is the failure mode §2 describes, and it accounts for the 831,300 assets that died inside a curve.</p>
+<p>So the order is set by demand, not by how easy an asset is to source:</p>
+<div class="tablewrap"><table><thead><tr><th></th><th>Class</th><th>Why it leads</th></tr></thead><tbody><tr><td><strong>1</strong></td><td>Agents, models, GitHub repositories</td><td>the demand side is already proven for agent tokens; the supply side has no instrument at this size</td></tr><tr><td><strong>2</strong></td><td>Short media, X, Instagram</td><td>the deepest supply, but the buyer's thesis is thinnest — these follow, once the book has depth to absorb them</td></tr></tbody></table></div>
+<h3>Points before mainnet</h3>
+<p>The waitlist is not a mailing list. <strong>Contributor points</strong> accrue for verifying an asset, opening a market, referring an issuer and providing the first trades — actions, not signatures. They determine queue order at launch and the record that TGE and revenue sharing settle against.</p>
+<p>Fifty named platforms and creators with a measurable audience is a demand signal. Five thousand anonymous wallets is not, and the difference is the whole point of scoring actions instead of counting addresses.</p>
+<h3>A lean team is a strategy, not a constraint</h3>
+<p>A protocol that pays for itself out of trading fees needs a cost base small enough for those fees to cover. This one runs on a handful of contracts and an indexer, built by a team that has shipped production DeFi before (§12). The operating cost is low enough that the volume required to sustain the protocol is a fraction of what this chain already clears — which is why the plan does not depend on a further raise, or on a token being worth something.</p>
+<h3>The community is the first distribution channel</h3>
+<p>The first markets come from a community that already exists rather than from paid acquisition. That is what makes the first cohort reachable at zero cost, and it is also what makes it honest: the people opening the first markets are the ones who asked for the product.</p>
+<h3>The Avalanche Foundation is the bridge</h3>
+<p>This is the lever with the highest ceiling, and none of it is money.</p>
+<div class="tablewrap"><table><thead><tr><th>Ask</th><th>What it unlocks</th></tr></thead><tbody><tr><td><strong>Introductions across the ecosystem</strong></td><td>a permissionless launch layer is only a layer once something other than its own front end calls it; the Foundation is the shortest path to the apps that could</td></tr><tr><td><strong>Existing on-chain assets</strong></td><td>assets already live in the ecosystem — Arena profiles and their content among them — become admissible on Leak Protocol, which makes the two complementary rather than competing: one holds the relationship, the other holds the asset</td></tr><tr><td><strong>First tokenized projects</strong></td><td>kickstarting a first cohort from inside the ecosystem, with KOLs and creators who are already here, is worth more than any launch campaign bought from outside</td></tr><tr><td><strong>AI projects on Avalanche</strong></td><td>the leading AI projects on this chain are the first asset class this plan ships, and the Foundation is how that introduction happens</td></tr><tr><td><strong>Co-marketing at mainnet</strong></td><td>ecosystem social reach at the moment the first markets open</td></tr></tbody></table></div>
+</div>
+</section>
+<section id="team">
+<div class="num">12</div>
+<div class="body">
+<h2>Team</h2>
+<div class="tablewrap"><table class="plain"><tbody><tr><td><strong>Aaron</strong></td><td>Founder</td></tr><tr><td><strong>Henry</strong></td><td>Co-Founder</td></tr><tr><td><strong>Balwin</strong></td><td>Head of Contract</td></tr><tr><td><strong>AllSky</strong></td><td>Head of UI/UX</td></tr><tr><td><strong>GetLeft</strong></td><td>Head of Social</td></tr></tbody></table></div>
+<p>The team has built and operated across the categories this protocol sits between — <strong>launchpads, DEXs, perpetuals and NFT marketplaces</strong> — and ships production DeFi rather than prototypes. That range is the reason a five-person team can run Layer 1, Layer 2 and the indexer at a cost the fee alone covers (§11).</p>
+</div>
+</section>
+</div>
+</body>
+</html>

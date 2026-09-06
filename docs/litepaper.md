@@ -203,6 +203,11 @@ nothing about what a token represents.
 API key, no rate limit, no server that can change terms. Any platform can call
 `deploy` directly.
 
+Because curve shape and settlement currency are both parameters, the same layer
+serves products that look nothing alike: a meme launch, a curated launchpad, a
+timed auction and asset tokenization differ in the bytes passed to `deploy`, not
+in the contract underneath.
+
 **Layer 2 is the reference implementation of the caller.** It holds no privilege
 inside layer 1 — it earns the same integrator fee leg as any third party that
 builds the same thing.
@@ -691,6 +696,7 @@ This is the lever with the highest ceiling, and none of it is money.
 | **Existing on-chain assets** | assets already live in the ecosystem — Arena profiles and their content among them — become admissible on Leak Protocol, which makes the two complementary rather than competing: one holds the relationship, the other holds the asset |
 | **First tokenized projects** | kickstarting a first cohort from inside the ecosystem, with KOLs and creators who are already here, is worth more than any launch campaign bought from outside |
 | **AI projects on Avalanche** | the leading AI projects on this chain are the first asset class this plan ships, and the Foundation is how that introduction happens |
+| **Media and accelerator access** | the programmes that already connect projects into this ecosystem, pointed at a launch layer any of them can call |
 | **Co-marketing at mainnet** | ecosystem social reach at the moment the first markets open |
 
 ---

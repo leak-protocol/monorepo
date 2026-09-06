@@ -180,7 +180,7 @@ jobs:
 
       # Build for real to catch Dockerfile errors; layer caching keeps it fast.
       - name: build web image
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: .
           file: apps/web/Dockerfile
@@ -189,7 +189,7 @@ jobs:
           cache-to: type=gha,mode=max,scope=web
 
       - name: build api image
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: .
           file: apps/api/Dockerfile
@@ -198,7 +198,7 @@ jobs:
           cache-to: type=gha,mode=max,scope=api
 
       - name: build subgraph image
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: .
           file: apps/subgraph/Dockerfile
@@ -207,7 +207,7 @@ jobs:
           cache-to: type=gha,mode=max,scope=subgraph
 
       - name: build deployer image
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: .
           file: docker/deployer/Dockerfile

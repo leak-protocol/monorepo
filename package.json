@@ -5,6 +5,7 @@
     "build": "turbo run build",
     "build:js": "turbo run build:js",
     "dev": "turbo run dev",
+    "docs:notion": "node tools/notion/build.mjs",
     "fmt:sol": "prettier --write '{packages,apps}/*/src/**/*.sol'",
     "fmt:sol:check": "prettier --check '{packages,apps}/*/src/**/*.sol'",
     "format": "turbo run format",
@@ -30,6 +31,9 @@
     "pnpm": ">=9 <10"
   },
   "pnpm": {
+    "neverBuiltDependencies": [
+      "@lavamoat/preinstall-always-fail"
+    ],
     "overrides": {
       "viem": "2.53.1",
       "@wagmi/cli": "^2.1.0",

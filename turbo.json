@@ -103,6 +103,47 @@
       "dependsOn": [
         "^build"
       ]
+    },
+    "@leak/sdk-lite#build": {
+      "dependsOn": [
+        "^build:js"
+      ],
+      "outputs": [
+        "dist/**"
+      ]
+    },
+    "@zoralabs/coins#build:js": {
+      "dependsOn": [
+        "^build:js"
+      ],
+      "outputs": [
+        "dist/**",
+        "abis/**",
+        "package/wagmiGenerated.ts"
+      ]
+    },
+    "@zoralabs/coins#build": {
+      "outputs": [
+        "out/**"
+      ]
+    },
+    "@leak/subgraph#build": {
+      "dependsOn": [
+        "^build",
+        "@zoralabs/coins#build"
+      ],
+      "outputs": [
+        "build/**",
+        "generated/**",
+        "abis/**",
+        "subgraph.yaml"
+      ]
+    },
+    "@leak/subgraph#test:js": {
+      "dependsOn": [
+        "^test:js",
+        "@zoralabs/coins#build"
+      ]
     }
   }
 }

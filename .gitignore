@@ -77,3 +77,6 @@ grant/
 
 # History backup taken before filter-branch. Never pushed.
 .backup/
+
+# Generated export bundles (tools/notion/build.mjs).
+build/

@@ -5,7 +5,7 @@
 # Solidity dependencies come from pnpm, not `forge install`. Install with the official
 # node image and carry /repo across to the foundry image, so nothing is assumed about
 # which package manager the foundry image ships.
-FROM node:22-alpine AS deps
+FROM node:26-alpine AS deps
 RUN npm install -g pnpm@9.0.0
 WORKDIR /repo
 COPY . .

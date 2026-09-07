@@ -356,7 +356,7 @@ figure.chart figcaption {
       <span class="slide-num" aria-hidden="true">1</span>
     </header>
 <p class="claim"><strong>An independent, permissionless tokenization layer. Prove ownership, get a market — same transaction.</strong></p>
-<ul><li><strong>Ownership first</strong> — proven through the platform that already custodies the asset. No new account, no listing application</li><li><strong>Launch and trade in one step</strong> — supply goes into a single Uniswap v4 pool for about a cent. No curve phase, no graduation threshold, no migration</li><li><strong>The curve is a parameter</strong> — shape, fee and settlement currency set per asset class by a v4 hook</li><li><strong>AI first</strong> — agents, models and datasets lead; repositories, posts and media follow</li><li><strong>Many markets, medium TVL each, an active lifecycle</strong> — not one launch spike</li></ul>
+<ul><li><strong>Ownership first</strong> — proven by the platform that already custodies the asset. No new account, no listing application</li><li><strong>Launch and trade in one step</strong> — supply goes straight into a Uniswap v4 pool for about a cent. No curve, no threshold, no migration</li><li><strong>The curve is a parameter</strong> — shape, fee and settlement currency set per asset class by a v4 hook</li><li><strong>AI first</strong> — agents, models and datasets lead; repositories, posts and media follow</li><li><strong>Many markets, medium TVL each, an active lifecycle</strong> — not one launch spike</li></ul>
     <footer class="slide-foot"><span>Leak Protocol</span><span>1 / 11</span></footer>
   </div>
 </section>
@@ -366,7 +366,7 @@ figure.chart figcaption {
       <h2>Problems</h2>
       <span class="slide-num" aria-hidden="true">2</span>
     </header>
-<p class="claim"><strong>Graduation gates the market. Of 832,941 pump.fun launches in a month, 0.198% ever traded.</strong></p>
+<p class="claim"><strong>Graduation gates the market. Of 832,941 <code>pump.fun</code> launches in a month, 0.198% ever traded.</strong></p>
 <figure class="chart"><svg viewBox="0 0 800 176" role="img" aria-label="Of 832,941 launches between 8 May and 10 June 2026, about 1,650 reached a real market — 0.198 percent" xmlns="http://www.w3.org/2000/svg">
     <text x="0" y="16" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="11.5" letter-spacing="1.4"
       fill="currentColor" opacity=".55">8 MAY – 10 JUN 2026</text>
@@ -385,7 +385,7 @@ figure.chart figcaption {
     <text x="800" y="144" text-anchor="end" font-family="'Archivo', system-ui, sans-serif"
       font-size="15" fill="currentColor" opacity=".7">~831,300 died inside a curve</text>
   </svg><figcaption>Drawn at true scale — the surviving sliver is 1.6 pixels wide</figcaption></figure>
-<ul><li><strong>The rest never got a life.</strong> Priced by a formula, liquidity that could not leave, no market at any point. Down 3.18× in eight months</li><li><strong>Knowledge compounds faster than it can be funded.</strong> Agents, models and datasets gain value weekly; nothing tokenizes an intellectual asset at that size</li><li><strong>Small and medium projects have no instrument.</strong> Grants need an application, sponsorship needs an audience, equity needs a company</li><li><strong>The venues are fragmented, and each is locked to one unit.</strong> pump.fun tokenizes a name · bags.fm a name plus a social · zora.co a post inside Zora · daos.fun a fund · flyingtulips its own venue. Every one ships its own curve and its own front end, and none of them can be called by anyone else</li><li><strong>Modelling an asset and tokenizing it are separate jobs.</strong> No one has split them, so every platform rebuilds both</li></ul>
+<ul><li><strong>The rest never got a life.</strong> Priced by a formula, liquidity that could not leave, no market at any point</li><li><strong>Knowledge compounds faster than it can be funded.</strong> Agents, models and datasets gain value weekly; nothing tokenizes them</li><li><strong>Small and medium projects have no instrument.</strong> Grants need an application, sponsorship an audience, equity a company</li><li><strong>Every venue is a walled garden, one unit each.</strong> <code>pump.fun</code> a name · <code>bags.fm</code> a name plus a social · <code>zora.co</code> a post · <code>daos.fun</code> a fund · launchpads their own listings. Own curve, own front end, none callable by anyone else</li><li><strong>Modelling an asset and tokenizing it are separate jobs.</strong> Nobody splits them, so every platform rebuilds both</li></ul>
     <footer class="slide-foot"><span>Leak Protocol</span><span>2 / 11</span></footer>
   </div>
 </section>
@@ -395,9 +395,9 @@ figure.chart figcaption {
       <h2>What we tokenize</h2>
       <span class="slide-num" aria-hidden="true">3</span>
     </header>
-<p class="claim"><strong>Digital RWA: a real asset with a verifiable owner, held natively on the platform that hosts it.</strong></p>
+<p class="claim"><strong>Digital RWA: a real asset with a verifiable owner, held natively where it already lives.</strong></p>
 <table><thead><tr><th>Class</th><th>Ownership proven by</th><th>Public signal</th></tr></thead><tbody><tr><td><strong>Agents, models, datasets</strong></td><td>platform auth</td><td>usage, installs, downloads</td></tr><tr><td><strong>Repositories</strong></td><td>platform auth</td><td>stars, forks</td></tr><tr><td>Posts, short media</td><td>platform auth</td><td>reach, views</td></tr><tr><td>NFT</td><td>the chain itself</td><td>floor, holders</td></tr></tbody></table>
-<ul><li>The token is a position on the asset's <strong>attention</strong> — not equity, not revenue share, no governance</li><li>The signal is published by the custodian, continuously, by parties with no stake in the token</li><li>Ownership is established by the custodian's own auth, so no off-chain paperwork sits between an asset and its market. That is what lets this layer be permissionless</li></ul>
+<ul><li>The token is a position on the asset's <strong>attention</strong> — not equity, not revenue, no governance</li><li>The signal is published by the custodian, continuously, by parties with no stake in the token</li><li>Ownership comes from the custodian's own auth, so no paperwork sits between an asset and its market. That is what makes this layer permissionless</li></ul>
     <footer class="slide-foot"><span>Leak Protocol</span><span>3 / 11</span></footer>
   </div>
 </section>
@@ -483,7 +483,7 @@ figure.chart figcaption {
     <text x="400" y="328" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, monospace"
       font-size="10.5" fill="currentColor" opacity=".5">one pool per asset · settled in the v4 singleton</text>
   </svg></figure>
-<ul><li><strong>Layer 2 — Leak Digital RWA Tokenization.</strong> Proves ownership against the custodian, resolves metadata, and picks the curve and settlement currency for the asset class. This is where a token stops being a string and starts being a claim on something</li><li><strong>Layer 1 — permissionless launch.</strong> Mints the coin, opens the pool, splits the fee. Built client-side: no API key, no allowlist, no server in the path</li><li><strong>Third parties sit at Layer 2 too</strong> — meme launches, launchpads, auctions, creator coins — and earn the same 0.20%. Ours holds no privilege theirs does not</li></ul>
+<ul><li><strong>Layer 2 — Leak Digital RWA Tokenization.</strong> Proves ownership against the custodian, resolves metadata, picks the curve and settlement currency. Where a token stops being a string and becomes a claim on something</li><li><strong>Layer 1 — permissionless launch.</strong> Mints the coin, opens the pool, splits the fee. Client-side: no API key, no allowlist, no server in the path</li><li><strong>Third parties sit at Layer 2 too</strong> — meme launches, launchpads, auctions, creator coins — earning the same 0.20%. Ours holds no privilege theirs does not</li></ul>
     <footer class="slide-foot"><span>Leak Protocol</span><span>4 / 11</span></footer>
   </div>
 </section>
@@ -602,7 +602,7 @@ figure.chart figcaption {
       <text x="555.3333333333334" y="207" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="11"
         fill="currentColor" opacity=".5">designing the market</text>
   </svg></figure>
-<ul><li><strong>0.50% to the owner</strong> for the life of the market — no vesting cliff to sell into</li><li><strong>0.20% re-minted as liquidity nobody can withdraw</strong>, so depth grows with volume</li><li><strong>0.20% to any platform that brings an asset</strong> — no agreement to sign, no revenue share to invoice</li><li>Leak takes 0.25% as the front end, 0.05% when a third party is. <strong>No token is required for the protocol to run</strong></li></ul>
+<ul><li><strong>0.50% to the owner</strong> for the life of the market — no vesting cliff to sell into</li><li><strong>0.20% re-minted as liquidity nobody can withdraw</strong>, so depth grows with volume</li><li><strong>0.20% to any platform that brings an asset</strong> — nothing to sign, nothing to invoice</li><li>Leak takes 0.25% as the front end, 0.05% when a third party is. <strong>No token is required for the protocol to run</strong></li></ul>
     <footer class="slide-foot"><span>Leak Protocol</span><span>5 / 11</span></footer>
   </div>
 </section>
@@ -614,7 +614,7 @@ figure.chart figcaption {
     </header>
 <p class="claim"><strong>One app on this chain cleared $450M in two months.</strong></p>
 <table><thead><tr><th>First two months after relaunch</th><th class="n"></th></tr></thead><tbody><tr><td>Registered users</td><td class="n">200,000+</td></tr><tr><td>Trading volume</td><td class="n">$450M+</td></tr><tr><td>Fees</td><td class="n">35,000+ AVAX</td></tr></tbody></table>
-<ul><li>Roughly $225M a month, from a curve launchpad inside a social feed. The audience is already here</li><li><strong>The chain is already pushing this direction</strong> — founding member of the Agentic Payments Alliance, ecosystem workshops on agent payments, and a DeFAI product tokenizing AI agents</li><li><strong>Tokenization is accelerating</strong>: RWA transfer volume reached <strong>$365M in 30 days</strong>, up 360% month on month, and 724 tokenized US equities went live here</li><li>Those equities matter twice: as assets to tokenize, and as <strong>settlement currencies</strong> an asset can be priced against</li><li>Complementary, not competing: that app holds the creator relationship, Leak holds the asset</li></ul>
+<ul><li>Roughly $225M a month, from a curve launchpad inside a social feed. The audience is already here</li><li><strong>The chain is already pushing this direction</strong> — founding member of the Agentic Payments Alliance, workshops on agent payments, a DeFAI product tokenizing AI agents</li><li><strong>Tokenization is accelerating</strong> — RWA transfer volume <strong>$365M in 30 days</strong>, up 360% month on month, and 724 tokenized US equities live</li><li>Those equities count twice: assets to tokenize, and <strong>settlement currencies</strong> to price against</li><li>Complementary, not competing: that app holds the creator, Leak holds the asset</li></ul>
     <footer class="slide-foot"><span>Leak Protocol</span><span>6 / 11</span></footer>
   </div>
 </section>
@@ -713,7 +713,7 @@ figure.chart figcaption {
     <text x="676.6666666666666" y="225" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, monospace"
       font-size="11" fill="currentColor" opacity=".6">brings the currency</text>
   </svg></figure>
-<ul><li><strong>The curve exists to fund the migration.</strong> It collects currency until there is enough to cover the cost of moving into a real pool — that point is the threshold</li><li><strong>So it cannot be removed.</strong> Take out the curve and the pricing engine, the reserve custody and the graduation event go with it. <strong>bags.fm</strong> rebuilt creator economics on top of this design — <strong>$5B of cumulative volume</strong> — and still kept the curve and the migration intact</li><li><strong>We never needed one.</strong> Minting only the coin side means the first buyer brings the currency. No collection phase, nothing for a threshold to pay for</li><li><strong>And it is one platform, not a fork per use case.</strong> Two layers: tokenization above, permissionless launch below — each extends without touching the other</li></ul>
+<ul><li><strong>The curve exists to fund the migration.</strong> It collects currency until there is enough to open a real pool — that point is the threshold</li><li><strong>So it cannot be removed.</strong> Take out the curve and the pricing engine, the reserve custody and the graduation event go with it. <strong><code>bags.fm</code></strong> rebuilt creator economics on this design — <strong>$5B of volume</strong> — and still kept it</li><li><strong>We never needed one.</strong> Minting only the coin side means the first buyer brings the currency. Nothing for a threshold to pay for</li><li><strong>One platform, not a fork per use case.</strong> Tokenization above, permissionless launch below — each extends without touching the other</li></ul>
     <footer class="slide-foot"><span>Leak Protocol</span><span>7 / 11</span></footer>
   </div>
 </section>
@@ -723,8 +723,8 @@ figure.chart figcaption {
       <h2>GTM</h2>
       <span class="slide-num" aria-hidden="true">8</span>
     </header>
-<p class="claim"><strong>We are not starting from zero. The team, the product and the community are already in place — the plan is to ship on top of them.</strong></p>
-<ul><li><strong>A team that has shipped this before.</strong> Spot and perpetuals, launchpads, NFT marketplaces, AI agents — built, launched and operated. Nothing here is a first attempt</li><li><strong>A product that ships in slices.</strong> Permissionless launch first, then verification, then issuer checks. Each one goes live on its own, so there is no single launch date to miss</li><li><strong>A community that already exists.</strong> The first markets and the first reach come from people who asked for this product, not from paid acquisition</li><li><strong>Points before mainnet.</strong> Verifying an asset, opening a market, referring an issuer — actions, not signatures. They set the launch queue, and TGE and revenue sharing settle against the same record</li><li><strong>Then the ecosystem.</strong> Everything above we do alone; the next slide is the part we cannot</li></ul>
+<p class="claim"><strong>We are not starting from zero. The team, the product and the community are already in place.</strong></p>
+<ul><li><strong>A team that has shipped this before.</strong> Spot and perpetuals, launchpads, NFT marketplaces, AI agents — built, launched and operated</li><li><strong>A product that ships in slices.</strong> Permissionless launch first, then verification, then issuer checks. No single launch date to miss</li><li><strong>A community that already exists.</strong> The first markets and the first reach come from people who asked for this, not from paid acquisition</li><li><strong>Points before mainnet.</strong> Verifying, launching, referring — actions, not signatures. They set the queue, and TGE and revenue sharing settle against the same record</li><li><strong>Then the ecosystem.</strong> Everything above we do alone; the next slide is the part we cannot</li></ul>
     <footer class="slide-foot"><span>Leak Protocol</span><span>8 / 11</span></footer>
   </div>
 </section>
@@ -734,8 +734,8 @@ figure.chart figcaption {
       <h2>Working with the ecosystem</h2>
       <span class="slide-num" aria-hidden="true">9</span>
     </header>
-<p class="claim"><strong>A launch layer compounds with what is already here. Four places where that compounding starts.</strong></p>
-<ul><li><strong>Composability with existing products</strong> — any Avalanche protocol can call the launch layer and keep 0.20% of what it brings, with no agreement to sign and nothing to integrate on our side</li><li><strong>Existing on-chain assets become listable</strong> — a currency-registry entry, not new protocol code, so assets already trading here gain a second venue rather than losing one</li><li><strong>AI projects first</strong> — the chain is already building agent payments and DeFAI; those are exactly the assets this platform is built to price</li><li><strong>A first cohort from inside</strong> — the ecosystem's own creators, KOLs and projects opening the first markets, with ecosystem reach at mainnet</li></ul>
+<p class="claim"><strong>A launch layer compounds with what is already here. Four places that starts.</strong></p>
+<ul><li><strong>Composable by default</strong> — any Avalanche protocol can call the launch layer and keep 0.20% of what it brings, with nothing to sign and nothing to integrate on our side</li><li><strong>Existing assets become listable</strong> — a currency-registry entry, not new protocol code, so assets already trading here gain a venue rather than lose one</li><li><strong>AI projects first</strong> — the chain is already building agent payments and DeFAI; those are exactly the assets this platform prices</li><li><strong>A first cohort from inside</strong> — the ecosystem's own creators, KOLs and projects opening the first markets, with ecosystem reach at mainnet</li></ul>
     <footer class="slide-foot"><span>Leak Protocol</span><span>9 / 11</span></footer>
   </div>
 </section>
@@ -758,7 +758,7 @@ figure.chart figcaption {
       <h2>Team</h2>
       <span class="slide-num" aria-hidden="true">11</span>
     </header>
-<table class="plain"><tbody><tr><td>Aaron</td><td>Founder</td></tr><tr><td>Henry</td><td>Co-Founder</td></tr><tr><td>Oliver</td><td>Head of Growth</td></tr><tr><td>Balwin</td><td>Head of Contract</td></tr><tr><td>AllSky</td><td>Head of UI/UX</td></tr><tr><td>GetLeft</td><td>Head of Social</td></tr></tbody></table>
+<table class="plain"><tbody><tr><td>Aaron</td><td>Founder</td></tr><tr><td>Henry</td><td>Co-Founder</td></tr><tr><td>Oliver</td><td>Co-Founder</td></tr><tr><td>Balwin</td><td>Head of Contract</td></tr><tr><td>AllSky</td><td>Head of UI/UX</td></tr><tr><td>GetLeft</td><td>Head of Social</td></tr></tbody></table>
 <ul><li>Built, shipped and operated <strong>spot and perpetuals, launchpads, NFT marketplaces and AI agents</strong> — every category this protocol draws on</li></ul>
     <footer class="slide-foot"><span>Leak Protocol</span><span>11 / 11</span></footer>
   </div>

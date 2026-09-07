@@ -7,6 +7,7 @@
     "dev": "turbo run dev",
     "docs:litepaper": "node tools/litepaper/build.mjs",
     "docs:notion": "node tools/notion/build.mjs",
+    "docs:pitch": "node tools/pitch/build.mjs",
     "fmt:sol": "prettier --write '{packages,apps}/*/src/**/*.sol'",
     "fmt:sol:check": "prettier --check '{packages,apps}/*/src/**/*.sol'",
     "format": "turbo run format",

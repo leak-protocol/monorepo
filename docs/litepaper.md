@@ -707,6 +707,7 @@ This is the lever with the highest ceiling, and none of it is money.
 |---|---|
 | **Aaron** | Founder |
 | **Henry** | Co-Founder |
+| **Oliver** | Co-Founder |
 | **Balwin** | Head of Contract |
 | **AllSky** | Head of UI/UX |
 | **GetLeft** | Head of Social |

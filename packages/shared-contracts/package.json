@@ -24,7 +24,7 @@
     "wagmi:generate": "wagmi generate && pnpm exec rename-generated-abi-casing ./package/wagmiGenerated.ts"
   },
   "dependencies": {
-    "@openzeppelin/contracts-upgradeable": "^5.4.0"
+    "@openzeppelin/contracts-upgradeable": "^5.6.1"
   },
   "devDependencies": {
     "@openzeppelin/contracts": "^5.4.0",

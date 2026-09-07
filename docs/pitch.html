@@ -349,24 +349,24 @@ figure.chart figcaption {
     <p class="sub">The AI-first Digital RWA tokenization platform on Avalanche.</p>
   </div>
 </section>
-<section class="slide is-airy">
+<section class="slide is-normal">
   <div class="slide-inner">
     <header class="slide-head">
       <h2>Overview</h2>
       <span class="slide-num" aria-hidden="true">1</span>
     </header>
-<p class="claim"><strong>Any owned digital asset becomes a live market in one transaction, for about a cent.</strong></p>
-<ul><li>Ownership is proven against the platform that already holds the asset — no new account, no listing application</li><li>Supply is minted straight into one Uniswap v4 pool, tradable in the next block</li><li><strong>AI first</strong>: agents, models and datasets lead. Repositories, posts and media follow on the same rails</li></ul>
+<p class="claim"><strong>An independent, permissionless tokenization layer. Prove ownership, get a market — same transaction.</strong></p>
+<ul><li><strong>Ownership first</strong> — proven through the platform that already custodies the asset. No new account, no listing application</li><li><strong>Launch and trade in one step</strong> — supply goes into a single Uniswap v4 pool for about a cent. No curve phase, no graduation threshold, no migration</li><li><strong>The curve is a parameter</strong> — shape, fee and settlement currency set per asset class by a v4 hook</li><li><strong>AI first</strong> — agents, models and datasets lead; repositories, posts and media follow</li><li><strong>Many markets, medium TVL each, an active lifecycle</strong> — not one launch spike</li></ul>
     <footer class="slide-foot"><span>Leak Protocol</span><span>1 / 11</span></footer>
   </div>
 </section>
-<section class="slide is-airy">
+<section class="slide is-normal">
   <div class="slide-inner">
     <header class="slide-head">
-      <h2>The problem</h2>
+      <h2>Problems</h2>
       <span class="slide-num" aria-hidden="true">2</span>
     </header>
-<p class="claim"><strong>0.198% of launches ever reach a market.</strong></p>
+<p class="claim"><strong>Graduation gates the market. Of 832,941 pump.fun launches in a month, 0.198% ever traded.</strong></p>
 <figure class="chart"><svg viewBox="0 0 800 176" role="img" aria-label="Of 832,941 launches between 8 May and 10 June 2026, about 1,650 reached a real market — 0.198 percent" xmlns="http://www.w3.org/2000/svg">
     <text x="0" y="16" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="11.5" letter-spacing="1.4"
       fill="currentColor" opacity=".55">8 MAY – 10 JUN 2026</text>
@@ -385,7 +385,7 @@ figure.chart figcaption {
     <text x="800" y="144" text-anchor="end" font-family="'Archivo', system-ui, sans-serif"
       font-size="15" fill="currentColor" opacity=".7">~831,300 died inside a curve</text>
   </svg><figcaption>Drawn at true scale — the surviving sliver is 1.6 pixels wide</figcaption></figure>
-<ul><li>832,941 launches in one month; about 1,650 opened a real market. Down 3.18× in eight months</li><li>The rest paid to launch, then sat priced by a formula with liquidity that could not leave</li><li><strong>The threshold is not a quality filter. It is a minimum size</strong>, far above where most assets live</li></ul>
+<ul><li><strong>The rest never got a life.</strong> Priced by a formula, liquidity that could not leave, no market at any point. Down 3.18× in eight months</li><li><strong>Knowledge compounds faster than it can be funded.</strong> Agents, models and datasets gain value weekly; nothing tokenizes an intellectual asset at that size</li><li><strong>Small and medium projects have no instrument.</strong> Grants need an application, sponsorship needs an audience, equity needs a company</li><li><strong>The venues are fragmented, and each is locked to one unit.</strong> pump.fun tokenizes a name · bags.fm a name plus a social · zora.co a post inside Zora · daos.fun a fund · flyingtulips its own venue. Every one ships its own curve and its own front end, and none of them can be called by anyone else</li><li><strong>Modelling an asset and tokenizing it are separate jobs.</strong> No one has split them, so every platform rebuilds both</li></ul>
     <footer class="slide-foot"><span>Leak Protocol</span><span>2 / 11</span></footer>
   </div>
 </section>
@@ -395,151 +395,213 @@ figure.chart figcaption {
       <h2>What we tokenize</h2>
       <span class="slide-num" aria-hidden="true">3</span>
     </header>
-<p class="claim"><strong>Digital RWA: a real asset, a verifiable owner, no legal wrapper.</strong></p>
+<p class="claim"><strong>Digital RWA: a real asset with a verifiable owner, held natively on the platform that hosts it.</strong></p>
 <table><thead><tr><th>Class</th><th>Ownership proven by</th><th>Public signal</th></tr></thead><tbody><tr><td><strong>Agents, models, datasets</strong></td><td>platform auth</td><td>usage, installs, downloads</td></tr><tr><td><strong>Repositories</strong></td><td>platform auth</td><td>stars, forks</td></tr><tr><td>Posts, short media</td><td>platform auth</td><td>reach, views</td></tr><tr><td>NFT</td><td>the chain itself</td><td>floor, holders</td></tr></tbody></table>
-<ul><li>The token is a position on the asset's <strong>attention</strong> — not equity, not revenue share, no governance</li><li>The signal is published by the custodian, continuously, by parties with no stake in the token</li><li>No legal wrapper means no compliance perimeter. That is what lets this layer be permissionless</li></ul>
+<ul><li>The token is a position on the asset's <strong>attention</strong> — not equity, not revenue share, no governance</li><li>The signal is published by the custodian, continuously, by parties with no stake in the token</li><li>Ownership is established by the custodian's own auth, so no off-chain paperwork sits between an asset and its market. That is what lets this layer be permissionless</li></ul>
     <footer class="slide-foot"><span>Leak Protocol</span><span>3 / 11</span></footer>
   </div>
 </section>
-<section class="slide is-airy">
+<section class="slide is-normal">
   <div class="slide-inner">
     <header class="slide-head">
       <h2>How it works</h2>
       <span class="slide-num" aria-hidden="true">4</span>
     </header>
-<p class="claim"><strong>Two layers. The lower one is a public primitive anyone can call.</strong></p>
-<figure class="chart"><svg viewBox="0 0 800 318" role="img" aria-label="Meme launches, launchpads, auctions, RWA tokenization and Leak's own front end all call one permissionless Layer 1, which settles into the Uniswap v4 PoolManager" xmlns="http://www.w3.org/2000/svg">
+<p class="claim"><strong>Layer 2 decides what a token means. Layer 1 makes it tradable. Neither works without the other.</strong></p>
+<figure class="chart"><svg viewBox="0 0 800 372" role="img" aria-label="Leak's Digital RWA tokenization layer and third-party callers such as meme launches, launchpads, auctions and creator coins all sit at the same tier above one permissionless launch platform, which settles through a registry of Uniswap v4 hooks." xmlns="http://www.w3.org/2000/svg">
     <defs>
       <marker id="tip2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto">
         <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--rule-strong)"/>
       </marker>
+      <marker id="tipA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--accent)"/>
+      </marker>
     </defs>
 
-    
-    <rect x="0" y="4" width="147.2" height="40" rx="4" fill="none"
-      stroke="var(--rule-strong)" stroke-width="1.5"/>
-    <text x="73.6" y="29" text-anchor="middle" font-family="'Archivo', system-ui, sans-serif"
-      font-size="12.5" fill="currentColor">Meme</text>
-    <line x1="73.6" y1="50" x2="73.6" y2="88"
-      stroke="var(--rule-strong)" stroke-width="1.5" marker-end="url(#tip2)"/>
-    <rect x="163.2" y="4" width="147.2" height="40" rx="4" fill="none"
-      stroke="var(--rule-strong)" stroke-width="1.5"/>
-    <text x="236.79999999999998" y="29" text-anchor="middle" font-family="'Archivo', system-ui, sans-serif"
-      font-size="12.5" fill="currentColor">Launchpad</text>
-    <line x1="236.79999999999998" y1="50" x2="236.79999999999998" y2="88"
-      stroke="var(--rule-strong)" stroke-width="1.5" marker-end="url(#tip2)"/>
-    <rect x="326.4" y="4" width="147.2" height="40" rx="4" fill="none"
-      stroke="var(--rule-strong)" stroke-width="1.5"/>
-    <text x="400" y="29" text-anchor="middle" font-family="'Archivo', system-ui, sans-serif"
-      font-size="12.5" fill="currentColor">Auction</text>
-    <line x1="400" y1="50" x2="400" y2="88"
-      stroke="var(--rule-strong)" stroke-width="1.5" marker-end="url(#tip2)"/>
-    <rect x="489.59999999999997" y="4" width="147.2" height="40" rx="4" fill="none"
-      stroke="var(--rule-strong)" stroke-width="1.5"/>
-    <text x="563.1999999999999" y="29" text-anchor="middle" font-family="'Archivo', system-ui, sans-serif"
-      font-size="12.5" fill="currentColor">RWA tokenization</text>
-    <line x1="563.1999999999999" y1="50" x2="563.1999999999999" y2="88"
-      stroke="var(--rule-strong)" stroke-width="1.5" marker-end="url(#tip2)"/>
-    <rect x="652.8" y="4" width="147.2" height="40" rx="4" fill="none"
-      stroke="var(--rule-strong)" stroke-width="1.5"/>
-    <text x="726.4" y="29" text-anchor="middle" font-family="'Archivo', system-ui, sans-serif"
-      font-size="12.5" fill="currentColor">Leak Layer 2</text>
-    <line x1="726.4" y1="50" x2="726.4" y2="88"
-      stroke="var(--rule-strong)" stroke-width="1.5" marker-end="url(#tip2)"/>
+    <text x="0" y="12" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="10.5" letter-spacing="1.3"
+      fill="var(--accent)">LAYER 2 · OURS</text>
+    <text x="800" y="12" text-anchor="end" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="10.5"
+      letter-spacing="1.3" fill="currentColor" opacity=".5">LAYER 2 · THIRD PARTIES</text>
 
-    <rect x="0" y="96" width="800" height="78" rx="5"
+    <rect x="0" y="24" width="352" height="74" rx="5"
       fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>
-    <text x="22" y="128" font-family="'Archivo', system-ui, sans-serif" font-size="16.5" font-weight="700"
-      fill="var(--accent)">LAYER 1 — permissionless launch platform</text>
-    <text x="22" y="153" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="11.5"
-      fill="currentColor" opacity=".7">factory · coin · curve registry · currency registry · hook · router</text>
-    <text x="778" y="128" text-anchor="end" font-family="'IBM Plex Mono', ui-monospace, monospace"
-      font-size="11.5" fill="var(--accent)">0.20% to the caller</text>
+    <text x="176" y="53" text-anchor="middle" font-family="'Archivo', system-ui, sans-serif"
+      font-size="14.5" font-weight="700" fill="var(--accent)">Leak Digital RWA Tokenization</text>
+    <text x="176" y="75" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, monospace"
+      font-size="11" fill="var(--accent)" opacity=".85">prove ownership · resolve metadata · pick curve + currency</text>
+    <line x1="176" y1="100" x2="176" y2="144"
+      stroke="var(--accent)" stroke-width="1.8" marker-end="url(#tipA)"/>
 
-    <line x1="400" y1="178" x2="400" y2="210"
+    
+    <rect x="392" y="38" width="96" height="46" rx="4"
+      fill="none" stroke="var(--rule-strong)" stroke-width="1.5"/>
+    <text x="440" y="66" text-anchor="middle" font-family="'Archivo', system-ui, sans-serif"
+      font-size="12" fill="currentColor">Meme</text>
+    <line x1="440" y1="86" x2="440" y2="122"
+      stroke="var(--rule-strong)" stroke-width="1.2"/>
+    <rect x="496" y="38" width="96" height="46" rx="4"
+      fill="none" stroke="var(--rule-strong)" stroke-width="1.5"/>
+    <text x="544" y="66" text-anchor="middle" font-family="'Archivo', system-ui, sans-serif"
+      font-size="12" fill="currentColor">Launchpad</text>
+    <line x1="544" y1="86" x2="544" y2="122"
+      stroke="var(--rule-strong)" stroke-width="1.2"/>
+    <rect x="600" y="38" width="96" height="46" rx="4"
+      fill="none" stroke="var(--rule-strong)" stroke-width="1.5"/>
+    <text x="648" y="66" text-anchor="middle" font-family="'Archivo', system-ui, sans-serif"
+      font-size="12" fill="currentColor">Auction</text>
+    <line x1="648" y1="86" x2="648" y2="122"
+      stroke="var(--rule-strong)" stroke-width="1.2"/>
+    <rect x="704" y="38" width="96" height="46" rx="4"
+      fill="none" stroke="var(--rule-strong)" stroke-width="1.5"/>
+    <text x="752" y="66" text-anchor="middle" font-family="'Archivo', system-ui, sans-serif"
+      font-size="12" fill="currentColor">Creator</text>
+    <line x1="752" y1="86" x2="752" y2="122"
+      stroke="var(--rule-strong)" stroke-width="1.2"/>
+    <line x1="440" y1="122" x2="752" y2="122"
+      stroke="var(--rule-strong)" stroke-width="1.2"/>
+    <line x1="596" y1="122" x2="596" y2="144"
       stroke="var(--rule-strong)" stroke-width="1.5" marker-end="url(#tip2)"/>
 
-    <rect x="0" y="218" width="800" height="64" rx="5" fill="none"
-      stroke="var(--rule-strong)" stroke-width="1.5"/>
-    <text x="22" y="245" font-family="'Archivo', system-ui, sans-serif" font-size="14.5" font-weight="600"
-      fill="currentColor">Uniswap v4 PoolManager</text>
-    <text x="22" y="267" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="11.5"
-      fill="currentColor" opacity=".65">one pool per asset · settlement</text>
+    <rect x="0" y="152" width="800" height="78" rx="5"
+      fill="none" stroke="var(--ink)" stroke-width="2.5"/>
+    <text x="400" y="183" text-anchor="middle" font-family="'Archivo', system-ui, sans-serif"
+      font-size="15.5" font-weight="700" fill="currentColor">LAYER 1 — permissionless launch platform</text>
+    <text x="400" y="205" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, monospace"
+      font-size="11" fill="currentColor" opacity=".7">factory · coin · curve registry · currency registry · router</text>
+    <text x="400" y="222" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, monospace"
+      font-size="10.5" fill="var(--accent)">any caller earns 0.20% · no API key · no allowlist</text>
 
-    <text x="0" y="308" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="11.5" fill="currentColor" opacity=".5">curve shape and settlement currency are parameters, so one layer serves every model above it</text>
-  </svg><figcaption>No API key, no allowlist, no server in the path</figcaption></figure>
-<ul><li><strong>Layer 2</strong> reads ownership from the custodian and picks the curve and settlement currency</li><li><strong>Layer 1</strong> mints the coin and opens the pool. Every call is built client-side: no API key, no allowlist, no server in the path</li><li>Curve shape and currency are parameters, so a meme launch, a launchpad, an auction and asset tokenization all use the same layer</li></ul>
+    <line x1="400" y1="232" x2="400" y2="250"
+      stroke="var(--rule-strong)" stroke-width="1.5" marker-end="url(#tip2)"/>
+
+    <rect x="0" y="258" width="800" height="82" rx="5"
+      fill="none" stroke="var(--rule-strong)" stroke-width="1.5"/>
+    <text x="400" y="287" text-anchor="middle" font-family="'Archivo', system-ui, sans-serif"
+      font-size="14.5" font-weight="600" fill="currentColor">Uniswap v4 Hook</text>
+    <text x="400" y="309" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, monospace"
+      font-size="11" fill="currentColor" opacity=".7">curve, dynamic fee and single-sided ladder crafted per asset class</text>
+    <text x="400" y="328" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, monospace"
+      font-size="10.5" fill="currentColor" opacity=".5">one pool per asset · settled in the v4 singleton</text>
+  </svg></figure>
+<ul><li><strong>Layer 2 — Leak Digital RWA Tokenization.</strong> Proves ownership against the custodian, resolves metadata, and picks the curve and settlement currency for the asset class. This is where a token stops being a string and starts being a claim on something</li><li><strong>Layer 1 — permissionless launch.</strong> Mints the coin, opens the pool, splits the fee. Built client-side: no API key, no allowlist, no server in the path</li><li><strong>Third parties sit at Layer 2 too</strong> — meme launches, launchpads, auctions, creator coins — and earn the same 0.20%. Ours holds no privilege theirs does not</li></ul>
     <footer class="slide-foot"><span>Leak Protocol</span><span>4 / 11</span></footer>
   </div>
 </section>
 <section class="slide is-airy">
   <div class="slide-inner">
     <header class="slide-head">
-      <h2>Fees</h2>
+      <h2>Revenue</h2>
       <span class="slide-num" aria-hidden="true">5</span>
     </header>
-<p class="claim"><strong>One 1% trading fee, split six ways, settled on-chain per swap.</strong></p>
-<figure class="chart"><svg viewBox="0 0 800 210" role="img" aria-label="The 1% pool fee splits into permanent liquidity 20%, creator 50%, integrating platform 20%, protocol 5%, trading referrer 4%, curve author 1%" xmlns="http://www.w3.org/2000/svg">
-    <text x="0" y="18" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="11.5" letter-spacing="1.4"
-      fill="currentColor" opacity=".55">1% POOL FEE, PER SWAP</text>
-    <text x="800" y="18" text-anchor="end" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="11.5"
-      fill="var(--accent)">protocol leg: 0.05% of volume · $500 per $1M</text>
+<p class="claim"><strong>One revenue stream, distributed on-chain to everyone who made the market exist.</strong></p>
+<figure class="chart"><svg viewBox="0 0 800 226" role="img" aria-label="The pool fee is distributed to six roles: the creator half of it, permanent liquidity and the integrating platform a fifth each, then the protocol, the trading referrer and the curve author." xmlns="http://www.w3.org/2000/svg">
+    <text x="0" y="12" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="11" letter-spacing="1.3"
+      fill="currentColor" opacity=".5">ONE POOL FEE, PER SWAP</text>
     
-      <rect x="0" y="44" width="158" height="66" rx="2"
+      <rect x="0" y="26" width="398" height="84" rx="2"
         fill="currentColor"
-        opacity="0.32"/>
-      <text x="80" y="72" text-anchor="middle" font-family="'Archivo', system-ui, sans-serif"
-        font-size="14.5" font-weight="700" fill="var(--surface)">Liquidity</text>
-      <text x="80" y="92" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, monospace"
-        font-size="12" fill="var(--surface)" opacity=".85">0.20%</text>
-      <rect x="160" y="44" width="398" height="66" rx="2"
+        opacity="0.42"/>
+      
+      <text x="200" y="62" text-anchor="middle" font-family="'Archivo', system-ui, sans-serif"
+        font-size="16" font-weight="700" fill="var(--surface)">Creator</text>
+      <text x="200" y="84" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, monospace"
+        font-size="13" fill="var(--surface)" opacity=".85">0.50%</text>
+      <rect x="400" y="26" width="158" height="84" rx="2"
         fill="currentColor"
-        opacity="0.28"/>
-      <text x="360" y="72" text-anchor="middle" font-family="'Archivo', system-ui, sans-serif"
-        font-size="14.5" font-weight="700" fill="var(--surface)">Creator</text>
-      <text x="360" y="92" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, monospace"
-        font-size="12" fill="var(--surface)" opacity=".85">0.50%</text>
-      <rect x="560" y="44" width="158" height="66" rx="2"
+        opacity="0.29000000000000004"/>
+      
+      <text x="480" y="62" text-anchor="middle" font-family="'Archivo', system-ui, sans-serif"
+        font-size="16" font-weight="700" fill="var(--surface)">Liquidity</text>
+      <text x="480" y="84" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, monospace"
+        font-size="13" fill="var(--surface)" opacity=".85">0.20%</text>
+      <rect x="560" y="26" width="158" height="84" rx="2"
         fill="currentColor"
-        opacity="0.24"/>
-      <text x="640" y="72" text-anchor="middle" font-family="'Archivo', system-ui, sans-serif"
-        font-size="14.5" font-weight="700" fill="var(--surface)">Platform</text>
-      <text x="640" y="92" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, monospace"
-        font-size="12" fill="var(--surface)" opacity=".85">0.20%</text>
-      <rect x="720" y="44" width="38" height="66" rx="2"
+        opacity="0.24000000000000002"/>
+      
+      <text x="640" y="62" text-anchor="middle" font-family="'Archivo', system-ui, sans-serif"
+        font-size="16" font-weight="700" fill="var(--surface)">Platform</text>
+      <text x="640" y="84" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, monospace"
+        font-size="13" fill="var(--surface)" opacity=".85">0.20%</text>
+      <rect x="720" y="26" width="38" height="84" rx="2"
         fill="var(--accent)"
         opacity="1"/>
-      <line x1="740" y1="113" x2="740" y2="112"
-        stroke="var(--accent)" stroke-width="1"/>
-      <text x="740" y="126" text-anchor="middle" font-family="'Archivo', system-ui, sans-serif"
-        font-size="12.5" font-weight="700"
+      
+      <rect x="760" y="26" width="30" height="84" rx="2"
+        fill="currentColor"
+        opacity="0.14"/>
+      
+      <rect x="792" y="26" width="6" height="84" rx="2"
+        fill="currentColor"
+        opacity="0.09000000000000002"/>
+      
+    
+      <rect x="0" y="135" width="13" height="13" rx="2"
+        fill="currentColor"
+        opacity="0.42"/>
+      <text x="22" y="146" font-family="'Archivo', system-ui, sans-serif" font-size="14"
+        font-weight="600"
+        fill="currentColor">Creator</text>
+      <text x="90.80000000000001" y="146" font-family="'IBM Plex Mono', ui-monospace, monospace"
+        font-size="12.5" fill="currentColor"
+        opacity="0.6">0.50%</text>
+      <text x="22" y="163" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="11"
+        fill="currentColor" opacity=".5">owning the asset</text>
+      <rect x="266.6666666666667" y="135" width="13" height="13" rx="2"
+        fill="currentColor"
+        opacity="0.29000000000000004"/>
+      <text x="288.6666666666667" y="146" font-family="'Archivo', system-ui, sans-serif" font-size="14"
+        font-weight="600"
+        fill="currentColor">Liquidity</text>
+      <text x="374.2666666666667" y="146" font-family="'IBM Plex Mono', ui-monospace, monospace"
+        font-size="12.5" fill="currentColor"
+        opacity="0.6">0.20%</text>
+      <text x="288.6666666666667" y="163" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="11"
+        fill="currentColor" opacity=".5">re-minted, never leaves</text>
+      <rect x="533.3333333333334" y="135" width="13" height="13" rx="2"
+        fill="currentColor"
+        opacity="0.24000000000000002"/>
+      <text x="555.3333333333334" y="146" font-family="'Archivo', system-ui, sans-serif" font-size="14"
+        font-weight="600"
+        fill="currentColor">Platform</text>
+      <text x="632.5333333333334" y="146" font-family="'IBM Plex Mono', ui-monospace, monospace"
+        font-size="12.5" fill="currentColor"
+        opacity="0.6">0.20%</text>
+      <text x="555.3333333333334" y="163" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="11"
+        fill="currentColor" opacity=".5">bringing the asset</text>
+      <rect x="0" y="179" width="13" height="13" rx="2"
+        fill="var(--accent)"
+        opacity="1"/>
+      <text x="22" y="190" font-family="'Archivo', system-ui, sans-serif" font-size="14"
+        font-weight="700"
         fill="var(--accent)">Protocol</text>
-      <text x="740" y="141" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, monospace"
-        font-size="11" fill="var(--accent)"
-        opacity="0.85">0.05%</text>
-      <rect x="760" y="44" width="30" height="66" rx="2"
+      <text x="99.2" y="190" font-family="'IBM Plex Mono', ui-monospace, monospace"
+        font-size="12.5" fill="var(--accent)"
+        opacity="0.9">0.05%</text>
+      <text x="22" y="207" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="11"
+        fill="currentColor" opacity=".5">running the layer</text>
+      <rect x="266.6666666666667" y="179" width="13" height="13" rx="2"
         fill="currentColor"
-        opacity="0.16"/>
-      <line x1="776" y1="113" x2="776" y2="146"
-        stroke="var(--rule-strong)" stroke-width="1"/>
-      <text x="776" y="160" text-anchor="middle" font-family="'Archivo', system-ui, sans-serif"
-        font-size="12.5" font-weight="400"
+        opacity="0.14"/>
+      <text x="288.6666666666667" y="190" font-family="'Archivo', system-ui, sans-serif" font-size="14"
+        font-weight="600"
         fill="currentColor">Referrer</text>
-      <text x="776" y="175" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, monospace"
-        font-size="11" fill="currentColor"
+      <text x="365.8666666666667" y="190" font-family="'IBM Plex Mono', ui-monospace, monospace"
+        font-size="12.5" fill="currentColor"
         opacity="0.6">0.04%</text>
-      <rect x="792" y="44" width="6" height="66" rx="2"
+      <text x="288.6666666666667" y="207" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="11"
+        fill="currentColor" opacity=".5">bringing the trade</text>
+      <rect x="533.3333333333334" y="179" width="13" height="13" rx="2"
         fill="currentColor"
-        opacity="0.12"/>
-      <line x1="796" y1="113" x2="796" y2="112"
-        stroke="var(--rule-strong)" stroke-width="1"/>
-      <text x="796" y="126" text-anchor="middle" font-family="'Archivo', system-ui, sans-serif"
-        font-size="12.5" font-weight="400"
+        opacity="0.09000000000000002"/>
+      <text x="555.3333333333334" y="190" font-family="'Archivo', system-ui, sans-serif" font-size="14"
+        font-weight="600"
         fill="currentColor">Curve</text>
-      <text x="796" y="141" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, monospace"
-        font-size="11" fill="currentColor"
+      <text x="607.3333333333334" y="190" font-family="'IBM Plex Mono', ui-monospace, monospace"
+        font-size="12.5" fill="currentColor"
         opacity="0.6">0.01%</text>
-  </svg><figcaption>The liquidity leg is re-minted into the pool and never leaves</figcaption></figure>
+      <text x="555.3333333333334" y="207" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="11"
+        fill="currentColor" opacity=".5">designing the market</text>
+  </svg></figure>
 <ul><li><strong>0.50% to the owner</strong> for the life of the market — no vesting cliff to sell into</li><li><strong>0.20% re-minted as liquidity nobody can withdraw</strong>, so depth grows with volume</li><li><strong>0.20% to any platform that brings an asset</strong> — no agreement to sign, no revenue share to invoice</li><li>Leak takes 0.25% as the front end, 0.05% when a third party is. <strong>No token is required for the protocol to run</strong></li></ul>
     <footer class="slide-foot"><span>Leak Protocol</span><span>5 / 11</span></footer>
   </div>
@@ -552,17 +614,17 @@ figure.chart figcaption {
     </header>
 <p class="claim"><strong>One app on this chain cleared $450M in two months.</strong></p>
 <table><thead><tr><th>First two months after relaunch</th><th class="n"></th></tr></thead><tbody><tr><td>Registered users</td><td class="n">200,000+</td></tr><tr><td>Trading volume</td><td class="n">$450M+</td></tr><tr><td>Fees</td><td class="n">35,000+ AVAX</td></tr></tbody></table>
-<ul><li>Roughly $225M a month, from a curve launchpad inside a social feed. The audience is already here</li><li>Tokenized RWA crossed <strong>$3B</strong> on Avalanche, but only behind institutional compliance. The long tail received none of it</li><li>Complementary, not competing: that app holds the creator relationship, Leak holds the asset</li></ul>
+<ul><li>Roughly $225M a month, from a curve launchpad inside a social feed. The audience is already here</li><li><strong>The chain is already pushing this direction</strong> — founding member of the Agentic Payments Alliance, ecosystem workshops on agent payments, and a DeFAI product tokenizing AI agents</li><li><strong>Tokenization is accelerating</strong>: RWA transfer volume reached <strong>$365M in 30 days</strong>, up 360% month on month, and 724 tokenized US equities went live here</li><li>Those equities matter twice: as assets to tokenize, and as <strong>settlement currencies</strong> an asset can be priced against</li><li>Complementary, not competing: that app holds the creator relationship, Leak holds the asset</li></ul>
     <footer class="slide-foot"><span>Leak Protocol</span><span>6 / 11</span></footer>
   </div>
 </section>
 <section class="slide is-normal">
   <div class="slide-inner">
     <header class="slide-head">
-      <h2>Why nobody removed the threshold</h2>
+      <h2>Why Leak, and why not anyone else</h2>
       <span class="slide-num" aria-hidden="true">7</span>
     </header>
-<p class="claim"><strong>It persists because it is load-bearing. A market needs two sides, and everyone else collects the second side before opening.</strong></p>
+<p class="claim"><strong>Everyone else needs the curve. Removing it removes their product.</strong></p>
 <figure class="chart"><svg viewBox="0 0 800 262" role="img" aria-label="Other launchpads sell into a curve, cross a threshold, then migrate to a pool. Leak mints the token side straight into the pool and the first buyer brings the currency." xmlns="http://www.w3.org/2000/svg">
     <defs>
       <marker id="tip" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
@@ -650,30 +712,30 @@ figure.chart figcaption {
       font-size="14" font-weight="600" fill="var(--accent)">First buyer</text>
     <text x="676.6666666666666" y="225" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, monospace"
       font-size="11" fill="currentColor" opacity=".6">brings the currency</text>
-  </svg><figcaption>One transaction, about a cent — no collection phase to fund</figcaption></figure>
-<ul><li><strong>Graduation funds the migration.</strong> The curve accumulates reserves, the reserves seed the pool, and the threshold is exactly where reserves finally cover the flat cost of moving them</li><li><strong>Lower the threshold</strong> and that cost is paid on tokens whose lifetime fees never repay it</li><li><strong>Remove it</strong> and the curve phase has no purpose — which deletes the pricing engine, the reserve custody and the graduation event the whole model is built around</li><li>The grip shows in the successors: the strongest recent entrant rebuilt creator economics on top of this design, <strong>$5B of cumulative volume</strong>, and kept the curve and the migration intact</li><li>Minting only the coin side removes all three at once. The first buyer brings the currency, so there is no collection phase and nothing for a threshold to pay for</li></ul>
+  </svg></figure>
+<ul><li><strong>The curve exists to fund the migration.</strong> It collects currency until there is enough to cover the cost of moving into a real pool — that point is the threshold</li><li><strong>So it cannot be removed.</strong> Take out the curve and the pricing engine, the reserve custody and the graduation event go with it. <strong>bags.fm</strong> rebuilt creator economics on top of this design — <strong>$5B of cumulative volume</strong> — and still kept the curve and the migration intact</li><li><strong>We never needed one.</strong> Minting only the coin side means the first buyer brings the currency. No collection phase, nothing for a threshold to pay for</li><li><strong>And it is one platform, not a fork per use case.</strong> Two layers: tokenization above, permissionless launch below — each extends without touching the other</li></ul>
     <footer class="slide-foot"><span>Leak Protocol</span><span>7 / 11</span></footer>
   </div>
 </section>
-<section class="slide is-dense">
+<section class="slide is-normal">
   <div class="slide-inner">
     <header class="slide-head">
-      <h2>Go to market</h2>
+      <h2>GTM</h2>
       <span class="slide-num" aria-hidden="true">8</span>
     </header>
-<p class="claim"><strong>Five levers. The last one has the highest ceiling, and none of it is money.</strong></p>
-<ul><li><strong>Ship the product in slices.</strong> Permissionless launch first, then verification, then issuer checks. Each slice goes live and gets used on its own — no big-bang launch to coordinate, and every slice is a fresh reason for someone new to arrive</li><li><strong>Waitlist, contributor points, then TGE and revenue sharing.</strong> Points accrue before mainnet for actions rather than signatures — verifying an asset, opening a market, referring an issuer, providing the first trades. They set queue order on day one, and they are the record both settle against</li><li><strong>Operating range, lean team, low cost base.</strong> Launchpads, DEXs, perpetuals and NFT markets already built and run. Five people can operate all three tiers because the team has operated each of them before, and the cost base is small enough that trading fees cover it</li><li><strong>Virality from a community that already exists.</strong> The first markets and the first reach come from people who asked for this product, at zero acquisition cost</li><li><strong>Close collaboration with the Avalanche Foundation</strong> — media and an accelerator programme connecting into the ecosystem. This is the lever that matters most, and the next slide is what it unlocks</li></ul>
+<p class="claim"><strong>We are not starting from zero. The team, the product and the community are already in place — the plan is to ship on top of them.</strong></p>
+<ul><li><strong>A team that has shipped this before.</strong> Spot and perpetuals, launchpads, NFT marketplaces, AI agents — built, launched and operated. Nothing here is a first attempt</li><li><strong>A product that ships in slices.</strong> Permissionless launch first, then verification, then issuer checks. Each one goes live on its own, so there is no single launch date to miss</li><li><strong>A community that already exists.</strong> The first markets and the first reach come from people who asked for this product, not from paid acquisition</li><li><strong>Points before mainnet.</strong> Verifying an asset, opening a market, referring an issuer — actions, not signatures. They set the launch queue, and TGE and revenue sharing settle against the same record</li><li><strong>Then the ecosystem.</strong> Everything above we do alone; the next slide is the part we cannot</li></ul>
     <footer class="slide-foot"><span>Leak Protocol</span><span>8 / 11</span></footer>
   </div>
 </section>
 <section class="slide is-normal">
   <div class="slide-inner">
     <header class="slide-head">
-      <h2>The ask</h2>
+      <h2>Working with the ecosystem</h2>
       <span class="slide-num" aria-hidden="true">9</span>
     </header>
-<p class="claim"><strong>Introductions, not money.</strong></p>
-<ul><li><strong>Introductions across the ecosystem</strong> — a permissionless launch platform other Avalanche products can call and earn 0.20% from, without an agreement to sign</li><li><strong>Assets already live here become admissible</strong> — existing on-chain assets tokenize or trade through Leak, so the two compound instead of competing</li><li><strong>A first cohort from inside</strong> — the ecosystem's own KOLs, creators and projects opening the first successful markets</li><li><strong>AI projects on Avalanche first</strong> — maximum support for tokenizing the chain's leading AI assets, which is the class this platform prioritises</li><li><strong>Co-marketing at mainnet</strong> — ecosystem reach at the moment the first markets open</li></ul>
+<p class="claim"><strong>A launch layer compounds with what is already here. Four places where that compounding starts.</strong></p>
+<ul><li><strong>Composability with existing products</strong> — any Avalanche protocol can call the launch layer and keep 0.20% of what it brings, with no agreement to sign and nothing to integrate on our side</li><li><strong>Existing on-chain assets become listable</strong> — a currency-registry entry, not new protocol code, so assets already trading here gain a second venue rather than losing one</li><li><strong>AI projects first</strong> — the chain is already building agent payments and DeFAI; those are exactly the assets this platform is built to price</li><li><strong>A first cohort from inside</strong> — the ecosystem's own creators, KOLs and projects opening the first markets, with ecosystem reach at mainnet</li></ul>
     <footer class="slide-foot"><span>Leak Protocol</span><span>9 / 11</span></footer>
   </div>
 </section>
@@ -696,8 +758,8 @@ figure.chart figcaption {
       <h2>Team</h2>
       <span class="slide-num" aria-hidden="true">11</span>
     </header>
-<table class="plain"><tbody><tr><td>Aaron</td><td>Founder</td></tr><tr><td>Henry</td><td>Co-Founder</td></tr><tr><td>Balwin</td><td>Head of Contract</td></tr><tr><td>AllSky</td><td>Head of UI/UX</td></tr><tr><td>GetLeft</td><td>Head of Social</td></tr></tbody></table>
-<ul><li>Built and run <strong>launchpads, DEXs, perpetuals and NFT marketplaces</strong> — the four categories this protocol sits between</li><li>Operating cost is a handful of contracts and an indexer</li></ul>
+<table class="plain"><tbody><tr><td>Aaron</td><td>Founder</td></tr><tr><td>Henry</td><td>Co-Founder</td></tr><tr><td>Oliver</td><td>Head of Growth</td></tr><tr><td>Balwin</td><td>Head of Contract</td></tr><tr><td>AllSky</td><td>Head of UI/UX</td></tr><tr><td>GetLeft</td><td>Head of Social</td></tr></tbody></table>
+<ul><li>Built, shipped and operated <strong>spot and perpetuals, launchpads, NFT marketplaces and AI agents</strong> — every category this protocol draws on</li></ul>
     <footer class="slide-foot"><span>Leak Protocol</span><span>11 / 11</span></footer>
   </div>
 </section>

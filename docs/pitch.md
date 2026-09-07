@@ -6,29 +6,33 @@
 
 ## 1. Overview
 
-**Any owned digital asset becomes a live market in one transaction, for about a cent.**
+**An independent, permissionless tokenization layer. Prove ownership, get a market — same transaction.**
 
-- Ownership is proven against the platform that already holds the asset — no new account, no listing application
-- Supply is minted straight into one Uniswap v4 pool, tradable in the next block
-- **AI first**: agents, models and datasets lead. Repositories, posts and media follow on the same rails
+- **Ownership first** — proven through the platform that already custodies the asset. No new account, no listing application
+- **Launch and trade in one step** — supply goes into a single Uniswap v4 pool for about a cent. No curve phase, no graduation threshold, no migration
+- **The curve is a parameter** — shape, fee and settlement currency set per asset class by a v4 hook
+- **AI first** — agents, models and datasets lead; repositories, posts and media follow
+- **Many markets, medium TVL each, an active lifecycle** — not one launch spike
 
 ---
 
-## 2. The problem
+## 2. Problems
 
-**0.198% of launches ever reach a market.**
+**Graduation gates the market. Of 832,941 pump.fun launches in a month, 0.198% ever traded.**
 
 ```figure:graduation```
 
-- 832,941 launches in one month; about 1,650 opened a real market. Down 3.18× in eight months
-- The rest paid to launch, then sat priced by a formula with liquidity that could not leave
-- **The threshold is not a quality filter. It is a minimum size**, far above where most assets live
+- **The rest never got a life.** Priced by a formula, liquidity that could not leave, no market at any point. Down 3.18× in eight months
+- **Knowledge compounds faster than it can be funded.** Agents, models and datasets gain value weekly; nothing tokenizes an intellectual asset at that size
+- **Small and medium projects have no instrument.** Grants need an application, sponsorship needs an audience, equity needs a company
+- **The venues are fragmented, and each is locked to one unit.** pump.fun tokenizes a name · bags.fm a name plus a social · zora.co a post inside Zora · daos.fun a fund · flyingtulips its own venue. Every one ships its own curve and its own front end, and none of them can be called by anyone else
+- **Modelling an asset and tokenizing it are separate jobs.** No one has split them, so every platform rebuilds both
 
 ---
 
 ## 3. What we tokenize
 
-**Digital RWA: a real asset, a verifiable owner, no legal wrapper.**
+**Digital RWA: a real asset with a verifiable owner, held natively on the platform that hosts it.**
 
 | Class | Ownership proven by | Public signal |
 |---|---|---|
@@ -39,25 +43,25 @@
 
 - The token is a position on the asset's **attention** — not equity, not revenue share, no governance
 - The signal is published by the custodian, continuously, by parties with no stake in the token
-- No legal wrapper means no compliance perimeter. That is what lets this layer be permissionless
+- Ownership is established by the custodian's own auth, so no off-chain paperwork sits between an asset and its market. That is what lets this layer be permissionless
 
 ---
 
 ## 4. How it works
 
-**Two layers. The lower one is a public primitive anyone can call.**
+**Layer 2 decides what a token means. Layer 1 makes it tradable. Neither works without the other.**
 
 ```figure:layers```
 
-- **Layer 2** reads ownership from the custodian and picks the curve and settlement currency
-- **Layer 1** mints the coin and opens the pool. Every call is built client-side: no API key, no allowlist, no server in the path
-- Curve shape and currency are parameters, so a meme launch, a launchpad, an auction and asset tokenization all use the same layer
+- **Layer 2 — Leak Digital RWA Tokenization.** Proves ownership against the custodian, resolves metadata, and picks the curve and settlement currency for the asset class. This is where a token stops being a string and starts being a claim on something
+- **Layer 1 — permissionless launch.** Mints the coin, opens the pool, splits the fee. Built client-side: no API key, no allowlist, no server in the path
+- **Third parties sit at Layer 2 too** — meme launches, launchpads, auctions, creator coins — and earn the same 0.20%. Ours holds no privilege theirs does not
 
 ---
 
-## 5. Fees
+## 5. Revenue
 
-**One 1% trading fee, split six ways, settled on-chain per swap.**
+**One revenue stream, distributed on-chain to everyone who made the market exist.**
 
 ```figure:feesplit```
 
@@ -79,46 +83,46 @@
 | Fees | 35,000+ AVAX |
 
 - Roughly $225M a month, from a curve launchpad inside a social feed. The audience is already here
-- Tokenized RWA crossed **$3B** on Avalanche, but only behind institutional compliance. The long tail received none of it
+- **The chain is already pushing this direction** — founding member of the Agentic Payments Alliance, ecosystem workshops on agent payments, and a DeFAI product tokenizing AI agents
+- **Tokenization is accelerating**: RWA transfer volume reached **$365M in 30 days**, up 360% month on month, and 724 tokenized US equities went live here
+- Those equities matter twice: as assets to tokenize, and as **settlement currencies** an asset can be priced against
 - Complementary, not competing: that app holds the creator relationship, Leak holds the asset
 
 ---
 
-## 7. Why nobody removed the threshold
+## 7. Why Leak, and why not anyone else
 
-**It persists because it is load-bearing. A market needs two sides, and everyone else collects the second side before opening.**
+**Everyone else needs the curve. Removing it removes their product.**
 
 ```figure:twosides```
 
-- **Graduation funds the migration.** The curve accumulates reserves, the reserves seed the pool, and the threshold is exactly where reserves finally cover the flat cost of moving them
-- **Lower the threshold** and that cost is paid on tokens whose lifetime fees never repay it
-- **Remove it** and the curve phase has no purpose — which deletes the pricing engine, the reserve custody and the graduation event the whole model is built around
-- The grip shows in the successors: the strongest recent entrant rebuilt creator economics on top of this design, **$5B of cumulative volume**, and kept the curve and the migration intact
-- Minting only the coin side removes all three at once. The first buyer brings the currency, so there is no collection phase and nothing for a threshold to pay for
+- **The curve exists to fund the migration.** It collects currency until there is enough to cover the cost of moving into a real pool — that point is the threshold
+- **So it cannot be removed.** Take out the curve and the pricing engine, the reserve custody and the graduation event go with it. **bags.fm** rebuilt creator economics on top of this design — **$5B of cumulative volume** — and still kept the curve and the migration intact
+- **We never needed one.** Minting only the coin side means the first buyer brings the currency. No collection phase, nothing for a threshold to pay for
+- **And it is one platform, not a fork per use case.** Two layers: tokenization above, permissionless launch below — each extends without touching the other
 
 ---
 
-## 8. Go to market
+## 8. GTM
 
-**Five levers. The last one has the highest ceiling, and none of it is money.**
+**We are not starting from zero. The team, the product and the community are already in place — the plan is to ship on top of them.**
 
-- **Ship the product in slices.** Permissionless launch first, then verification, then issuer checks. Each slice goes live and gets used on its own — no big-bang launch to coordinate, and every slice is a fresh reason for someone new to arrive
-- **Waitlist, contributor points, then TGE and revenue sharing.** Points accrue before mainnet for actions rather than signatures — verifying an asset, opening a market, referring an issuer, providing the first trades. They set queue order on day one, and they are the record both settle against
-- **Operating range, lean team, low cost base.** Launchpads, DEXs, perpetuals and NFT markets already built and run. Five people can operate all three tiers because the team has operated each of them before, and the cost base is small enough that trading fees cover it
-- **Virality from a community that already exists.** The first markets and the first reach come from people who asked for this product, at zero acquisition cost
-- **Close collaboration with the Avalanche Foundation** — media and an accelerator programme connecting into the ecosystem. This is the lever that matters most, and the next slide is what it unlocks
+- **A team that has shipped this before.** Spot and perpetuals, launchpads, NFT marketplaces, AI agents — built, launched and operated. Nothing here is a first attempt
+- **A product that ships in slices.** Permissionless launch first, then verification, then issuer checks. Each one goes live on its own, so there is no single launch date to miss
+- **A community that already exists.** The first markets and the first reach come from people who asked for this product, not from paid acquisition
+- **Points before mainnet.** Verifying an asset, opening a market, referring an issuer — actions, not signatures. They set the launch queue, and TGE and revenue sharing settle against the same record
+- **Then the ecosystem.** Everything above we do alone; the next slide is the part we cannot
 
 ---
 
-## 9. The ask
+## 9. Working with the ecosystem
 
-**Introductions, not money.**
+**A launch layer compounds with what is already here. Four places where that compounding starts.**
 
-- **Introductions across the ecosystem** — a permissionless launch platform other Avalanche products can call and earn 0.20% from, without an agreement to sign
-- **Assets already live here become admissible** — existing on-chain assets tokenize or trade through Leak, so the two compound instead of competing
-- **A first cohort from inside** — the ecosystem's own KOLs, creators and projects opening the first successful markets
-- **AI projects on Avalanche first** — maximum support for tokenizing the chain's leading AI assets, which is the class this platform prioritises
-- **Co-marketing at mainnet** — ecosystem reach at the moment the first markets open
+- **Composability with existing products** — any Avalanche protocol can call the launch layer and keep 0.20% of what it brings, with no agreement to sign and nothing to integrate on our side
+- **Existing on-chain assets become listable** — a currency-registry entry, not new protocol code, so assets already trading here gain a second venue rather than losing one
+- **AI projects first** — the chain is already building agent payments and DeFAI; those are exactly the assets this platform is built to price
+- **A first cohort from inside** — the ecosystem's own creators, KOLs and projects opening the first markets, with ecosystem reach at mainnet
 
 ---
 
@@ -146,9 +150,9 @@
 |---|---|
 | Aaron | Founder |
 | Henry | Co-Founder |
+| Oliver | Head of Growth |
 | Balwin | Head of Contract |
 | AllSky | Head of UI/UX |
 | GetLeft | Head of Social |
 
-- Built and run **launchpads, DEXs, perpetuals and NFT marketplaces** — the four categories this protocol sits between
-- Operating cost is a handful of contracts and an indexer
+- Built, shipped and operated **spot and perpetuals, launchpads, NFT marketplaces and AI agents** — every category this protocol draws on
